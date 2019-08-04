@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import './Screens/login.dart';
+import './Providers/DataProvider.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -8,7 +9,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.deepPurple,
+        primarySwatch:DataProvider().primary,
       ),
       home: LoginPage(),
     );

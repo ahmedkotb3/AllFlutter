@@ -7,9 +7,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  String email,password;
+
   Color danger=Colors.deepPurple;
-  TextEditingController emailController = new TextEditingController();
+   TextEditingController emailController,passwordController = new TextEditingController();
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -25,13 +25,13 @@ class _LoginPageState extends State<LoginPage> {
                     Text(
                       'Welcome Back !',
                       style: TextStyle(
-                          color: Colors.deepPurple,
+                          color: DataProvider().primary,
                           fontWeight: FontWeight.bold,
                           fontSize: 40,
-                          height: 3),
+                          height: 2.5),
                       textAlign: TextAlign.center,
                     ),
-                    SizedBox(height: 70,),
+                    SizedBox(height: 20,),
                     Consumer<DataProvider>(
                       builder: (context, stateManager, _) => TextFormField(
                         decoration: InputDecoration(
@@ -41,9 +41,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         controller: emailController,
                         onSaved: (value) {
-                          setState(() {
-                           email=value; 
-                          });
+                          
                         },
                       ),
                     ),
@@ -51,8 +49,9 @@ class _LoginPageState extends State<LoginPage> {
                       height: 20,
                     ),
                     Consumer<DataProvider>(
-                      builder: (context, stateManager, _) => TextFormField(
-                        obscureText: true,
+                      builder: (context, dataProvider, _) => TextFormField(
+                        obscureText: dataProvider.securePassword,
+                        controller: passwordController,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
                           labelText: 'Password',
@@ -73,26 +72,42 @@ class _LoginPageState extends State<LoginPage> {
                                 danger=Colors.deepPurple; 
                                });
                              } 
-// bool viewHide =
-//     stateManager.mypassword == true ? false : true;
-// stateManager.mypassword = viewHide;
-// viewHide==false?danger.red:danger.blue;
+                                bool viewHide =
+                                dataProvider.securePassword == true ? false : true;
+                                dataProvider.securePassword = viewHide;
                             },
                           ),
                         ),
+                        
                         onSaved: (value) {},
                       ),
                     ),
+                     FlatButton(child: Text("Forget Your Password ?",style: TextStyle(color: DataProvider().primary),),
+                      onPressed: (){},),
                     SizedBox(height: 20,),
-                    RaisedButton(
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-                      onPressed: (){print(emailController.text);},
-                      child: Text("Sign In",style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20),
-                        ),
-                      color: Colors.deepPurple,)
+
+                    ButtonTheme(
+                      minWidth: double.infinity,
+                      height: 50.0,
+                        child: RaisedButton(
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+                        onPressed: (){
+                          // print(emailController.text);
+                          print(emailController.text);
+                          
+                          emailController.clear();
+                          },
+                        child: Text("Sign In",style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20),
+                          ),
+                        color: DataProvider().primary),
+                    ),
+                    SizedBox(height: 10,),
+                    Text('OR',style: TextStyle(color: DataProvider().primary,fontSize:20,fontWeight: FontWeight.bold),),
+                    Text('Sign In With',style: TextStyle(color: DataProvider().primary,fontSize:18),),
+            
                   ],
                 ),
               ),
