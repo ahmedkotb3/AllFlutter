@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../Providers/DataProvider.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
+import './register.dart';
 class LoginPage extends StatefulWidget {
   _LoginPageState createState() => _LoginPageState();
 }
@@ -32,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
                             height: 2.5),
                         textAlign: TextAlign.center,
                       ),
-                      SizedBox(height: 20,),
+                      SizedBox(height: 15,),
                       Consumer<DataProvider>(
                         builder: (context, stateManager, _) => TextFormField(
                           decoration: InputDecoration(
@@ -46,7 +47,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                       SizedBox(
-                        height: 20,
+                        height: 15,
                       ),
                       Consumer<DataProvider>(
                         builder: (context, dataProvider, _) => TextFormField(
@@ -82,9 +83,13 @@ class _LoginPageState extends State<LoginPage> {
                           onSaved: (value) {},
                         ),
                       ),
-                       FlatButton(child: Text("Forget Your Password ?",style: TextStyle(color: DataProvider().primary),),
-                        onPressed: (){},),
-                      SizedBox(height: 20,),
+                       Row(
+                         children: <Widget>[
+                           FlatButton(child: Text("Forget Your Password ?",style: TextStyle(color: DataProvider().primary,fontWeight: FontWeight.bold),),
+                            onPressed: (){},),
+                         ],
+                       ),
+                      SizedBox(height: 15,),
 
                       ButtonTheme(
                         minWidth: double.infinity,
@@ -94,7 +99,6 @@ class _LoginPageState extends State<LoginPage> {
                           onPressed: (){
                             // print(emailController.text);
                             print(emailController.text);
-                            
                           //  emailController.clear();
                             },
                           child: Text("Sign In",style: TextStyle(
@@ -107,11 +111,12 @@ class _LoginPageState extends State<LoginPage> {
                       SizedBox(height: 10,),
                       Text('OR',style: TextStyle(color: DataProvider().primary,fontSize:20,fontWeight: FontWeight.bold),),
                       Text('Sign In With',style: TextStyle(color: DataProvider().primary,fontSize:18),),
-                      SizedBox(height: 20,),
+                      SizedBox(height: 15,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
+
                 children: <Widget>[
-                  SignInButton(  
+                  SignInButton(
                   Buttons.Google,
                   mini: true,
                   onPressed: () {},
@@ -123,7 +128,7 @@ class _LoginPageState extends State<LoginPage> {
                         )
                 ],
               ),
-                       
+              new LoginScondButton()
                     ],
                   ),
                 ),
@@ -131,6 +136,29 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+class LoginScondButton extends StatelessWidget {
+  const LoginScondButton({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ButtonTheme(
+      child: FlatButton(
+        child: Text.rich(TextSpan(children: <TextSpan>[
+          TextSpan(text: "Dont't have an account ? ",style: TextStyle(color: DataProvider().primary)),
+          TextSpan(
+            text: " Sign Up",
+            style: TextStyle(color: DataProvider().primary,fontWeight: FontWeight.bold),
+          )
+        ])),
+        onPressed: () {
+          Navigator.push(context,MaterialPageRoute(builder: (context) => RegisterPage()),);
+        },
       ),
     );
   }

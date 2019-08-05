@@ -112,10 +112,10 @@ class LoginScondButton extends StatelessWidget {
     return ButtonTheme(
       child: FlatButton(
         child: Text.rich(TextSpan(children: <TextSpan>[
-          TextSpan(text: "Already have an account ? "),
+          TextSpan(text: "Already have an account ? ",style: TextStyle(color: DataProvider().primary)),
           TextSpan(
             text: " Sign In",
-            style: TextStyle(color: DataProvider().primary),
+            style: TextStyle(color: DataProvider().primary,fontWeight: FontWeight.bold),
           )
         ])),
         onPressed: () {
