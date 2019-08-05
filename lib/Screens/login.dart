@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../Providers/DataProvider.dart';
+import 'package:flutter_signin_button/flutter_signin_button.dart';
 class LoginPage extends StatefulWidget {
   _LoginPageState createState() => _LoginPageState();
 }
-
 class _LoginPageState extends State<LoginPage> {
 
   Color danger=Colors.deepPurple;
@@ -15,99 +15,116 @@ class _LoginPageState extends State<LoginPage> {
     return ChangeNotifierProvider(
       builder: (BuildContext context) => DataProvider(),
       child: Scaffold(
-        body: SingleChildScrollView(
-          child: Container(
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Column(
-                  children: <Widget>[
-                    Text(
-                      'Welcome Back !',
-                      style: TextStyle(
-                          color: DataProvider().primary,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 40,
-                          height: 2.5),
-                      textAlign: TextAlign.center,
-                    ),
-                    SizedBox(height: 20,),
-                    Consumer<DataProvider>(
-                      builder: (context, stateManager, _) => TextFormField(
-                        decoration: InputDecoration(
-                          // border: OutlineInputBorder(),
-                          labelText: 'Email',
-                          // icon: new Icon(Icons.email),
-                        ),
-                        controller: emailController,
-                        onSaved: (value) {
-                        },
+        body: SafeArea(
+                  child: SingleChildScrollView(
+            child: Container(
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Column(
+                    children: <Widget>[
+                      Text(
+                        'Welcome Back !',
+                        style: TextStyle(
+                            color: DataProvider().primary,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 40,
+                            height: 2.5),
+                        textAlign: TextAlign.center,
                       ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Consumer<DataProvider>(
-                      builder: (context, dataProvider, _) => TextFormField(
-                        obscureText: dataProvider.securePassword,
-                         controller: passwordController,
-                        decoration: InputDecoration(
-                          // border: OutlineInputBorder(),
-                          labelText: 'Password',
-                          // icon: new Icon(Icons.lock_outline),
-                          suffixIcon: new IconButton(
-                            icon: new Icon(
-                              Icons.remove_red_eye,color: danger,
-                            ),
-                            onPressed: () {
-                             if(danger==Colors.deepPurple)
-                             {
-                               setState(() {
-                                danger=Colors.red; 
-                               });
-                             }else if(danger==Colors.red)
-                             {
-                               setState(() {
-                                danger=Colors.deepPurple; 
-                               });
-                             } 
-                                bool viewHide =
-                                dataProvider.securePassword == true ? false : true;
-                                dataProvider.securePassword = viewHide;
-                            },
+                      SizedBox(height: 20,),
+                      Consumer<DataProvider>(
+                        builder: (context, stateManager, _) => TextFormField(
+                          decoration: InputDecoration(
+                            // border: OutlineInputBorder(),
+                            labelText: 'Email',
+                            // icon: new Icon(Icons.email),
                           ),
-                        ),
-                        
-                        onSaved: (value) {},
-                      ),
-                    ),
-                     FlatButton(child: Text("Forget Your Password ?",style: TextStyle(color: DataProvider().primary),),
-                      onPressed: (){},),
-                    SizedBox(height: 20,),
-
-                    ButtonTheme(
-                      minWidth: double.infinity,
-                      height: 50.0,
-                        child: RaisedButton(
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-                        onPressed: (){
-                          // print(emailController.text);
-                          print(emailController.text);
-                          
-                        //  emailController.clear();
+                          controller: emailController,
+                          onSaved: (value) {
                           },
-                        child: Text("Sign In",style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Consumer<DataProvider>(
+                        builder: (context, dataProvider, _) => TextFormField(
+                          obscureText: dataProvider.securePassword,
+                           controller: passwordController,
+                          decoration: InputDecoration(
+                            // border: OutlineInputBorder(),
+                            labelText: 'Password',
+                            // icon: new Icon(Icons.lock_outline),
+                            suffixIcon: new IconButton(
+                              icon: new Icon(
+                                Icons.remove_red_eye,color: danger,
+                              ),
+                              onPressed: () {
+                               if(danger==Colors.deepPurple)
+                               {
+                                 setState(() {
+                                  danger=Colors.red; 
+                                 });
+                               }else if(danger==Colors.red)
+                               {
+                                 setState(() {
+                                  danger=Colors.deepPurple; 
+                                 });
+                               } 
+                                  bool viewHide =
+                                  dataProvider.securePassword == true ? false : true;
+                                  dataProvider.securePassword = viewHide;
+                              },
+                            ),
                           ),
-                        color: DataProvider().primary),
-                    ),
-                    SizedBox(height: 10,),
-                    Text('OR',style: TextStyle(color: DataProvider().primary,fontSize:20,fontWeight: FontWeight.bold),),
-                    Text('Sign In With',style: TextStyle(color: DataProvider().primary,fontSize:18),),
-            
-                  ],
+                          
+                          onSaved: (value) {},
+                        ),
+                      ),
+                       FlatButton(child: Text("Forget Your Password ?",style: TextStyle(color: DataProvider().primary),),
+                        onPressed: (){},),
+                      SizedBox(height: 20,),
+
+                      ButtonTheme(
+                        minWidth: double.infinity,
+                        height: 50.0,
+                          child: RaisedButton(
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+                          onPressed: (){
+                            // print(emailController.text);
+                            print(emailController.text);
+                            
+                          //  emailController.clear();
+                            },
+                          child: Text("Sign In",style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20),
+                            ),
+                          color: DataProvider().primary),
+                      ),
+                      SizedBox(height: 10,),
+                      Text('OR',style: TextStyle(color: DataProvider().primary,fontSize:20,fontWeight: FontWeight.bold),),
+                      Text('Sign In With',style: TextStyle(color: DataProvider().primary,fontSize:18),),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  SignInButton(  
+                  Buttons.Google,
+                  mini: true,
+                  onPressed: () {},
+                            ),
+                        SignInButton(
+                         Buttons.Facebook,
+                         mini:true ,
+                         onPressed: (){},
+                        )
+                ],
+              ),
+                       
+                    ],
+                  ),
                 ),
               ),
             ),

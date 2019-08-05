@@ -11,85 +11,87 @@ class _RegisterPageState extends State<RegisterPage> {
   Color danger = Colors.deepPurple;
   TextEditingController nameController= new TextEditingController();
   TextEditingController emailController= new TextEditingController();
-   TextEditingController passwordController = new TextEditingController();
+  TextEditingController passwordController = new TextEditingController();
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       builder: (BuildContext context) => DataProvider(),
       child: Scaffold(
-        body: SingleChildScrollView(
-          child: Container(
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Column(
-                  children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          'Create New Account',
-                          style: TextStyle(
-                              color: DataProvider().primary,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'Poppins',
-                              fontSize: 35,
-                              height: 2.5),
-                          textAlign: TextAlign.center,
-                        ),
-                        SizedBox(height: 20,),
-                      ],
-                    ),
-                    Consumer<DataProvider>(
-                      builder: (context, stateManager, _) =>
-                     new Nameinput(nameController: nameController),
-                    ),
-                    Consumer<DataProvider>(
-                      builder: (context, stateManager, _) =>
-                          new EmailInput(emailController: emailController),
-                    ),
-                    Consumer<DataProvider>(
-                      builder: (context, dataProvider, _) => TextFormField(
-                        obscureText: dataProvider.securePassword,
-                        controller: passwordController,
-                        maxLength: 32,
-                        decoration: InputDecoration(
-                          labelText: 'Password',
-                          labelStyle: TextStyle(fontSize: 23),
-                          suffixIcon: new IconButton(
-                            icon: new Icon(
-                              Icons.remove_red_eye,
-                              color: danger,
-                            ),
-                            onPressed: () {
-                              if (danger == DataProvider().primary) {
-                                setState(() {
-                                  danger = Colors.red;
-                                });
-                              } else if (danger == Colors.red) {
-                                setState(() {
-                                  danger = Colors.deepPurple;
-                                });
-                              }
-                              bool viewHide =
-                                  dataProvider.securePassword == true
-                                      ? false
-                                      : true;
-                              dataProvider.securePassword = viewHide;
-                            },
+        body: SafeArea(
+                  child: SingleChildScrollView(
+            child: Container(
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Column(
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            'Create New Account',
+                            style: TextStyle(
+                                color: DataProvider().primary,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Poppins',
+                                fontSize: 35,
+                                height: 2.5),
+                            textAlign: TextAlign.center,
                           ),
-                        ),
-                        validator: (value) {
-                          return value.isEmpty ? "password is required" : null;
-                        },
-                        onSaved: (value) {},
+                          SizedBox(height: 20,),
+                        ],
                       ),
-                    ),
-                    SizedBox(height: 20,),
-                    new SignUPButton(nameController: nameController),
-                    SizedBox(height: 20,),
-                    new LoginScondButton(),
-                  ],
+                      Consumer<DataProvider>(
+                        builder: (context, stateManager, _) =>
+                       new Nameinput(nameController: nameController),
+                      ),
+                      Consumer<DataProvider>(
+                        builder: (context, stateManager, _) =>
+                            new EmailInput(emailController: emailController),
+                      ),
+                      Consumer<DataProvider>(
+                        builder: (context, dataProvider, _) => TextFormField(
+                          obscureText: dataProvider.securePassword,
+                          controller: passwordController,
+                          maxLength: 32,
+                          decoration: InputDecoration(
+                            labelText: 'Password',
+                            labelStyle: TextStyle(fontSize: 23),
+                            suffixIcon: new IconButton(
+                              icon: new Icon(
+                                Icons.remove_red_eye,
+                                color: danger,
+                              ),
+                              onPressed: () {
+                                if (danger == DataProvider().primary) {
+                                  setState(() {
+                                    danger = Colors.red;
+                                  });
+                                } else if (danger == Colors.red) {
+                                  setState(() {
+                                    danger = Colors.deepPurple;
+                                  });
+                                }
+                                bool viewHide =
+                                    dataProvider.securePassword == true
+                                        ? false
+                                        : true;
+                                dataProvider.securePassword = viewHide;
+                              },
+                            ),
+                          ),
+                          validator: (value) {
+                            return value.isEmpty ? "password is required" : null;
+                          },
+                          onSaved: (value) {},
+                        ),
+                      ),
+                      SizedBox(height: 20,),
+                      new SignUPButton(nameController: nameController),
+                      SizedBox(height: 20,),
+                      new LoginScondButton(),
+                    ],
+                  ),
                 ),
               ),
             ),
