@@ -107,6 +107,7 @@ class _LoginPageState extends State<LoginPage> {
                       SizedBox(height: 10,),
                       Text('OR',style: TextStyle(color: DataProvider().primary,fontSize:20,fontWeight: FontWeight.bold),),
                       Text('Sign In With',style: TextStyle(color: DataProvider().primary,fontSize:18),),
+                      SizedBox(height: 20,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
