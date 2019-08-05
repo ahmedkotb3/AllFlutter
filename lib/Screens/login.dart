@@ -8,7 +8,8 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
 
   Color danger=Colors.deepPurple;
-   TextEditingController emailController,passwordController = new TextEditingController();
+   TextEditingController emailController = new TextEditingController();
+   TextEditingController passwordController = new TextEditingController();
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -34,13 +35,12 @@ class _LoginPageState extends State<LoginPage> {
                     Consumer<DataProvider>(
                       builder: (context, stateManager, _) => TextFormField(
                         decoration: InputDecoration(
-                          border: OutlineInputBorder(),
+                          // border: OutlineInputBorder(),
                           labelText: 'Email',
-                          icon: new Icon(Icons.email),
+                          // icon: new Icon(Icons.email),
                         ),
                         controller: emailController,
                         onSaved: (value) {
-                          
                         },
                       ),
                     ),
@@ -50,11 +50,11 @@ class _LoginPageState extends State<LoginPage> {
                     Consumer<DataProvider>(
                       builder: (context, dataProvider, _) => TextFormField(
                         obscureText: dataProvider.securePassword,
-                        controller: passwordController,
+                         controller: passwordController,
                         decoration: InputDecoration(
-                          border: OutlineInputBorder(),
+                          // border: OutlineInputBorder(),
                           labelText: 'Password',
-                          icon: new Icon(Icons.lock_outline),
+                          // icon: new Icon(Icons.lock_outline),
                           suffixIcon: new IconButton(
                             icon: new Icon(
                               Icons.remove_red_eye,color: danger,
@@ -94,7 +94,7 @@ class _LoginPageState extends State<LoginPage> {
                           // print(emailController.text);
                           print(emailController.text);
                           
-                          emailController.clear();
+                        //  emailController.clear();
                           },
                         child: Text("Sign In",style: TextStyle(
                           color: Colors.white,

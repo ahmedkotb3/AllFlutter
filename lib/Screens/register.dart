@@ -9,9 +9,9 @@ class RegisterPage extends StatefulWidget {
 }
 class _RegisterPageState extends State<RegisterPage> {
   Color danger = Colors.deepPurple;
-  TextEditingController nameController,
-      emailController,
-      passwordController = new TextEditingController();
+  TextEditingController nameController= new TextEditingController();
+  TextEditingController emailController= new TextEditingController();
+   TextEditingController passwordController = new TextEditingController();
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -116,7 +116,9 @@ class LoginScondButton extends StatelessWidget {
             style: TextStyle(color: DataProvider().primary),
           )
         ])),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(context,MaterialPageRoute(builder: (context) => LoginPage()),);
+        },
       ),
     );
   }
