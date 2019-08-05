@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../Providers/DataProvider.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import './register.dart';
+import './forget.dart';
 class LoginPage extends StatefulWidget {
   _LoginPageState createState() => _LoginPageState();
 }
@@ -17,7 +18,7 @@ class _LoginPageState extends State<LoginPage> {
       builder: (BuildContext context) => DataProvider(),
       child: Scaffold(
         body: SafeArea(
-                  child: SingleChildScrollView(
+          child: SingleChildScrollView(
             child: Container(
               child: Center(
                 child: Padding(
@@ -28,23 +29,15 @@ class _LoginPageState extends State<LoginPage> {
                         'Welcome Back !',
                         style: TextStyle(
                             color: DataProvider().primary,
+                            fontFamily: 'Poppins',
                             fontWeight: FontWeight.bold,
-                            fontSize: 40,
+                            fontSize: 28,
                             height: 2.5),
                         textAlign: TextAlign.center,
                       ),
                       SizedBox(height: 15,),
                       Consumer<DataProvider>(
-                        builder: (context, stateManager, _) => TextFormField(
-                          decoration: InputDecoration(
-                            // border: OutlineInputBorder(),
-                            labelText: 'Email',
-                            // icon: new Icon(Icons.email),
-                          ),
-                          controller: emailController,
-                          onSaved: (value) {
-                          },
-                        ),
+                        builder: (context, stateManager, _) => emailInput(),
                       ),
                       SizedBox(
                         height: 15,
@@ -53,6 +46,7 @@ class _LoginPageState extends State<LoginPage> {
                         builder: (context, dataProvider, _) => TextFormField(
                           obscureText: dataProvider.securePassword,
                            controller: passwordController,
+                          maxLength: 32,
                           decoration: InputDecoration(
                             // border: OutlineInputBorder(),
                             labelText: 'Password',
@@ -79,14 +73,16 @@ class _LoginPageState extends State<LoginPage> {
                               },
                             ),
                           ),
-                          
+
                           onSaved: (value) {},
                         ),
                       ),
                        Row(
                          children: <Widget>[
                            FlatButton(child: Text("Forget Your Password ?",style: TextStyle(color: DataProvider().primary,fontWeight: FontWeight.bold),),
-                            onPressed: (){},),
+                            onPressed: (){
+                              Navigator.push(context,MaterialPageRoute(builder: (context) => ForgetPassword()),);
+                            },),
                          ],
                        ),
                       SizedBox(height: 15,),
@@ -138,6 +134,23 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+  }
+
+  TextFormField emailInput() {
+    return TextFormField(
+                        decoration: InputDecoration(
+                          // border: OutlineInputBorder(),
+                          labelText: 'Email',
+                          // icon: new Icon(Icons.email),
+                        ),
+                        controller: emailController,
+                        keyboardType: TextInputType.emailAddress,
+                        onSaved: (value) {
+                        },
+                        validator: (value){
+                       return   value.isEmpty?"Email is required":null;
+                        },
+                      );
   }
 }
 class LoginScondButton extends StatelessWidget {

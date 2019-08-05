@@ -28,15 +28,18 @@ class _RegisterPageState extends State<RegisterPage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          Text(
-                            'Create New Account',
-                            style: TextStyle(
-                                color: DataProvider().primary,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'Poppins',
-                                fontSize: 35,
-                                height: 2.5),
-                            textAlign: TextAlign.center,
+                          FittedBox(
+                            fit:BoxFit.fitWidth,
+                            child: Text(
+                              'Create New Account',
+                              style: TextStyle(
+                                  color: DataProvider().primary,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Poppins',
+                                  fontSize: 28,
+                                  height: 2.5),
+                              textAlign: TextAlign.center,
+                            ),
                           ),
                           SizedBox(height: 20,),
                         ],
@@ -45,10 +48,13 @@ class _RegisterPageState extends State<RegisterPage> {
                         builder: (context, stateManager, _) =>
                        new Nameinput(nameController: nameController),
                       ),
+                      SizedBox(height: 20,),
                       Consumer<DataProvider>(
                         builder: (context, stateManager, _) =>
                             new EmailInput(emailController: emailController),
                       ),
+                      SizedBox(height: 20,),
+
                       Consumer<DataProvider>(
                         builder: (context, dataProvider, _) => TextFormField(
                           obscureText: dataProvider.securePassword,
@@ -56,7 +62,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           maxLength: 32,
                           decoration: InputDecoration(
                             labelText: 'Password',
-                            labelStyle: TextStyle(fontSize: 23),
+//                            labelStyle: TextStyle(fontSize: 23),
                             suffixIcon: new IconButton(
                               icon: new Icon(
                                 Icons.remove_red_eye,
@@ -168,11 +174,12 @@ class EmailInput extends StatelessWidget {
     return TextFormField(
       decoration: InputDecoration(
         labelText: 'Email',
-        labelStyle: TextStyle(fontSize: 23),
+//        labelStyle: TextStyle(fontSize: 23),
       ),
       validator: (value) {},
       onSaved: (value) {},
       controller: emailController,
+      keyboardType: TextInputType.emailAddress,
     );
   }
 }
@@ -190,11 +197,12 @@ class Nameinput extends StatelessWidget {
     return TextFormField(
       decoration: InputDecoration(
         labelText: 'Name',
-        labelStyle: TextStyle(fontSize: 23),
+//        labelStyle: TextStyle(fontSize: 23),
       ),
       validator: (value) {},
       onSaved: (value) {},
       controller: nameController,
+      keyboardType: TextInputType.text,
     );
   }
 }
