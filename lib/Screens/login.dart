@@ -1,3 +1,4 @@
+import 'package:big/Screens/forget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../Providers/DataProvider.dart';
@@ -86,7 +87,10 @@ class _LoginPageState extends State<LoginPage> {
                        Row(
                          children: <Widget>[
                            FlatButton(child: Text("Forget Your Password ?",style: TextStyle(color: DataProvider().primary,fontWeight: FontWeight.bold),),
-                            onPressed: (){},),
+                            onPressed: (){
+                                        Navigator.push(context,MaterialPageRoute(builder: (context) => SecondRoute()),);
+
+                            },),
                          ],
                        ),
                       SizedBox(height: 15,),

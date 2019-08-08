@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../Providers/DataProvider.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
+import 'register.dart';
 class SetNewPassword extends StatefulWidget {
   _SetNewPassword createState() => _SetNewPassword();
 }
@@ -9,11 +10,21 @@ class _SetNewPassword extends State<SetNewPassword> {
 
   Color danger=Colors.deepPurple;
    TextEditingController passwordController = new TextEditingController();
+   TextEditingController confirmpasswordController = new TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       builder: (BuildContext context) => DataProvider(),
       child: Scaffold(
+      appBar: AppBar(
+          elevation: 0.0,
+        backgroundColor: Colors.transparent,
+         leading: new IconButton(
+               icon: new Icon(Icons.arrow_back, color: Colors.deepPurple),
+               onPressed: () => Navigator.of(context).pop(),
+              ),     
+        ),
         body: SafeArea(
                   child: SingleChildScrollView(
             child: Container(
@@ -22,10 +33,9 @@ class _SetNewPassword extends State<SetNewPassword> {
                   padding: const EdgeInsets.all(15.0),
                   child: Column(
                     children: <Widget>[
-                      IconButton(icon:Icon(Icons.arrow_back),onPressed: (){},alignment: Alignment.centerLeft,),
                       SizedBox(height: 30,),
                       Text(
-                        '',
+                        'Forgot Password',
                         style: TextStyle(
                             color: DataProvider().primary,
                             fontWeight: FontWeight.bold,
@@ -70,38 +80,24 @@ class _SetNewPassword extends State<SetNewPassword> {
                       ),
                       Consumer<DataProvider>(
                         builder: (context, dataProvider, _) => TextFormField(
-                          obscureText: dataProvider.securePassword,
-                           controller: passwordController,
+                          obscureText: true,
+                          controller: confirmpasswordController,
+                          validator: (value) {
+                            // if (value != passwordController.text) {
+                            //     return 'Password is not matching';
+                            //   }
+                            return value != passwordController.text ? 'Password is not matching':null;
+                            },
                           decoration: InputDecoration(
                             // border: OutlineInputBorder(),
                             labelText: 'Confirm new Password',
                             // icon: new Icon(Icons.lock_outline),
-                            suffixIcon: new IconButton(
-                              icon: new Icon(
-                                Icons.remove_red_eye,color: danger,
-                              ),
-                              onPressed: () {
-                               if(danger==Colors.deepPurple)
-                               {
-                                 setState(() {
-                                  danger=Colors.red; 
-                                 });
-                               }else if(danger==Colors.red)
-                               {
-                                 setState(() {
-                                  danger=Colors.deepPurple; 
-                                 });
-                               } 
-                                  bool viewHide =
-                                  dataProvider.securePassword == true ? false : true;
-                                  dataProvider.securePassword = viewHide;
-                              },
-                            ),
                           ),
                           
                           onSaved: (value) {},
                         ),
                       ),
+                      SizedBox(height: 50,),
                       ButtonTheme(
                         minWidth: double.infinity,
                         height: 50.0,
@@ -111,7 +107,7 @@ class _SetNewPassword extends State<SetNewPassword> {
                             // print(emailController.text);                            
                           //  emailController.clear();
                             },
-                          child: Text("Forget Password",style: TextStyle(
+                          child: Text("Reset Password",style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
                             fontSize: 20),
@@ -119,8 +115,20 @@ class _SetNewPassword extends State<SetNewPassword> {
                           color: DataProvider().primary),
                       ),
                       SizedBox(height: 10,),
-                      Text('Sign In With',style: TextStyle(color: DataProvider().primary,fontSize:18),),
-                      SizedBox(height: 20,),
+                      ButtonTheme(
+                      child: FlatButton(
+                        child: Text.rich(TextSpan(children: <TextSpan>[
+                          TextSpan(text: "Dont't have an account ? ",style: TextStyle(color: DataProvider().primary)),
+                          TextSpan(
+                            text: " Sign Up",
+                            style: TextStyle(color: DataProvider().primary,fontWeight: FontWeight.bold),
+                          )
+                        ])),
+                        onPressed: () {
+                          Navigator.push(context,MaterialPageRoute(builder: (context) => RegisterPage()),);
+                        },
+                      ),
+                    )
                        
                     ],
                   ),
