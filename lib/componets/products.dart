@@ -80,7 +80,7 @@ class SingleProd extends StatelessWidget {
             leading: IconButton(
               icon: Icon(Icons.favorite),
               onPressed:(){
-                favoite
+                
               },
               color:favoite,
             ),
