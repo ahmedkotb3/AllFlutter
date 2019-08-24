@@ -9,14 +9,14 @@ class _ProductsState extends State<Products> {
   var productList = [
     {
       "name": "Blazer",
-      "picture": "lib/assets/images/products/blazer1.jpeg",
+      "picture": "images/products/blazer1.jpeg",
       "old_price": 120,
       "price": 85,
       "description":"Plus Button Back Guipure Lace Sleeve Belted Peplum Top"
     },
     {
       "name": "Red dress",
-      "picture": "lib/assets/images/products/dress1.jpeg",
+      "picture": "images/products/dress1.jpeg",
       "old_price": 100,
       "price": 50,
       "description":"Plus Button Back Guipure Lace Sleeve Belted Peplum Top"
@@ -79,9 +79,7 @@ class SingleProd extends StatelessWidget {
             backgroundColor:Colors.white30 ,
             leading: IconButton(
               icon: Icon(Icons.favorite),
-              onPressed:(){
-                
-              },
+              onPressed:(){},
               color:favoite,
             ),
             title: Text(prodName,
