@@ -47,7 +47,7 @@ AppBar appBar(String title) {
               child: new Stack(
                 children: <Widget>[
                   new Icon(Icons.brightness_1,
-                      size: 20.0, color:DataProvider().appBlue),
+                      size: 20.0,color:Colors.red),
                   new Positioned(
                       top: 5.0,
                       right: 6.0,
