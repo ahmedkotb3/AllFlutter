@@ -82,18 +82,9 @@ class _LoginPageState extends State<LoginPage> {
                        Row(
                          children: <Widget>[
                            FlatButton(child: Text("Forget Your Password ?",style: TextStyle(color: DataProvider().primary,fontWeight: FontWeight.bold),),
-<<<<<<< HEAD
-                            onPressed: (){
-                                        Navigator.push(context,MaterialPageRoute(builder: (context) => SecondRoute()),);
-
-                            },),
-||||||| merged common ancestors
-                            onPressed: (){},),
-=======
                             onPressed: (){
                               Navigator.push(context,MaterialPageRoute(builder: (context) => ForgetPassword()),);
                             },),
->>>>>>> 92377b111178ea7650bd192900280e8cf1a6126d
                          ],
                        ),
                       SizedBox(height: 15,),
