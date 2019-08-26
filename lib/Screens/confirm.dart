@@ -6,11 +6,8 @@ import 'package:provider/provider.dart';
 import './set_NewPassword.dart';
 import 'register.dart';
 class ConfirmPassword extends StatefulWidget{
-
   ConfirmPasswordState createState() => ConfirmPasswordState();
-
 }
-
 class ConfirmPasswordState extends State<ConfirmPassword>{
 
   @override

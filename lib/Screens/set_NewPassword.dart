@@ -34,7 +34,7 @@ class _SetNewPassword extends State<SetNewPassword> {
                   child: Column(
                     children: <Widget>[
                       Text(
-                        'Forgot Password',
+                        'Reset Password',
                         style: TextStyle(
                             color: DataProvider().primary,
                             fontWeight: FontWeight.bold,
@@ -65,7 +65,7 @@ class _SetNewPassword extends State<SetNewPassword> {
                                }else if(danger==Colors.red)
                                {
                                  setState(() {
-                                  danger=Colors.deepPurple; 
+                                  danger=Colors.deepPurple;
                                  });
                                } 
                                   bool viewHide =

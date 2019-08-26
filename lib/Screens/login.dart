@@ -48,6 +48,7 @@ class _LoginPageState extends State<LoginPage> {
                           obscureText: dataProvider.securePassword,
                            controller: passwordController,
                           maxLength: 32,
+//                          validator: (value),
                           decoration: InputDecoration(
                             // border: OutlineInputBorder(),
                             labelText: 'Password',
@@ -62,10 +63,10 @@ class _LoginPageState extends State<LoginPage> {
                                  setState(() {
                                   danger=Colors.red; 
                                  });
-                               }else if(danger==Colors.red)
+                               }else if(danger==Colors.deepPurple)
                                {
                                  setState(() {
-                                  danger=Colors.deepPurple; 
+                                  danger=Colors.deepPurple;
                                  });
                                } 
                                   bool viewHide =

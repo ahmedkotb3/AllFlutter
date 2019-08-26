@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'Screens/login.dart';
 import 'Screens/set_NewPassword.dart';
 import './Providers/DataProvider.dart';
-
-
+import './Screens/register.dart';
+import './Screens/SubCategory.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -15,7 +15,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch:DataProvider().primary,
       ),
-      home: LoginPage(),
+      //home: LoginPage(),
+      home: SubCategory(),
     );
   }
 }
