@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
         primarySwatch:DataProvider().primary,
       ),
       //home: LoginPage(),
-      home: ProductDetails(),
+      home: SubCategory(),
     );
   }
 }
