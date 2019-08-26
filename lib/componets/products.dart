@@ -71,33 +71,6 @@ class SingleProd extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-<<<<<<< HEAD
-    Color favoite=Colors.grey;
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(10.0),
-      child: GridTile(
-        child:GestureDetector(
-          onTap: (){
-          },
-          child: Image.asset(
-          prodPricture,
-              fit:BoxFit.cover),
-        ),
-        footer: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: GridTileBar(
-            backgroundColor:Colors.white30 ,
-            leading: IconButton(
-              icon: Icon(Icons.favorite),
-              onPressed:(){},
-              color:favoite,
-            ),
-            title: Text(prodName,
-                textAlign: TextAlign.center),
-            trailing:IconButton(icon: Icon(Icons.shopping_cart),
-              color:favoite,
-              onPressed: (){},
-=======
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Card(
@@ -140,7 +113,8 @@ class SingleProd extends StatelessWidget {
                       image: AssetImage(prodPricture),
                     )),
                   ),
-                ]),
+                ],
+                ),
                 new Container(
                   height: 110.0,
                   color: Colors.white,
@@ -198,7 +172,6 @@ class SingleProd extends StatelessWidget {
                   ),
                 )
               ],
->>>>>>> 32341934a61b5773108ffa45301cd757ed045812
             ),
           ],
         ),
