@@ -1,3 +1,4 @@
+import 'package:big/Screens/details.dart';
 import 'package:flutter/material.dart';
 import 'Screens/login.dart';
 import 'Screens/set_NewPassword.dart';
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
         primarySwatch:DataProvider().primary,
       ),
       //home: LoginPage(),
-      home: SubCategory(),
+      home: ProductDetails(),
     );
   }
 }

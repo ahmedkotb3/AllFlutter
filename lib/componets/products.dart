@@ -98,7 +98,8 @@ class SingleProd extends StatelessWidget {
                       image: AssetImage(prodPricture),
                     )),
                   ),
-                ]),
+                ],
+                ),
                 new Container(
                   height: 110.0,
                   color: Colors.white,
