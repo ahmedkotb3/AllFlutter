@@ -5,7 +5,7 @@ class HorizontalList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
         child: Container(
-          height: 80.0,
+          height: 70.0,
           child: ListView(
             scrollDirection: Axis.horizontal,
             children: <Widget>[
@@ -58,7 +58,7 @@ class Category extends StatelessWidget {
                     borderRadius: BorderRadius.circular(24.0),
                     shadowColor: Color(0x802196F3),
                     child: Row(
-                     // crossAxisAlignment: CrossAxisAlignment.center,
+                     mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Container(
                           width: 300,

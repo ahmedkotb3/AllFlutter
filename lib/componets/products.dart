@@ -9,28 +9,14 @@ class _ProductsState extends State<Products> {
   var productList = [
     {
       "name": "Blazer",
-      "picture": "images/products/blazer1.jpeg",
+      "picture": "lib/assets/images/products/blazer1.jpeg",
       "old_price": 120,
       "price": 85,
       "description": "Plus Button Back Guipure Lace Sleeve Belted Peplum Top"
     },
     {
       "name": "Red dress",
-      "picture": "images/products/dress1.jpeg",
-      "old_price": 100,
-      "price": 50,
-      "description": "Plus Button Back Guipure Lace Sleeve Belted Peplum Top"
-    },
-    {
-      "name": "Blazer",
-      "picture": "images/products/blazer1.jpeg",
-      "old_price": 120,
-      "price": 85,
-      "description": "Plus Button Back Guipure Lace Sleeve Belted Peplum Top"
-    },
-    {
-      "name": "Red dress",
-      "picture": "images/products/blazer1.jpeg",
+      "picture": "lib/assets/images/products/blazer1.jpeg",
       "old_price": 100,
       "price": 50,
       "description": "Plus Button Back Guipure Lace Sleeve Belted Peplum Top"
@@ -78,7 +64,6 @@ class SingleProd extends StatelessWidget {
           alignment: FractionalOffset.topLeft,
           children: <Widget>[
             new Positioned(
-                top: 1.0,
                 right: 10.0,
                 child: new Stack(
                   children: <Widget>[
@@ -86,11 +71,11 @@ class SingleProd extends StatelessWidget {
                       width: 40,
                       height: 24,
                       color: Color(0XFFff2b2b),
-                      transform: Matrix4.translationValues(0.0, -10.0, 0.0),
+                      transform: Matrix4.translationValues(0.0, -5.0, 0.0),
                     ),
                     new Positioned(
-                        bottom: 10,
-                        left: 10,
+                        bottom: 10.0,
+                        left: 10.0,
                         child: new Center(
                           child: new Text(
                             "new",
