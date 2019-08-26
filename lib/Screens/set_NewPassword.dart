@@ -21,7 +21,7 @@ class _SetNewPassword extends State<SetNewPassword> {
           elevation: 0.0,
         backgroundColor: Colors.transparent,
          leading: new IconButton(
-               icon: new Icon(Icons.arrow_back, color: Colors.deepPurple),
+               icon: new Icon(Icons.arrow_back, color: DataProvider().primary),
                onPressed: () => Navigator.of(context).pop(),
               ),     
         ),
@@ -33,7 +33,6 @@ class _SetNewPassword extends State<SetNewPassword> {
                   padding: const EdgeInsets.all(15.0),
                   child: Column(
                     children: <Widget>[
-                      SizedBox(height: 30,),
                       Text(
                         'Forgot Password',
                         style: TextStyle(
@@ -43,11 +42,12 @@ class _SetNewPassword extends State<SetNewPassword> {
                             height: 2.5),
                         textAlign: TextAlign.left,
                       ),
-                      SizedBox(height: 20,),
+                      SizedBox(height: 10,),
                       Consumer<DataProvider>(
                         builder: (context, dataProvider, _) => TextFormField(
                           obscureText: dataProvider.securePassword,
                            controller: passwordController,
+                          maxLength: 32,
                           decoration: InputDecoration(
                             // border: OutlineInputBorder(),
                             labelText: 'Password',
@@ -82,6 +82,7 @@ class _SetNewPassword extends State<SetNewPassword> {
                         builder: (context, dataProvider, _) => TextFormField(
                           obscureText: true,
                           controller: confirmpasswordController,
+                          maxLength: 32,
                           validator: (value) {
                             // if (value != passwordController.text) {
                             //     return 'Password is not matching';
