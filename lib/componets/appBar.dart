@@ -14,13 +14,13 @@ AppBar appBar(String title) {
         new IconButton(
           icon: Icon(
             Icons.arrow_back,
-            color: DataProvider().appBlue,
+            color: DataProvider().primary,
           ),
           onPressed: () {},
         ),
         Text(
           title,
-          style: TextStyle(color: DataProvider().appBlue),
+          style: TextStyle(color: DataProvider().primary),
         ),
       ],
     ),
@@ -30,7 +30,7 @@ AppBar appBar(String title) {
         child: new IconButton(
             icon: Icon(
               Icons.search,
-              color: DataProvider().appBlue,
+              color: DataProvider().primary,
             ),
             onPressed: () {}),
       ),
@@ -39,8 +39,7 @@ AppBar appBar(String title) {
           new IconButton(
             icon:  Icon(
               Icons.shopping_cart,
-              //MyFlutterApp(shopping_bag_01),
-              color:DataProvider().appBlue,
+              color:DataProvider().primary,
             ),
             onPressed: null,
           ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../Providers/DataProvider.dart';
 import 'package:provider/provider.dart';
-import '../Widgets//library.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import './login.dart';
 class RegisterPage extends StatefulWidget {
   @override
@@ -139,7 +139,10 @@ class SignUPButton extends StatelessWidget {
   }) : super(key: key);
 
   final TextEditingController nameController;
-
+void _signup()async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs.setString('userName', nameController.text);
+}
   @override
   Widget build(BuildContext context) {
     return ButtonTheme(
@@ -152,9 +155,7 @@ class SignUPButton extends StatelessWidget {
         ),
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-        onPressed: () {
-          print(nameController.text);
-        },
+        onPressed: _signup,
         color: DataProvider().primary,
       ),
     );

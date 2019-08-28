@@ -51,8 +51,8 @@ class _SubCategoryState extends State<SubCategory> {
               padding: const EdgeInsets.all(8.0),
               child: OutlineButton(
                 child: Text('Reset'),
-                color: DataProvider().appBlue,
-                borderSide: BorderSide(color: DataProvider().appBlue),
+                color: DataProvider().primary,
+                borderSide: BorderSide(color: DataProvider().primary),
                 onPressed: () {},
               ),
             ),
@@ -60,7 +60,7 @@ class _SubCategoryState extends State<SubCategory> {
           Expanded(
             flex: 3,
             child: RaisedButton(
-              color: DataProvider().appBlue,
+              color: DataProvider().primary,
               onPressed: () {},
               child: const Text('Apply', style: TextStyle(color: Colors.white)),
             ),

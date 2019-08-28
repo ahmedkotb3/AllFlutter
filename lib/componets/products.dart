@@ -159,7 +159,7 @@ class SingleProd extends StatelessWidget {
                       Container(
                         width: double.infinity,
                         child: RaisedButton(
-                          color: DataProvider().appBlue,
+                          color: DataProvider().primary,
                           onPressed: () {},
                           child: const Text('ADD TO BAG',
                               style: TextStyle(color: Colors.white)),
