@@ -435,7 +435,7 @@ class HomeOffers extends StatelessWidget {
                                   width: 6,
                                 ),
                                 Text('8000 EGP',
-                                    style: TextStyle(fontSize: 12)),
+                                    style: TextStyle(fontSize: 12),),
                                 SizedBox(
                                   width: 6,
                                 ),

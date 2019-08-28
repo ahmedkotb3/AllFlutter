@@ -29,14 +29,14 @@ class _MallsState extends State<Malls> {
                 new IconButton(
                   icon: Icon(
                     Icons.arrow_back,
-                    color: Colors.amber,
+                    color: Colors.blue,
                   ),
                   onPressed: () {},
                 ),
                 Text(
                   title,
                   style: TextStyle(
-                    color: Colors.amber,
+                    color: Colors.blue,
                   ),
                 ),
               ],
