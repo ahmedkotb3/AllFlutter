@@ -42,26 +42,33 @@ class FilterState extends State<Filter> {
       },
       children: _data.map<ExpansionPanel>((Item item) {
         return ExpansionPanel(
+          canTapOnHeader: true,
           headerBuilder: (
             BuildContext context,
             bool isExpanded,
           ) {
-            return ListTile(
-              title: Text(
-                item.headerValue,
+            return Container(
+              color: Colors.white,
+              child: ListTile(
+                title: Text(
+                  item.headerValue,
+                ),
               ),
             );
           },
           body: Center(
-            child: LabeledCheckbox(
-              label: 'This is the label text',
-              padding: const EdgeInsets.symmetric(horizontal: 14.0),
-              value: _isSelected,
-              onChanged: (bool newValue) {
-                setState(() {
-                  _isSelected = newValue;
-                });
-              },
+            child: Container(
+              color: Colors.white,
+              child: LabeledCheckbox(
+                label: 'This is the label text',
+                padding: const EdgeInsets.symmetric(horizontal: 14.0),
+                value: _isSelected,
+                onChanged: (bool newValue) {
+                  setState(() {
+                    _isSelected = newValue;
+                  });
+                },
+              ),
             ),
           ),
           isExpanded: item.isExpanded,
@@ -72,11 +79,10 @@ class FilterState extends State<Filter> {
 
   @override
   Widget build(BuildContext context) {
-    return  Container(
-        child: _buildPanel(),
-      );
+    return Container(
+      child: _buildPanel(),
+    );
   }
-
 }
 
 class LabeledCheckbox extends StatelessWidget {
@@ -102,13 +108,13 @@ class LabeledCheckbox extends StatelessWidget {
         padding: padding,
         child: Row(
           children: <Widget>[
-            Expanded(child: Text(label)),
             Checkbox(
               value: value,
               onChanged: (bool newValue) {
                 onChanged(newValue);
               },
             ),
+            Expanded(child: Text(label)),
           ],
         ),
       ),

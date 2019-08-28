@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:big/Providers/DataProvider.dart';
 import '../componets/appBar.dart';
 //my own imports
 import '../componets/horizontal_listview.dart';
@@ -13,20 +14,18 @@ class SubCategory extends StatefulWidget {
 
 class _SubCategoryState extends State<SubCategory> {
   String title = "Fashion";
-  Modal modal = new Modal();
-  Widget header() => Ink(
-        child: Container(
-          decoration: BoxDecoration(
-             color: Color(0XFF737373),
-              border: Border(
-            bottom: BorderSide(
-                width: 1.0, color: Color(0xFF5d5e62).withOpacity(0.3)),
-          )),
+  String modalTitle;
+  Filter filter = new Filter();
+  Sort sort = new Sort();
+
+  Widget header(modalTitle) => Ink(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text(
-                'Filter',
+                modalTitle,
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               IconButton(
@@ -42,46 +41,78 @@ class _SubCategoryState extends State<SubCategory> {
           ),
         ),
       );
-  void _mainBottomSheet(BuildContext context) {
+
+  Widget footer() => Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Expanded(
+            flex: 2,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: OutlineButton(
+                child: Text('Reset'),
+                color: DataProvider().appBlue,
+                borderSide: BorderSide(color: DataProvider().appBlue),
+                onPressed: () {},
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 3,
+            child: RaisedButton(
+              color: DataProvider().appBlue,
+              onPressed: () {},
+              child: const Text('Apply', style: TextStyle(color: Colors.white)),
+            ),
+          ),
+        ],
+      );
+  void _mainBottomSheet(BuildContext context, String name, Widget widget,
+      [Widget footer]) {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext context) {
-          return Material(
-            clipBehavior: Clip.antiAlias,
-            color: Colors.white,
-            shape: RoundedRectangleBorder(
-                borderRadius: new BorderRadius.only(
-                    topLeft: new Radius.circular(15.0),
-                    topRight: new Radius.circular(15.0))),
+          return Container(
+            color: Color(0XFF737373),
             child: Padding(
-              padding:  
-                  const EdgeInsets.only(right: 3.0, left: 3.0, bottom: 1.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                //mainAxisSize: MainAxisSize.max,
-                //  mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: header(),
-                  ),
-                  Expanded(
-                      child: ListView(
+              padding: const EdgeInsets.all(3.0),
+              child: Material(
+                clipBehavior: Clip.antiAlias,
+                color: Colors.white,
+                shape: RoundedRectangleBorder(
+                    borderRadius: new BorderRadius.only(
+                        topLeft: new Radius.circular(15.0),
+                        topRight: new Radius.circular(15.0))),
+                child: Padding(
+                  padding:
+                      const EdgeInsets.only(right: 3.0, left: 3.0, bottom: 1.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    //mainAxisSize: MainAxisSize.max,
+                    //  mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      Filter(),
-                    ],
-                  ))
-/*                   Expanded(
-                  child: ListView.builder(
-                    //shrinkWrap: false,
-                    //itemCount: menu.items.length,
-                    itemBuilder: (context, i) => Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                          child: Filter(),
+                      header(name),
+                      Expanded(
+                          child: Container(
+                        decoration: BoxDecoration(
+                            border: Border(
+                          top: BorderSide(
+                              width: 1.0,
+                              color: Color(0xFF5d5e62).withOpacity(0.3)),
+                          bottom: BorderSide(
+                              width: 1.0,
+                              color: Color(0xFF5d5e62).withOpacity(0.3)),
+                        )),
+                        child: ListView(
+                          children: <Widget>[
+                            widget,
+                          ],
                         ),
+                      )),
+                      if (footer != null) footer
+                    ],
                   ),
-                ), */
-                ],
+                ),
               ),
             ),
           );
@@ -128,8 +159,8 @@ class _SubCategoryState extends State<SubCategory> {
                                     ),
                                     child: IconButton(
                                       icon: Icon(Icons.sort),
-                                      onPressed: () =>
-                                          modal.mainBottomSheet(context),
+                                      onPressed: () => _mainBottomSheet(
+                                          context, 'Sort By', sort),
                                     ),
                                   ),
                                 )
@@ -140,7 +171,8 @@ class _SubCategoryState extends State<SubCategory> {
                                 Text('Filter'),
                                 IconButton(
                                   icon: Icon(Icons.filter),
-                                  onPressed: () => _mainBottomSheet(context),
+                                  onPressed: () => _mainBottomSheet(
+                                      context, 'Filter', filter, footer()),
                                 ),
                               ],
                             )

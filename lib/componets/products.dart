@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:big/Providers/DataProvider.dart';
 
 class Products extends StatefulWidget {
   @override
@@ -15,8 +16,15 @@ class _ProductsState extends State<Products> {
       "description": "Plus Button Back Guipure Lace Sleeve Belted Peplum Top"
     },
     {
-      "name": "Red dress",
+      "name": "Blazer",
       "picture": "lib/assets/images/products/blazer1.jpeg",
+      "old_price": 120,
+      "price": 85,
+      "description": "Plus Button Back Guipure Lace Sleeve Belted Peplum Top"
+    },
+    {
+      "name": "Red dress",
+      "picture": "lib/assets/images/products/dress1.jpeg",
       "old_price": 100,
       "price": 50,
       "description": "Plus Button Back Guipure Lace Sleeve Belted Peplum Top"
@@ -28,14 +36,17 @@ class _ProductsState extends State<Products> {
     return GridView.builder(
         itemCount: productList.length,
         gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2, childAspectRatio: 0.7),
+            mainAxisSpacing: 5.0, crossAxisCount: 2, childAspectRatio: 0.64),
         itemBuilder: (BuildContext context, int index) {
-          return SingleProd(
-            prodName: productList[index]['name'],
-            prodPricture: productList[index]['picture'],
-            prodOldPrice: productList[index]['old_price'],
-            prodPrice: productList[index]['price'],
-            prodDesc: productList[index]['description'],
+          return Padding(
+            padding: const EdgeInsets.only(top: 12.0),
+            child: SingleProd(
+              prodName: productList[index]['name'],
+              prodPricture: productList[index]['picture'],
+              prodOldPrice: productList[index]['old_price'],
+              prodPrice: productList[index]['price'],
+              prodDesc: productList[index]['description'],
+            ),
           );
         });
   }
@@ -57,110 +68,109 @@ class SingleProd extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Card(
-        child: Stack(
-          alignment: FractionalOffset.topLeft,
-          children: <Widget>[
-            new Positioned(
-                right: 10.0,
-                child: new Stack(
+    return 
+        Card(
+          child: Column(
+            children: <Widget>[
+              new Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    new Container(
-                      width: 40,
-                      height: 24,
-                      color: Color(0XFFff2b2b),
-                      transform: Matrix4.translationValues(0.0, -5.0, 0.0),
-                    ),
-                    new Positioned(
-                        bottom: 10.0,
-                        left: 10.0,
-                        child: new Center(
-                          child: new Text(
-                            "new",
-                            style: new TextStyle(
-                                color: Colors.white,
-                                fontSize: 12.0,
-                                fontWeight: FontWeight.w500),
-                          ),
-                        )),
-                  ],
-                )),
-            new Stack(
-              alignment: FractionalOffset.bottomCenter,
-              children: <Widget>[
-                Stack(alignment: FractionalOffset.topRight, children: <Widget>[
-                  new Container(
-                    decoration: new BoxDecoration(
-                        image: new DecorationImage(
-                      fit: BoxFit.fitWidth,
-                      image: AssetImage(prodPricture),
-                    )),
-                  ),
-                ],
-                ),
-                new Container(
-                  height: 110.0,
-                  color: Colors.white,
-                  child: new Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
+                    Stack(
                       children: <Widget>[
-                        new Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Container(
-                              child: Row(
-                                children: <Widget>[
-                                  new Text(
-                                    " $prodPrice \EGY ",
-                                    style: new TextStyle(
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 12.0,
-                                        color: Color(0XFF161a28)),
-                                  ),
-                                  new Text(
-                                    "$prodOldPrice\EGY",
-                                    style: TextStyle(
-                                        color: Color(0XFF7f7f7f),
-                                        fontWeight: FontWeight.w100,
-                                        fontSize: 10.0,
-                                        decoration: TextDecoration.lineThrough),
-                                  ),
-                                ],
+                        Transform.translate(
+                          offset: Offset(-10.0, -10.0),
+                          child: Container(
+                            width: 45.0,
+                            height: 20.0,
+                            color: Color(0XFFff2b2b),
+                            child: Text(
+                              "New",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.white,
                               ),
                             ),
-                            new IconButton(
-                                icon: Icon(
-                                  Icons.favorite,
-                                  color: Color(0XFFdbdbdb),
-                                ),
-                                onPressed: () {}),
-                          ],
-                        ),
-                        new Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: Text(
-                                "$prodDesc",
-                                style: new TextStyle(
-                                    fontWeight: FontWeight.w300,
-                                    fontSize: 12.0,
-                                    color: Color(0XFF5d5e62)),
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
                       ],
                     ),
+                  ],
+                ),
+                height: 160,
+                decoration: new BoxDecoration(
+                    image: new DecorationImage(
+                  fit: BoxFit.fitWidth,
+                  image: AssetImage(prodPricture),
+                )),
+              ),
+              new Container(
+                color: Colors.white,
+                child: new Padding(
+                  padding: const EdgeInsets.all(7.0),
+                  child: Column(
+                    children: <Widget>[
+                      new Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Container(
+                            child: Row(
+                              children: <Widget>[
+                                new Text(
+                                  " $prodPrice \EGY ",
+                                  style: new TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 12.0,
+                                      color: Color(0XFF161a28)),
+                                ),
+                                new Text(
+                                  "$prodOldPrice\EGY",
+                                  style: TextStyle(
+                                      color: Color(0XFF7f7f7f),
+                                      fontWeight: FontWeight.w100,
+                                      fontSize: 10.0,
+                                      decoration: TextDecoration.lineThrough),
+                                ),
+                              ],
+                            ),
+                          ),
+                          new IconButton(
+                              icon: Icon(
+                                Icons.favorite,
+                                color: Color(0XFFdbdbdb),
+                              ),
+                              onPressed: () {}),
+                        ],
+                      ),
+                      new Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: Text(
+                              "$prodDesc",
+                              style: new TextStyle(
+                                  fontWeight: FontWeight.w300,
+                                  fontSize: 12.0,
+                                  color: Color(0XFF5d5e62)),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        width: double.infinity,
+                        child: RaisedButton(
+                          color: DataProvider().appBlue,
+                          onPressed: () {},
+                          child: const Text('ADD TO BAG',
+                              style: TextStyle(color: Colors.white)),
+                        ),
+                      ),
+                    ],
                   ),
-                )
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
+                ),
+              )
+            ],
+          ),
+        );
   }
 }
