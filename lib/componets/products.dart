@@ -86,7 +86,8 @@ class SingleProd extends StatelessWidget {
                           ),
                         )),
                   ],
-                )),
+                ),
+            ),
             new Stack(
               alignment: FractionalOffset.bottomCenter,
               children: <Widget>[
@@ -147,7 +148,8 @@ class SingleProd extends StatelessWidget {
                                 style: new TextStyle(
                                     fontWeight: FontWeight.w300,
                                     fontSize: 12.0,
-                                    color: Color(0XFF5d5e62)),
+                                    color: Color(0XFF5d5e62),
+                                ),
                               ),
                             ),
                           ],
@@ -160,6 +162,7 @@ class SingleProd extends StatelessWidget {
             ),
           ],
         ),
+
       ),
     );
   }

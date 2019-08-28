@@ -72,11 +72,10 @@ class FilterState extends State<Filter> {
 
   @override
   Widget build(BuildContext context) {
-    return  Container(
-        child: _buildPanel(),
-      );
+    return Container(
+      child: _buildPanel(),
+    );
   }
-
 }
 
 class LabeledCheckbox extends StatelessWidget {

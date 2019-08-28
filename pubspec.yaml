@@ -14,7 +14,7 @@ description: A new Flutter project.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.2.2 <3.0.0"
 
 dependencies:
   flutter:
@@ -24,6 +24,7 @@ dependencies:
   carousel_pro: ^1.0.0
   http: ^0.12.0+2
   smooth_star_rating: ^1.0.3
+  shared_preferences: ^0.5.3+4
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -54,6 +55,8 @@ flutter:
     - lib/assets/images/cats/informal.png
     - lib/assets/images/products/blazer1.jpeg
     - lib/assets/images/products/dress1.jpeg
+    - lib/assets/images/emptybag.png
+    - lib/assets/images/fullbag.png
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

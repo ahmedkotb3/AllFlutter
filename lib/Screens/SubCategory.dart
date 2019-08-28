@@ -54,7 +54,7 @@ class _SubCategoryState extends State<SubCategory> {
                     topLeft: new Radius.circular(15.0),
                     topRight: new Radius.circular(15.0))),
             child: Padding(
-              padding:  
+              padding:
                   const EdgeInsets.only(right: 3.0, left: 3.0, bottom: 1.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
