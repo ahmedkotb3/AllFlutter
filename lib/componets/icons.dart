@@ -15,10 +15,9 @@
 ///
 import 'package:flutter/widgets.dart';
 
-class MyFlutterApp {
-  MyFlutterApp._();
+ class MyFlutterApp {
+   MyFlutterApp._();
 
   static const _kFontFam = 'MyFlutterApp';
-
   static const IconData shopping_bag_01 = const IconData(0xe800, fontFamily: _kFontFam);
 }

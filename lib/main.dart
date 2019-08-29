@@ -1,3 +1,4 @@
+import 'package:big/Screens/SubCategory.dart';
 import 'package:big/Screens/register.dart';
 import 'package:big/Screens/submittedPage.dart';
 import 'package:flutter/services.dart';
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
        primaryColor: DataProvider().primary,
       ),
       //home: LoginPage(),
-      home: RegisterPage(),
+      home: SubCategory(),
     );
   }
 }
