@@ -95,7 +95,7 @@ class _EmptyCartState extends State<EmptyCart> {
                         child: Wrap(
                           children: <Widget>[
                             Image(
-                                fit: BoxFit.cover,
+                                fit: BoxFit.fitWidth,
                                 image: NetworkImage(
                                     "https://sf2.mariefranceasia.com/wp-content/uploads/sites/7/2017/04/fashion-200x200.jpg")),
                             ListTile(
