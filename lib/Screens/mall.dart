@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
-
+import 'mallDetails.dart';
 
 
 
@@ -166,10 +166,10 @@ Widget mycar(String mallName, String mallImage, BuildContext context) {
             ),
             onTap: () {
 
-            /*  Navigator.push(
+             Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (BuildContext context) => MallDetails())); */
+                      builder: (BuildContext context) => MallDetails()));
             }),
         Padding(
           padding: EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 2.0),

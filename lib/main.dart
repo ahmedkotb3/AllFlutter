@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import './Providers/DataProvider.dart';
 import 'package:big/Screens/HomeScreen.dart';
-
+import 'package:big/Screens/checkout.dart';
 
 void main() => runApp(MyApp());
 
@@ -23,7 +23,8 @@ class MyApp extends StatelessWidget {
       ),
       //home: LoginPage(),
      // home: RegisterPage(),
-       home:HomeScreen(),
+      //home:HomeScreen(),
+      home:Checkout()
     );
   }
 }

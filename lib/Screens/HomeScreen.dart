@@ -400,13 +400,16 @@ class HomeOffers extends StatelessWidget {
               ],
             ),
             Container(
+              
               padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-              height: MediaQuery.of(context).size.height * 0.40,
+             height: MediaQuery.of(context).size.height * 0.42,
               child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: 5,
                   itemBuilder: (context, index) {
                     return Container(
+
+    
                         width: 165,
                         child: Card(
                           shape:RoundedRectangleBorder(
@@ -414,14 +417,17 @@ class HomeOffers extends StatelessWidget {
                             
                           ),
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: <Widget>[
                               Material(
+                                
                                 child: InkWell(
+                                  
                                   child: Image.network(
                                     'https://mobizil.com/wp-content/uploads/2018/09/xs-colors-1.jpg',
                                     fit: BoxFit.cover,
-                                    height: MediaQuery.of(context).size.height *
-                                        0.2,
+                                    height: MediaQuery.of(context).size.height *0.2,
                                   ),
                                 ),
                               ),
@@ -444,12 +450,12 @@ class HomeOffers extends StatelessWidget {
                                   size: 18,
                                 ),
                               ]),
-                              Expanded(
-                                  child: Text(
-                                'Apple Iphone X With Facetime - 64 GB, 4G LTE, Silver, 3 GB Ram, Single Sim',
+                              Wrap(
+                                  children:<Widget>[ Text(
+                                'Apple Iphone X With Facetime - 64 GB, 4G LTE, Silver, 3 GB Ram, Single Sim ',
                                 style: TextStyle(
                                     fontSize: 12, fontWeight: FontWeight.bold),
-                              )),
+                                  )]),
                             ],
                           ),
                         ));
