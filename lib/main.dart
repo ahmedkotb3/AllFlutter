@@ -3,10 +3,15 @@ import 'package:big/Screens/cart.dart';
 import 'package:big/Screens/emptyCart.dart';
 import 'package:big/Screens/register.dart';
 import 'package:big/Screens/submittedPage.dart';
+import 'package:big/Screens/whishlist.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import './Providers/DataProvider.dart';
+import 'package:big/Screens/HomeScreen.dart';
+
+
 void main() => runApp(MyApp());
+
 
 class MyApp extends StatelessWidget {
   @override
@@ -18,10 +23,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-       primaryColor: DataProvider().primary,
+        primaryColor: DataProvider().primary,
       ),
       //home: LoginPage(),
-      home: SubCategory(),
+     // home: RegisterPage(),
+       home:SubCategory(),
     );
   }
 }

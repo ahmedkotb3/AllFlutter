@@ -15,7 +15,7 @@ class _ProductsState extends State<Products> {
       "old_price": 120,
       "price": 85,
       "description":
-          "Plus Button Back Guipure Lace Sleeve Belted Peplum TopPlus Button Back Guipure Lace Sleeve Belted Peplum TopPlus Button Back Guipure Lace Sleeve Belted Peplum Top"
+          "Plus Button Back Guipure Lace Sleeve Belted Peplum TopPlus Button Back Guipure Lace Sleeve Belted Peplum TopPlus Button Back Guipure Lace Sleeve Belted Peplum Top",
     },
     {
       "name": "Blazer",
@@ -34,20 +34,18 @@ class _ProductsState extends State<Products> {
   ];
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, [bool isFavorite]) {
     SizeConfig().init(context);
     var size = MediaQuery.of(context).size;
 
     /*24 is for notification bar on Android*/
-    // final double itemHeight = ((size.height - kToolbarHeight - 24) / 2.2);
-    // final double itemWidth = size.width / 2;
+     final double itemHeight = ((size.height - kToolbarHeight - 24) *0.43);
+     final double itemWidth = size.width / 2;
 
     return GridView.builder(
         itemCount: productList.length,
         gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
-            mainAxisSpacing: 5.0,
-            crossAxisCount: 2,
-            childAspectRatio: 1/1.5),
+            mainAxisSpacing: 5.0, crossAxisCount: 2, childAspectRatio: itemWidth/itemHeight),
         itemBuilder: (BuildContext context, int index) {
           return Padding(
             padding: const EdgeInsets.only(top: 12.0),
@@ -70,12 +68,13 @@ class SingleProd extends StatelessWidget {
   final prodPrice;
   final prodDesc;
 
-  SingleProd(
-      {this.prodName,
-      this.prodPricture,
-      this.prodOldPrice,
-      this.prodPrice,
-      this.prodDesc});
+  SingleProd({
+    this.prodName,
+    this.prodPricture,
+    this.prodOldPrice,
+    this.prodPrice,
+    this.prodDesc,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +109,7 @@ class SingleProd extends StatelessWidget {
                 ),
               ],
             ),
-             height: SizeConfig.safeBlockVertical * 20,
+            height: SizeConfig.safeBlockVertical * 20,
             decoration: new BoxDecoration(
                 image: new DecorationImage(
               fit: BoxFit.contain,
@@ -133,7 +132,7 @@ class SingleProd extends StatelessWidget {
                               " $prodPrice \EGY ",
                               style: new TextStyle(
                                   fontWeight: FontWeight.w700,
-                                  fontSize: 12.0,
+                                  fontSize: SizeConfig.safeBlockHorizontal*3,
                                   color: Color(0XFF161a28)),
                             ),
                             new Text(
@@ -141,7 +140,7 @@ class SingleProd extends StatelessWidget {
                               style: TextStyle(
                                   color: Color(0XFF7f7f7f),
                                   fontWeight: FontWeight.w100,
-                                  fontSize: 10.0,
+                                  fontSize: SizeConfig.safeBlockHorizontal*2,
                                   decoration: TextDecoration.lineThrough),
                             ),
                           ],
@@ -160,7 +159,7 @@ class SingleProd extends StatelessWidget {
                       Expanded(
                         child: Container(
                           color: Colors.white,
-                          height: SizeConfig.safeBlockVertical * 5,
+                          height: SizeConfig.safeBlockVertical * 4,
                           child: Text(
                             "$prodDesc",
                             overflow: TextOverflow.ellipsis,
@@ -174,7 +173,7 @@ class SingleProd extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Container(
+/*                   Container(
                     width: double.infinity,
                     child: RaisedButton(
                       color: DataProvider().primary,
@@ -182,7 +181,7 @@ class SingleProd extends StatelessWidget {
                       child: const Text('ADD TO BAG',
                           style: TextStyle(color: Colors.white)),
                     ),
-                  ),
+                  ), */
                 ],
               ),
             ),
