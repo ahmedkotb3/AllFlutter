@@ -1,17 +1,11 @@
-import 'package:big/Screens/SubCategory.dart';
+import 'dart:io';
 import 'package:big/Screens/cart.dart';
-import 'package:big/Screens/register.dart';
-import 'package:big/Screens/submittedPage.dart';
-import 'package:big/componets/splashScreen.dart';
+import 'package:device_info/device_info.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import './Providers/DataProvider.dart';
-import 'package:big/Screens/HomeScreen.dart';
-
 
 void main() => runApp(MyApp());
-
-
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

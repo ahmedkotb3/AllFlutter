@@ -1,4 +1,5 @@
 import 'package:big/Providers/ColorsProvider.dart';
+import 'package:big/Screens/emptyCart.dart';
 import 'package:flutter/material.dart';
 
 class CartPage extends StatefulWidget {
@@ -7,11 +8,19 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
-  bool isBagFull=true;
+  bool isBagFull = true;
+  int counter = 1;
+  double itemPrice=1500;
+  double totalPrice=0;
   String dropdownValue = 'Delete all Items';
   @override
+  void initState() {
+    totalPrice=itemPrice;
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       appBar: AppBar(
         title: new Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -33,16 +42,19 @@ class _CartPageState extends State<CartPage> {
                   dropdownValue = newValue;
                 });
               },
-              items:<String>['Delete all Items']
+              items: <String>['Delete all Items']
                   .map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
-                  child: Text(value),
+                  child: InkWell(child: Text(value),
+                  onTap: (){
+                    Navigator.of(context).pushReplacement(
+                        new MaterialPageRoute(builder: (context) => new EmptyCart()));
+                  },
+                  ),
                 );
-              })
-                  .toList(),
+              }).toList(),
             )
-
           ],
         ),
         backgroundColor: Colors.white,
@@ -55,34 +67,33 @@ class _CartPageState extends State<CartPage> {
             children: <Widget>[
               Row(
                 children: <Widget>[
-                  Text("Total Amount ",style: TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.blue
-                  ),),
-                  Text("1500000 EGP",style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18.0
-                  ),),
+                  Text(
+                    "Total Amount ",
+                    style: TextStyle(
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blue),
+                  ),
+                  Text(
+                    "$totalPrice EGP",
+                    style:
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0),
+                  ),
                 ],
-
               ),
-
-               RaisedButton(
-                  onPressed: (){},
-                  child: Text("CHECKOUT",style: TextStyle
-                    (color:Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 15.0
-                  ),
-                  ),
-                  color: ColorProvider().primary,
+              RaisedButton(
+                onPressed: () {},
+                child: Text(
+                  "CHECKOUT",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15.0),
                 ),
-
-
+                color: ColorProvider().primary,
+              ),
             ],
           ),
-
         ),
       ),
       body: ListView(
@@ -117,7 +128,74 @@ class _CartPageState extends State<CartPage> {
                           height: 218,
                           child: Padding(
                             padding: const EdgeInsets.only(right: 16.0),
-                            child: MyDetails(),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 8.0),
+                                  child: Container(
+                                      child: Row(
+                                    children: <Widget>[
+                                      Container(
+                                          width: 200,
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              "Plus Button Back Guipure Lace Sleeve Belted Peplum Top",
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                fontSize: 20.0,
+                                              ),
+                                            ),
+                                          )),
+                                    ],
+                                  )),
+                                ),
+                                Container(
+                                    child: Text(
+                                  "$itemPrice EGP",
+                                  style: TextStyle(
+                                      color: ColorProvider().primary,
+                                      fontSize: 25.0,
+                                      fontWeight: FontWeight.bold),
+                                )),
+                                Container(
+                                  child: Row(
+                                    children: <Widget>[
+                                      IconButton(
+                                        onPressed: () {
+                                          if(counter!=1){
+                                          setState(() {
+                                            counter--;
+                                            totalPrice=itemPrice*counter;
+                                          });
+                                        };
+                                          },
+                                        icon: Icon(Icons.remove_circle),
+                                        color: ColorProvider().primary,
+                                        iconSize: 50.0,
+                                      ),
+                                      Text(
+                                        "$counter",
+                                        style: TextStyle(fontSize: 30.0),
+                                      ),
+                                      IconButton(
+                                        onPressed: () {
+
+                                          setState(() {
+                                            counter++;
+                                         totalPrice=itemPrice*counter;
+                                          });
+                                        },
+                                        icon: Icon(Icons.add_circle),
+                                        color: ColorProvider().primary,
+                                        iconSize: 50.0,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                         Container(
@@ -128,12 +206,12 @@ class _CartPageState extends State<CartPage> {
                               IconButton(
                                 icon: Icon(Icons.close),
                                 iconSize: 40.0,
-                                onPressed: (){},
+                                onPressed: () {},
                               ),
                               IconButton(
                                 icon: Icon(Icons.favorite_border),
                                 iconSize: 40.0,
-                                onPressed: (){},
+                                onPressed: () {},
                               ),
                             ],
                           ),
@@ -145,72 +223,6 @@ class _CartPageState extends State<CartPage> {
           ),
         ],
       ),
-    );
-  }
-}
-class MyDetails extends StatefulWidget {
-  @override
-  _MyDetailsState createState() => _MyDetailsState();
-}
-
-class _MyDetailsState extends State<MyDetails> {
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.only(right: 8.0),
-          child: Container(
-              child: Row(
-                children: <Widget>[
-                  Container(
-                    width: 200,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          "Plus Button Back Guipure Lace Sleeve Belted Peplum Top",textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 20.0,
-                          ),
-                        ),
-                      )),
-                ],
-              )),
-        ),
-        Container(
-            child: Text(
-              "1500 EGP",
-              style: TextStyle(
-                  color: ColorProvider().primary,
-                  fontSize: 25.0,
-                  fontWeight: FontWeight.bold),
-            )),
-        Container(
-          child: Row(
-            children: <Widget>[
-              IconButton(
-                onPressed: (){
-
-                },
-                icon: Icon(Icons.remove_circle),
-                color: ColorProvider().primary,
-                iconSize: 50.0,
-              ),
-              Text("1",style: TextStyle(
-                fontSize: 30.0
-              ),),
-              IconButton(
-                onPressed: (){
-                },
-                icon: Icon(Icons.add_circle),
-                color: ColorProvider().primary,
-                iconSize: 50.0,
-              ),
-            ],
-          ),
-        ),
-      ],
     );
   }
 }
