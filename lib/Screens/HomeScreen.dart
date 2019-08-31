@@ -1,3 +1,5 @@
+import 'package:big/Screens/SubCategory.dart';
+import 'package:big/Screens/mall.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:big/Screens/mall.dart';
@@ -217,7 +219,7 @@ class HomeScreenTopState extends State<HomeScreenTop> {
 
 class CategoriesList extends StatelessWidget {
   final List<String> numbers = [
-    'Malls',
+    'Beauty',
     'Phones',
     'Frniture',
     'Fashion',
@@ -249,7 +251,7 @@ class CategoriesList extends StatelessWidget {
                   Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (BuildContext context) => Malls()));
+                      builder: (BuildContext context) => SubCategory()));
                 },
                                   child: Container(
                     child: Center(
@@ -301,7 +303,12 @@ class Offers extends StatelessWidget {
                     'Shop now',
                     style: TextStyle(color: Colors.white, fontSize: 10),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) => Malls()));
+                  },
                   color: Colors.black54,
                 ),
               ),

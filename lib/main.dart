@@ -1,6 +1,8 @@
 import 'package:big/Screens/SubCategory.dart';
+import 'package:big/Screens/cart.dart';
 import 'package:big/Screens/register.dart';
 import 'package:big/Screens/submittedPage.dart';
+import 'package:big/componets/splashScreen.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import './Providers/DataProvider.dart';
@@ -23,7 +25,7 @@ class MyApp extends StatelessWidget {
         primaryColor: DataProvider().primary,
       ),
       //home: LoginPage(),
-      home: SubCategory(),
+      home: CartPage(),
     );
   }
 }

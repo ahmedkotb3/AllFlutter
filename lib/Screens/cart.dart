@@ -102,7 +102,7 @@ class _CartPageState extends State<CartPage> {
                       children: <Widget>[
                         Container(
                           width: 150,
-                          height: 200,
+                          height: 218,
                           child: ClipRRect(
                             borderRadius: new BorderRadius.circular(24.0),
                             child: Image(
@@ -114,14 +114,14 @@ class _CartPageState extends State<CartPage> {
                           ),
                         ),
                         Container(
-                          height: 200,
+                          height: 218,
                           child: Padding(
                             padding: const EdgeInsets.only(right: 16.0),
                             child: MyDetails(),
                           ),
                         ),
                         Container(
-                          height: 200,
+                          height: 218,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[

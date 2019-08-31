@@ -1,3 +1,4 @@
+import 'package:big/Screens/details.dart';
 import 'package:flutter/material.dart';
 import 'package:big/Providers/DataProvider.dart';
 
@@ -72,38 +73,46 @@ class SingleProd extends StatelessWidget {
         Card(
           child: Column(
             children: <Widget>[
-              new Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Stack(
-                      children: <Widget>[
-                        Transform.translate(
-                          offset: Offset(-10.0, -10.0),
-                          child: Container(
-                            width: 45.0,
-                            height: 20.0,
-                            color: Color(0XFFff2b2b),
-                            child: Text(
-                              "New",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Colors.white,
+              InkWell(
+                child: new Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Stack(
+                        children: <Widget>[
+                          Transform.translate(
+                            offset: Offset(-10.0, -10.0),
+                            child: Container(
+                              width: 45.0,
+                              height: 20.0,
+                              color: Color(0XFFff2b2b),
+                              child: Text(
+                                "New",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+                        ],
+                      ),
+                    ],
+                  ),
+                  height: 160,
+                  decoration: new BoxDecoration(
+                      image: new DecorationImage(
+                    fit: BoxFit.fitWidth,
+                    image: AssetImage(prodPricture),
+                  )),
                 ),
-                height: 160,
-                decoration: new BoxDecoration(
-                    image: new DecorationImage(
-                  fit: BoxFit.fitWidth,
-                  image: AssetImage(prodPricture),
-                )),
+                onTap: (){
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) => ProductDetails()));
+                },
               ),
               new Container(
                 color: Colors.white,
@@ -156,15 +165,7 @@ class SingleProd extends StatelessWidget {
                           ),
                         ],
                       ),
-                      Container(
-                        width: double.infinity,
-                        child: RaisedButton(
-                          color: DataProvider().primary,
-                          onPressed: () {},
-                          child: const Text('ADD TO BAG',
-                              style: TextStyle(color: Colors.white)),
-                        ),
-                      ),
+
                     ],
                   ),
                 ),

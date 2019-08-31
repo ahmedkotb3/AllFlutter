@@ -17,7 +17,6 @@ class _SubCategoryState extends State<SubCategory> {
   String modalTitle;
   Filter filter = new Filter();
   Sort sort = new Sort();
-
   Widget header(modalTitle) => Ink(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
