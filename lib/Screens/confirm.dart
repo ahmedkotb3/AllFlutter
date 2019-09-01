@@ -41,6 +41,9 @@ class ConfirmPasswordState extends State<ConfirmPassword>{
                       padding: EdgeInsets.only(left:40,right: 40),
                       child: TextField(
                           decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: new BorderRadius.circular(5.0),
+                           ),
                             labelText: 'Activation Code',
                           ),
                         maxLength: 6,

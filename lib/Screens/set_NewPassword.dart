@@ -49,6 +49,9 @@ class _SetNewPassword extends State<SetNewPassword> {
                            controller: passwordController,
                           maxLength: 32,
                           decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: new BorderRadius.circular(5.0),
+                           ),
                             // border: OutlineInputBorder(),
                             labelText: 'Password',
                             // icon: new Icon(Icons.lock_outline),
@@ -90,6 +93,9 @@ class _SetNewPassword extends State<SetNewPassword> {
                             return value != passwordController.text ? 'Password is not matching':null;
                             },
                           decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: new BorderRadius.circular(5.0),
+                           ),
                             // border: OutlineInputBorder(),
                             labelText: 'Confirm new Password',
                             // icon: new Icon(Icons.lock_outline),
