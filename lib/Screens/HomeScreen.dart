@@ -1,3 +1,10 @@
+import 'package:big/Screens/ContactUs.dart';
+import 'package:big/Screens/FAQ.dart';
+import 'package:big/Screens/Settings.dart';
+import 'package:big/Screens/SubCategory.dart';
+import 'package:big/Screens/Terms.dart';
+import 'package:big/Screens/cart.dart';
+import 'package:big/Screens/whishlist.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:big/Screens/mall.dart';
@@ -9,6 +16,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  bool isLogin=true;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -20,7 +28,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   Icons.menu,
                   color: Colors.white,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Scaffold.of(context).openDrawer();
+
+                },
               ),
               elevation: 0,
               titleSpacing: 50,
@@ -28,7 +39,9 @@ class _HomeScreenState extends State<HomeScreen> {
               actions: <Widget>[
                 new IconButton(
                   icon: new Icon(Icons.shopping_cart),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(context,MaterialPageRoute(builder: (context) => CartPage()));
+                  },
                 ),
               ],
             ),
@@ -61,15 +74,31 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   Divider(),
-                  DrawerlistTile(Icons.favorite, 'WishList', () {}),
-                  DrawerlistTile(Icons.settings, 'Settings', () {}),
+                 if(!isLogin) DrawerlistTile(Icons.account_circle, 'Login', () {}),
+                  DrawerlistTile(Icons.favorite, 'WishList', () {
+                    Navigator.push(context,MaterialPageRoute(builder: (context) => Wishlist()));
+                  }),
+                  DrawerlistTile(Icons.settings, 'Settings', () {
+                    Navigator.push(context,MaterialPageRoute(builder: (context) => Settings()));
+
+                  }),
                   DrawerlistTile(Icons.local_offer, 'My Orders', () {}),
-                  DrawerlistTile(Icons.category, 'Categories', () {}),
+                  DrawerlistTile(Icons.category, 'Categories', () {
+
+                  }),
                   DrawerlistTile(Icons.local_shipping,
                       'Delivery & Shipping Istructions', () {}),
-                  DrawerlistTile(Icons.local_mall, 'Terms & Conditions', () {}),
-                  DrawerlistTile(Icons.help, 'FAQ', () {}),
-                  DrawerlistTile(Icons.phone, 'Contact Us', () {}),
+                  DrawerlistTile(Icons.local_mall, 'Terms & Conditions', () {
+                    Navigator.push(context,MaterialPageRoute(builder: (context) => Terms()));
+
+                  }),
+                  DrawerlistTile(Icons.help, 'FAQ', () {
+                    Navigator.push(context,MaterialPageRoute(builder: (context) => FAQ()));
+                  }),
+                  DrawerlistTile(Icons.phone, 'Contact Us', () {
+                    Navigator.push(context,MaterialPageRoute(builder: (context) => ContactUs()));
+                  }),
+                  if (isLogin)  DrawerlistTile(Icons.exit_to_app, 'Logout', () {}),
                 ],
               ),
             ),
@@ -97,7 +126,6 @@ class DrawerlistTile extends StatelessWidget {
   IconData draweIcon;
   String drawerItem;
   Function drawerOnTap;
-
   DrawerlistTile(this.draweIcon, this.drawerItem, this.drawerOnTap);
 
   @override
@@ -233,7 +261,7 @@ class HomeScreenTopState extends State<HomeScreenTop> {
 
 class CategoriesList extends StatelessWidget {
   final List<String> numbers = [
-    'Malls',
+    'Beauty',
     'Phones',
     'Frniture',
     'Fashion',
@@ -265,7 +293,7 @@ class CategoriesList extends StatelessWidget {
                   Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (BuildContext context) => Malls()));
+                      builder: (BuildContext context) => SubCategory()));
                 },
                                   child: Container(
                     child: Center(
@@ -317,7 +345,12 @@ class Offers extends StatelessWidget {
                     'Shop now',
                     style: TextStyle(color: Colors.white, fontSize: 10),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) => Malls()));
+                  },
                   color: Colors.black54,
                 ),
               ),

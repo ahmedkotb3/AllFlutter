@@ -1,6 +1,8 @@
 import 'package:big/Providers/ColorsProvider.dart';
 import 'package:flutter/material.dart';
 
+import 'HomeScreen.dart';
+
 class SubmittedPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -32,7 +34,9 @@ class SubmittedPage extends StatelessWidget {
                         fontSize: 17.0,
                         fontWeight: FontWeight.bold),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => HomeScreen()));
+                  },
                   elevation: 10.0,
                   color: ColorProvider().primary,
                 ),

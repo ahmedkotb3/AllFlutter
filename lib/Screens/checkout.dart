@@ -1,3 +1,4 @@
+import 'package:big/Screens/submittedPage.dart';
 import 'package:flutter/material.dart';
 
 class Checkout extends StatefulWidget {
@@ -166,7 +167,10 @@ class Checkoutbottom extends StatelessWidget {
                     borderRadius: new BorderRadius.circular(5.0)),
                 color: Colors.blue,
                 child: Text('PLACE ORDER'),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => SubmittedPage()));
+
+                },
               ))
         ],
       ),
