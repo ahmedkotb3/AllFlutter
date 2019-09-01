@@ -31,7 +31,11 @@ class _MallsState extends State<Malls> {
                     Icons.arrow_back,
                     color: Colors.blue,
                   ),
-                  onPressed: () {},
+                  onPressed: ()
+                  {
+                    Navigator.pop(context);
+
+                  },
                 ),
                 Text(
                   title,

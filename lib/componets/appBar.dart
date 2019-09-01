@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:big/Providers/DataProvider.dart';
 import 'package:big/componets/shopping_icons.dart';
-//import  MyFlutterApp from 'package:big/componets/icons.dart';
+
 
 AppBar appBar(String title) {
   final list = ["dnk", "ankdn", "kdnn", "ahmed"];

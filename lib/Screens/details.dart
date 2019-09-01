@@ -1,4 +1,5 @@
 import 'package:big/Providers/ColorsProvider.dart';
+import 'package:big/Screens/cart.dart';
 import 'package:big/componets/appBar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -259,7 +260,12 @@ class _ProductDetailsState extends State<ProductDetails> {
                     height: 50.0,
                     child: RaisedButton(
                       color: ColorProvider().primary,
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) => CartPage()));
+                      },
                       child: Text(
                         "ADD TO BAG",
                         textAlign: TextAlign.center,

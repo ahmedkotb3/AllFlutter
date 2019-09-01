@@ -1,3 +1,4 @@
+import 'package:big/Screens/HomeScreen.dart';
 import 'package:big/Screens/forget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -97,7 +98,9 @@ class _LoginPageState extends State<LoginPage> {
                           onPressed: (){
                             // print(emailController.text);
                             print(emailController.text);
-                          //  emailController.clear();
+                            Navigator.push(context,MaterialPageRoute(builder: (context) => HomeScreen()),);
+
+                            //  emailController.clear();
                             },
                           child: Text("Sign In",style: TextStyle(
                             color: Colors.white,
