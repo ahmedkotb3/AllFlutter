@@ -25,6 +25,7 @@ dependencies:
   http: ^0.12.0+2
   smooth_star_rating: ^1.0.3
   shared_preferences: ^0.5.3+4
+  device_info: ^0.4.0+2
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -70,14 +71,14 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-fonts:
-  - family:  MyFlutterApp
-    fonts:
-      - asset: assets/fonts//MyFlutterApp.ttf
-  - family: Poppins
-    fonts:
-      - asset: assets/fonts/Poppins-Regular.ttf
-      - asset: assets/fonts/Poppins-Italic.ttf
+  fonts:
+    - family:  Shopping
+      fonts:
+       - asset: lib/assets/fonts/Shopping.ttf
+  #  - family: Poppins
+  #    fonts:
+  #     - asset: lib/assets/fonts/Poppins-Regular.ttf
+  #     - asset: lib/assets/fonts/Poppins-Italic.ttf
 #           style: italic
 #     - family: Trajan Pro
 #       fonts:

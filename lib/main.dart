@@ -1,5 +1,7 @@
-import 'package:big/Screens/register.dart';
-import 'package:big/Screens/submittedPage.dart';
+import 'dart:io';
+import 'package:big/Screens/SubCategory.dart';
+import 'package:big/Screens/cart.dart';
+import 'package:device_info/device_info.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import './Providers/DataProvider.dart';
@@ -20,6 +22,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         primaryColor: DataProvider().primary,
+        scaffoldBackgroundColor: Colors.white,
       ),
       //home: LoginPage(),
      // home: RegisterPage(),
