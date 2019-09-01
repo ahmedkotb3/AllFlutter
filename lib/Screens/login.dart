@@ -45,11 +45,15 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       Consumer<DataProvider>(
                         builder: (context, dataProvider, _) => TextFormField(
+                          
                           obscureText: dataProvider.securePassword,
                            controller: passwordController,
                           maxLength: 32,
 //                          validator: (value),
                           decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: new BorderRadius.circular(5.0),
+                           ),
                             // border: OutlineInputBorder(),
                             labelText: 'Password',
                             // icon: new Icon(Icons.lock_outline),
@@ -140,8 +144,11 @@ class _LoginPageState extends State<LoginPage> {
 
   TextFormField emailInput() {
     return TextFormField(
+      
                         decoration: InputDecoration(
-                          // border: OutlineInputBorder(),
+                           border: OutlineInputBorder(
+                              borderRadius: new BorderRadius.circular(5.0),
+                           ),
                           labelText: 'Email',
                           // icon: new Icon(Icons.email),
                         ),

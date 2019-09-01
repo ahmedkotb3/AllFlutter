@@ -38,6 +38,9 @@ class ForgetPassword extends StatelessWidget {
           SizedBox(height: 10,),
           TextFormField(
             decoration: InputDecoration(
+              border: OutlineInputBorder(
+                              borderRadius: new BorderRadius.circular(5.0),
+                           ),
               labelText: "Email",
             ),
             validator: (input)=> !input.contains('@') ?'Not a Valid E-mail':null,

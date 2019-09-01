@@ -61,6 +61,9 @@ class _RegisterPageState extends State<RegisterPage> {
                           controller: passwordController,
                           maxLength: 32,
                           decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: new BorderRadius.circular(5.0),
+                           ),
                             labelText: 'Password',
 //                            labelStyle: TextStyle(fontSize: 23),
                             suffixIcon: new IconButton(
@@ -174,6 +177,9 @@ class EmailInput extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       decoration: InputDecoration(
+        border: OutlineInputBorder(
+        borderRadius: new BorderRadius.circular(5.0),
+      ),
         labelText: 'Email',
 //        labelStyle: TextStyle(fontSize: 23),
       ),
@@ -197,6 +203,9 @@ class Nameinput extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       decoration: InputDecoration(
+        border: OutlineInputBorder(
+                              borderRadius: new BorderRadius.circular(5.0),
+                           ),
         labelText: 'Name',
 //        labelStyle: TextStyle(fontSize: 23),
       ),
