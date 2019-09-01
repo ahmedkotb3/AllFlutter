@@ -1,8 +1,7 @@
-import 'package:big/Screens/SubCategory.dart';
-import 'package:big/Screens/mall.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:big/Screens/mall.dart';
+import 'package:big/Providers/Styles.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -145,7 +144,22 @@ class HomeScreenTopState extends State<HomeScreenTop> {
               bottomRight: Radius.circular(30.0)),
           child: Container(
             height: 160,
-            color: Colors.blue,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+
+                colors: [
+                  Styles.appFirstColor,
+                  Styles.appSecondColor
+                ]
+              )
+            ),
+
+
+
+
+
+
+
             child: Column(
               children: <Widget>[
                 SizedBox(
@@ -219,7 +233,7 @@ class HomeScreenTopState extends State<HomeScreenTop> {
 
 class CategoriesList extends StatelessWidget {
   final List<String> numbers = [
-    'Beauty',
+    'Malls',
     'Phones',
     'Frniture',
     'Fashion',
@@ -251,7 +265,7 @@ class CategoriesList extends StatelessWidget {
                   Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (BuildContext context) => SubCategory()));
+                      builder: (BuildContext context) => Malls()));
                 },
                                   child: Container(
                     child: Center(
@@ -303,12 +317,7 @@ class Offers extends StatelessWidget {
                     'Shop now',
                     style: TextStyle(color: Colors.white, fontSize: 10),
                   ),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (BuildContext context) => Malls()));
-                  },
+                  onPressed: () {},
                   color: Colors.black54,
                 ),
               ),
@@ -358,7 +367,7 @@ class Offers extends StatelessWidget {
 
 // Banner Part to show banner image 
 String myImageurl =
-    'https://www.e-storebd.com/wp-content/uploads/2017/03/Thailand-Shop-Online-Banner-2.gif';
+    'https://assets.tatacliq.com/medias/sys_master/images/13615969468446.jpg';
 String myImageurl2 =
     'https://incipio.com/pub/media/catalog/category/iphone-x-category-banner.jpg';
 
@@ -407,13 +416,16 @@ class HomeOffers extends StatelessWidget {
               ],
             ),
             Container(
+              
               padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-              height: MediaQuery.of(context).size.height * 0.40,
+             height: MediaQuery.of(context).size.height * 0.42,
               child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: 5,
                   itemBuilder: (context, index) {
                     return Container(
+
+    
                         width: 165,
                         child: Card(
                           shape:RoundedRectangleBorder(
@@ -421,14 +433,17 @@ class HomeOffers extends StatelessWidget {
                             
                           ),
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: <Widget>[
                               Material(
+                                
                                 child: InkWell(
+                                  
                                   child: Image.network(
                                     'https://mobizil.com/wp-content/uploads/2018/09/xs-colors-1.jpg',
                                     fit: BoxFit.cover,
-                                    height: MediaQuery.of(context).size.height *
-                                        0.2,
+                                    height: MediaQuery.of(context).size.height *0.2,
                                   ),
                                 ),
                               ),
@@ -451,12 +466,12 @@ class HomeOffers extends StatelessWidget {
                                   size: 18,
                                 ),
                               ]),
-                              Expanded(
-                                  child: Text(
-                                'Apple Iphone X With Facetime - 64 GB, 4G LTE, Silver, 3 GB Ram, Single Sim',
+                              Wrap(
+                                  children:<Widget>[ Text(
+                                'Apple Iphone X With Facetime - 64 GB, 4G LTE, Silver, 3 GB Ram, Single Sim ',
                                 style: TextStyle(
                                     fontSize: 12, fontWeight: FontWeight.bold),
-                              )),
+                                  )]),
                             ],
                           ),
                         ));

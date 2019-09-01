@@ -1,4 +1,3 @@
-import 'package:big/Screens/details.dart';
 import 'package:flutter/material.dart';
 import 'package:big/Providers/DataProvider.dart';
 import 'package:big/SizeConfig.dart';
