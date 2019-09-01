@@ -74,11 +74,11 @@ flutter:
 fonts:
   - family:  MyFlutterApp
     fonts:
-      - asset: assets/fonts/MyFlutterApp.ttf
+      - asset: lib/assets/fonts/MyFlutterApp.ttf
   - family: Poppins
     fonts:
-      - asset: assets/fonts/Poppins-Regular.ttf
-      - asset: assets/fonts/Poppins-Italic.ttf
+      - asset: lib/assets/fonts/Poppins-Regular.ttf
+      - asset: lib/assets/fonts/Poppins-Italic.ttf
 #           style: italic
 #     - family: Trajan Pro
 #       fonts:

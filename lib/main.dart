@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:big/Screens/SubCategory.dart';
 import 'package:big/Screens/cart.dart';
 import 'package:device_info/device_info.dart';
 import 'package:flutter/services.dart';
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
         primaryColor: DataProvider().primary,
       ),
       //home: LoginPage(),
-      home: CartPage(),
+      home: SubCategory(),
     );
   }
 }
