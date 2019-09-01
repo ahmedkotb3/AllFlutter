@@ -158,7 +158,7 @@ class _SubCategoryState extends State<SubCategory> {
                                       ),
                                     ),
                                     child: IconButton(
-                                      icon: Icon(Shopping.up),
+                                      icon: Icon(Shopping.swap_vertical),
                                       onPressed: () => _mainBottomSheet(
                                           context, 'Sort By', sort),
                                     ),
