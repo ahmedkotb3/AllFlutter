@@ -1,4 +1,6 @@
 import 'package:big/Providers/ColorsProvider.dart';
+import 'package:big/Screens/checkout.dart';
+import 'package:big/Screens/emptyCart.dart';
 import 'package:flutter/material.dart';
 
 class CartPage extends StatefulWidget {
@@ -7,8 +9,15 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
+  int counter = 1;
+  double itemPrice=1500;
+  double totalPrice=0;
   bool isBagFull=true;
   String dropdownValue = 'Delete all Items';
+  void initState() {
+    totalPrice=itemPrice;
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
@@ -37,7 +46,12 @@ class _CartPageState extends State<CartPage> {
                   .map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
-                  child: Text(value),
+                  child: InkWell(child: Text(value),
+                    onTap: (){
+                      Navigator.of(context).pushReplacement(
+                          new MaterialPageRoute(builder: (context) => new EmptyCart()));
+                    },
+                  ),
                 );
               })
                   .toList(),
@@ -55,21 +69,27 @@ class _CartPageState extends State<CartPage> {
             children: <Widget>[
               Row(
                 children: <Widget>[
-                  Text("Total Amount ",style: TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.blue
-                  ),),
-                  Text("1500000 EGP",style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18.0
-                  ),),
+                  Text(
+                    "Total Amount ",
+                    style: TextStyle(
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blue),
+                  ),
+                  Text(
+                    "$totalPrice EGP",
+                    style:
+                    TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0),
+                  ),
                 ],
 
               ),
 
                RaisedButton(
-                  onPressed: (){},
+                  onPressed: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => Checkout()));
+
+                  },
                   child: Text("CHECKOUT",style: TextStyle
                     (color:Colors.white,
                     fontWeight: FontWeight.bold,
@@ -102,7 +122,7 @@ class _CartPageState extends State<CartPage> {
                       children: <Widget>[
                         Container(
                           width: 150,
-                          height: 200,
+                          height: 218,
                           child: ClipRRect(
                             borderRadius: new BorderRadius.circular(24.0),
                             child: Image(
@@ -114,14 +134,81 @@ class _CartPageState extends State<CartPage> {
                           ),
                         ),
                         Container(
-                          height: 200,
+                          height: 218,
                           child: Padding(
                             padding: const EdgeInsets.only(right: 16.0),
-                            child: MyDetails(),
+                            child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.only(right: 8.0),
+                                child: Container(
+                                    child: Row(
+                                      children: <Widget>[
+                                        Container(
+                                            width: 200,
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                "Plus Button Back Guipure Lace Sleeve Belted Peplum Top",
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  fontSize: 20.0,
+                                                ),
+                                              ),
+                                            )),
+                                      ],
+                                    )),
+                              ),
+                              Container(
+                                  child: Text(
+                                    "$itemPrice EGP",
+                                    style: TextStyle(
+                                        color: ColorProvider().primary,
+                                        fontSize: 25.0,
+                                        fontWeight: FontWeight.bold),
+                                  )),
+                              Container(
+                                child: Row(
+                                  children: <Widget>[
+                                    IconButton(
+                                      onPressed: () {
+                                        if(counter!=1){
+                                          setState(() {
+                                            counter--;
+                                            totalPrice=itemPrice*counter;
+                                          });
+                                        };
+                                      },
+                                      icon: Icon(Icons.remove_circle),
+                                      color: ColorProvider().primary,
+                                      iconSize: 50.0,
+                                    ),
+                                    Text(
+                                      "$counter",
+                                      style: TextStyle(fontSize: 30.0),
+                                    ),
+                                    IconButton(
+                                      onPressed: () {
+
+                                        setState(() {
+                                          counter++;
+                                          totalPrice=itemPrice*counter;
+                                        });
+                                      },
+                                      icon: Icon(Icons.add_circle),
+                                      color: ColorProvider().primary,
+                                      iconSize: 50.0,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
                           ),
                         ),
                         Container(
-                          height: 200,
+                          height: 218,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
@@ -133,7 +220,8 @@ class _CartPageState extends State<CartPage> {
                               IconButton(
                                 icon: Icon(Icons.favorite_border),
                                 iconSize: 40.0,
-                                onPressed: (){},
+                                onPressed: (){
+                                },
                               ),
                             ],
                           ),
@@ -145,72 +233,6 @@ class _CartPageState extends State<CartPage> {
           ),
         ],
       ),
-    );
-  }
-}
-class MyDetails extends StatefulWidget {
-  @override
-  _MyDetailsState createState() => _MyDetailsState();
-}
-
-class _MyDetailsState extends State<MyDetails> {
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.only(right: 8.0),
-          child: Container(
-              child: Row(
-                children: <Widget>[
-                  Container(
-                    width: 200,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          "Plus Button Back Guipure Lace Sleeve Belted Peplum Top",textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 20.0,
-                          ),
-                        ),
-                      )),
-                ],
-              )),
-        ),
-        Container(
-            child: Text(
-              "1500 EGP",
-              style: TextStyle(
-                  color: ColorProvider().primary,
-                  fontSize: 25.0,
-                  fontWeight: FontWeight.bold),
-            )),
-        Container(
-          child: Row(
-            children: <Widget>[
-              IconButton(
-                onPressed: (){
-
-                },
-                icon: Icon(Icons.remove_circle),
-                color: ColorProvider().primary,
-                iconSize: 50.0,
-              ),
-              Text("1",style: TextStyle(
-                fontSize: 30.0
-              ),),
-              IconButton(
-                onPressed: (){
-                },
-                icon: Icon(Icons.add_circle),
-                color: ColorProvider().primary,
-                iconSize: 50.0,
-              ),
-            ],
-          ),
-        ),
-      ],
     );
   }
 }

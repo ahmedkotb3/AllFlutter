@@ -1,3 +1,4 @@
+import 'package:big/Screens/HomeScreen.dart';
 import 'package:big/Screens/forget.dart';
 import 'package:big/componets/shopping_icons.dart';
 import 'package:flutter/material.dart';
@@ -113,13 +114,14 @@ class _LoginPageState extends State<LoginPage> {
                       ButtonTheme(
                         minWidth: double.infinity,
                         height: 50.0,
-                        child: RaisedButton(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0)),
-                            onPressed: () {
-                              // print(emailController.text);
-                              print(emailController.text);
-                              //  emailController.clear();
+                          child: RaisedButton(
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+                          onPressed: (){
+                            // print(emailController.text);
+                            print(emailController.text);
+                            Navigator.push(context,MaterialPageRoute(builder: (context) => HomeScreen()),);
+
+                            //  emailController.clear();
                             },
                             child: Text(
                               "Sign In",

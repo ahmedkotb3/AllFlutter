@@ -1,3 +1,4 @@
+import 'package:big/Screens/details.dart';
 import 'package:flutter/material.dart';
 import 'package:big/Providers/DataProvider.dart';
 import 'package:big/SizeConfig.dart';
@@ -83,38 +84,44 @@ class SingleProd extends StatelessWidget {
       child: Column(
         // mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          new Container(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Stack(
-                  children: <Widget>[
-                    Transform.translate(
-                      offset: Offset(-10.0, -10.0),
-                      child: Container(
-                        width: 45.0,
-                        height: 20.0,
-                        color: Color(0XFFff2b2b),
-                        child: Text(
-                          "New",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.white,
+          InkWell(
+            child: new Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Stack(
+                    children: <Widget>[
+                      Transform.translate(
+                        offset: Offset(-10.0, -10.0),
+                        child: Container(
+                          width: 45.0,
+                          height: 20.0,
+                          color: Color(0XFFff2b2b),
+                          child: Text(
+                            "New",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                ],
+              ),
+              height: SizeConfig.safeBlockVertical * 20,
+              decoration: new BoxDecoration(
+                  image: new DecorationImage(
+                fit: BoxFit.contain,
+                image: AssetImage(prodPricture),
+              ),
+              ),
             ),
-            height: SizeConfig.safeBlockVertical * 20,
-            decoration: new BoxDecoration(
-                image: new DecorationImage(
-              fit: BoxFit.contain,
-              image: AssetImage(prodPricture),
-            )),
+            onTap: (){
+              Navigator.push(context,MaterialPageRoute(builder: (context) => ProductDetails()));
+            },
           ),
           new Container(
             color: Colors.white,
