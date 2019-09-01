@@ -23,8 +23,8 @@ class MyApp extends StatelessWidget {
       ),
       //home: LoginPage(),
      // home: RegisterPage(),
-      //home:HomeScreen(),
-      home:Checkout()
+      home:HomeScreen(),
+      //home:Checkout()
     );
   }
 }

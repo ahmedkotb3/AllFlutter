@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:big/Screens/mall.dart';
+import 'package:big/Providers/Styles.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -143,7 +144,22 @@ class HomeScreenTopState extends State<HomeScreenTop> {
               bottomRight: Radius.circular(30.0)),
           child: Container(
             height: 160,
-            color: Colors.blue,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+
+                colors: [
+                  Styles.appFirstColor,
+                  Styles.appSecondColor
+                ]
+              )
+            ),
+
+
+
+
+
+
+
             child: Column(
               children: <Widget>[
                 SizedBox(
@@ -351,7 +367,7 @@ class Offers extends StatelessWidget {
 
 // Banner Part to show banner image 
 String myImageurl =
-    'https://www.e-storebd.com/wp-content/uploads/2017/03/Thailand-Shop-Online-Banner-2.gif';
+    'https://assets.tatacliq.com/medias/sys_master/images/13615969468446.jpg';
 String myImageurl2 =
     'https://incipio.com/pub/media/catalog/category/iphone-x-category-banner.jpg';
 
