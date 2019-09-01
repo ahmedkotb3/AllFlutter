@@ -12,6 +12,10 @@
 ///       - asset: fonts/Shopping.ttf
 ///
 /// 
+/// * Font Awesome, Copyright (C) 2016 by Dave Gandy
+///         Author:    Dave Gandy
+///         License:   SIL ()
+///         Homepage:  http://fortawesome.github.com/Font-Awesome/
 ///
 import 'package:flutter/widgets.dart';
 
@@ -23,4 +27,6 @@ class Shopping {
   static const IconData shopping_bag_01 = const IconData(0xe800, fontFamily: _kFontFam);
   static const IconData path_263 = const IconData(0xe801, fontFamily: _kFontFam);
   static const IconData swap_vertical = const IconData(0xe802, fontFamily: _kFontFam);
+  static const IconData facebook = const IconData(0xf09a, fontFamily: _kFontFam);
+  static const IconData google = const IconData(0xf1a0, fontFamily: _kFontFam);
 }

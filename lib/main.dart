@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.white,
       ),
       //home: LoginPage(),
-      home: SplashScreen(),
+      home: Checkout(),
     );
   }
 }
