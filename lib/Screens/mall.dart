@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
-
+import 'mallDetails.dart';
 
 
 
@@ -31,11 +31,7 @@ class _MallsState extends State<Malls> {
                     Icons.arrow_back,
                     color: Colors.blue,
                   ),
-                  onPressed: ()
-                  {
-                    Navigator.pop(context);
-
-                  },
+                  onPressed: () {},
                 ),
                 Text(
                   title,
@@ -170,10 +166,10 @@ Widget mycar(String mallName, String mallImage, BuildContext context) {
             ),
             onTap: () {
 
-            /*  Navigator.push(
+             Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (BuildContext context) => MallDetails())); */
+                      builder: (BuildContext context) => MallDetails()));
             }),
         Padding(
           padding: EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 2.0),

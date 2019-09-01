@@ -1,3 +1,4 @@
+import 'package:big/componets/shopping_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:big/Providers/DataProvider.dart';
 import '../componets/appBar.dart';
@@ -17,6 +18,7 @@ class _SubCategoryState extends State<SubCategory> {
   String modalTitle;
   Filter filter = new Filter();
   Sort sort = new Sort();
+
   Widget header(modalTitle) => Ink(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -157,7 +159,7 @@ class _SubCategoryState extends State<SubCategory> {
                                       ),
                                     ),
                                     child: IconButton(
-                                      icon: Icon(Icons.sort),
+                                      icon: Icon(Shopping.swap_vertical),
                                       onPressed: () => _mainBottomSheet(
                                           context, 'Sort By', sort),
                                     ),
@@ -169,7 +171,7 @@ class _SubCategoryState extends State<SubCategory> {
                               children: <Widget>[
                                 Text('Filter'),
                                 IconButton(
-                                  icon: Icon(Icons.filter),
+                                  icon: Icon(Shopping.path_263,size: 20.0,),
                                   onPressed: () => _mainBottomSheet(
                                       context, 'Filter', filter, footer()),
                                 ),

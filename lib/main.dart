@@ -5,8 +5,12 @@ import 'package:device_info/device_info.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import './Providers/DataProvider.dart';
+import 'package:big/Screens/HomeScreen.dart';
+import 'package:big/Screens/checkout.dart';
 
 void main() => runApp(MyApp());
+
+
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -18,6 +22,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         primaryColor: DataProvider().primary,
+        scaffoldBackgroundColor: Colors.white,
       ),
       //home: LoginPage(),
       home: SubCategory(),
