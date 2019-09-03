@@ -1,59 +1,71 @@
+import 'package:big/Providers/Styles.dart';
+import 'package:big/Screens/mall.dart';
+import 'package:big/componets/appBar.dart';
 import 'package:flutter/material.dart';
 import '../Providers/DataProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import './login.dart';
+
 class RegisterPage extends StatefulWidget {
   @override
   _RegisterPageState createState() => _RegisterPageState();
 }
+
 class _RegisterPageState extends State<RegisterPage> {
-  Color danger = Colors.deepPurple;
-  TextEditingController nameController= new TextEditingController();
-  TextEditingController emailController= new TextEditingController();
+  String title = 'Sign Up';
+  Color danger = DataProvider().primary;
+  TextEditingController nameController = new TextEditingController();
+  TextEditingController emailController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       builder: (BuildContext context) => DataProvider(),
       child: Scaffold(
+        appBar: appBar(title, false),
         body: SafeArea(
-                  child: SingleChildScrollView(
+          minimum: EdgeInsets.all(DataProvider().paddingApp),
+          child: SingleChildScrollView(
             child: Container(
               child: Center(
                 child: Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: Column(
                     children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          FittedBox(
-                            fit:BoxFit.fitWidth,
-                            child: Text(
-                              'Create New Account',
-                              style: TextStyle(
-                                  color: DataProvider().primary,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'Poppins',
-                                  fontSize: 28,
-                                  height: 2.5),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                          SizedBox(height: 20,),
-                        ],
-                      ),
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.center,
+                      //   children: <Widget>[
+                      //     FittedBox(
+                      //       fit:BoxFit.fitWidth,
+                      //       child: Text(
+                      //         'Create New Account',
+                      //         style: TextStyle(
+                      //             color: DataProvider().primary,
+                      //             fontWeight: FontWeight.bold,
+                      //             fontFamily: 'Poppins',
+                      //             fontSize: 28,
+                      //             height: 2.5),
+                      //         textAlign: TextAlign.center,
+                      //       ),
+                      //     ),
+                      //     SizedBox(height: 20,),
+                      //   ],
+                      // ),
                       Consumer<DataProvider>(
                         builder: (context, stateManager, _) =>
-                       new Nameinput(nameController: nameController),
+                            new Nameinput(nameController: nameController),
                       ),
-                      SizedBox(height: 20,),
+                      SizedBox(
+                        height: 20,
+                      ),
                       Consumer<DataProvider>(
                         builder: (context, stateManager, _) =>
                             new EmailInput(emailController: emailController),
                       ),
-                      SizedBox(height: 20,),
+                      SizedBox(
+                        height: 20,
+                      ),
 
                       Consumer<DataProvider>(
                         builder: (context, dataProvider, _) => TextFormField(
@@ -61,9 +73,13 @@ class _RegisterPageState extends State<RegisterPage> {
                           controller: passwordController,
                           maxLength: 32,
                           decoration: InputDecoration(
+                            enabledBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: DataProvider().primary),
+                            ),
                             border: OutlineInputBorder(
                               borderRadius: new BorderRadius.circular(5.0),
-                           ),
+                            ),
                             labelText: 'Password',
 //                            labelStyle: TextStyle(fontSize: 23),
                             suffixIcon: new IconButton(
@@ -90,14 +106,20 @@ class _RegisterPageState extends State<RegisterPage> {
                             ),
                           ),
                           validator: (value) {
-                            return value.isEmpty ? "password is required" : null;
+                            return value.isEmpty
+                                ? "password is required"
+                                : null;
                           },
                           onSaved: (value) {},
                         ),
                       ),
-                      SizedBox(height: 20,),
-                      new SignUPButton(nameController: nameController),
-                      SizedBox(height: 20,),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      new SignUPButton(nameController: nameController,title: title,navigate: null,),
+                      SizedBox(
+                        height: 20,
+                      ),
                       new LoginScondButton(),
                     ],
                   ),
@@ -120,15 +142,19 @@ class LoginScondButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ButtonTheme(
       child: FlatButton(
-        child: Text.rich(TextSpan(children: <TextSpan>[
-          TextSpan(text: "Already have an account ? ",style: TextStyle(color: DataProvider().primary)),
+        child: Text.rich(
           TextSpan(
-            text: " Sign In",
-            style: TextStyle(color: DataProvider().primary,fontWeight: FontWeight.bold),
-          )
-        ])),
+            text: "Already have an account ? Sign In",
+            style: TextStyle(
+                color: DataProvider().primary,
+                decoration: TextDecoration.underline),
+          ),
+        ),
         onPressed: () {
-          Navigator.push(context,MaterialPageRoute(builder: (context) => LoginPage()),);
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => LoginPage()),
+          );
         },
       ),
     );
@@ -136,30 +162,45 @@ class LoginScondButton extends StatelessWidget {
 }
 
 class SignUPButton extends StatelessWidget {
-  const SignUPButton({
+  SignUPButton({
     Key key,
     @required this.nameController,
-  }) : super(key: key);
+    @required this.title,
+    @required this.navigate,
 
+
+  }) : super(key: key);
+  
+  String title;
+  Function navigate;
   final TextEditingController nameController;
-void _signup()async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  await prefs.setString('userName', nameController.text);
-}
+  void _signup() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('userName', nameController.text);
+  }
+
   @override
   Widget build(BuildContext context) {
     return ButtonTheme(
       minWidth: double.infinity,
       height: 50.0,
-      child: RaisedButton(
-        child: Text(
-          "Sign Up",
-          style: TextStyle(color: Colors.white, fontSize: 20.0),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5.0),
+          gradient: LinearGradient(
+            colors: [Styles.appFirstColor, Styles.appSecondColor],
+          ),
         ),
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-        onPressed: _signup,
-        color: DataProvider().primary,
+        child: RaisedButton(
+          child: Text(
+            title,
+            style: TextStyle(color: Colors.white, fontSize: 20.0),
+          ),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+          onPressed: navigate,
+          color: Colors.transparent,
+        ),
       ),
     );
   }
@@ -177,9 +218,12 @@ class EmailInput extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       decoration: InputDecoration(
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: DataProvider().primary),
+        ),
         border: OutlineInputBorder(
-        borderRadius: new BorderRadius.circular(5.0),
-      ),
+          borderRadius: new BorderRadius.circular(5.0),
+        ),
         labelText: 'Email',
 //        labelStyle: TextStyle(fontSize: 23),
       ),
@@ -203,9 +247,12 @@ class Nameinput extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       decoration: InputDecoration(
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: DataProvider().primary),
+        ),
         border: OutlineInputBorder(
-                              borderRadius: new BorderRadius.circular(5.0),
-                           ),
+          borderRadius: new BorderRadius.circular(5.0),
+        ),
         labelText: 'Name',
 //        labelStyle: TextStyle(fontSize: 23),
       ),

@@ -50,11 +50,12 @@ class Category extends StatelessWidget {
     SizeConfig().init(context);
     return Padding(
       padding: const EdgeInsets.all(7.0),
-      child: InkWell(   
+      child: InkWell(
         onTap: () {},
         child: Container(
           width: MediaQuery.of(context).size.width * 0.3,
           child: FittedBox(
+            fit: BoxFit.fill,
             child: Material(
                 color: Colors.white,
                 elevation: 14.0,
@@ -72,7 +73,7 @@ class Category extends StatelessWidget {
                           imageCaption,
                           style: TextStyle(
                               color: color,
-                              fontSize: SizeConfig.safeBlockHorizontal*25,
+                              fontSize: SizeConfig.safeBlockHorizontal * 25,
                               fontWeight: FontWeight.bold),
                         ),
                       ),

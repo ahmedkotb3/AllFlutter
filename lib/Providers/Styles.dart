@@ -28,7 +28,8 @@ abstract class Styles {
   static const Color catThreeFirstColor = Color(0xfff296f9);
   static const Color catThreeSceondColor = Color(0xff8d2d95);
 
-
+ static const Color catFourFirstColor = Color(0xffffb184);
+  static const Color catFourSceondColor = Color(0xffea5500);
 
 
 

@@ -34,7 +34,7 @@ class _ProductDetailsState extends State<ProductDetails> {
     return ChangeNotifierProvider(
       builder: (BuildContext context) => DataProvider(),
       child: Scaffold(
-        appBar: appBar(appBarTitle),
+        appBar: appBar(appBarTitle,true),
         body: SafeArea(
             child: Padding(
           padding: const EdgeInsets.all(8.0),

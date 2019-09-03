@@ -4,6 +4,8 @@ import 'dart:io';
 import 'package:device_info/device_info.dart';
 class DataProvider with ChangeNotifier {
  Color primary = Colors.blue[900];
+ double paddingApp = 32.0;
+ Color pperrywinkle = Color(0XFF7a90d6);
  bool securePassword = true;
 
  set setPassword(bool check) {

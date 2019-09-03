@@ -1,83 +1,135 @@
+import 'package:big/Screens/login.dart';
+import 'package:big/Screens/register.dart' as register;
+import 'package:big/componets/appBar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../Providers/DataProvider.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
+import 'login.dart';
 import 'register.dart';
+
 class SetNewPassword extends StatefulWidget {
   _SetNewPassword createState() => _SetNewPassword();
 }
-class _SetNewPassword extends State<SetNewPassword> {
 
-  Color danger=Colors.deepPurple;
-   TextEditingController passwordController = new TextEditingController();
-   TextEditingController confirmpasswordController = new TextEditingController();
+class _SetNewPassword extends State<SetNewPassword> {
+  Color danger = DataProvider().primary;
+    TextEditingController passwordControllerOld = new TextEditingController();
+  TextEditingController passwordController = new TextEditingController();
+  TextEditingController confirmpasswordController = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    void path() {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => LoginPage()),
+      );
+    }
+
     return ChangeNotifierProvider(
       builder: (BuildContext context) => DataProvider(),
       child: Scaffold(
-      appBar: AppBar(
-          elevation: 0.0,
-        backgroundColor: Colors.transparent,
-         leading: new IconButton(
-               icon: new Icon(Icons.arrow_back, color: DataProvider().primary),
-               onPressed: () => Navigator.of(context).pop(),
-              ),     
-        ),
+        appBar: appBar('Change Password', false),
         body: SafeArea(
-                  child: SingleChildScrollView(
+          minimum: EdgeInsets.all(DataProvider().paddingApp),
+          child: SingleChildScrollView(
             child: Container(
               child: Center(
                 child: Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: Column(
                     children: <Widget>[
-                      Text(
-                        'Reset Password',
-                        style: TextStyle(
-                            color: DataProvider().primary,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 40,
-                            height: 2.5),
-                        textAlign: TextAlign.left,
-                      ),
-                      SizedBox(height: 10,),
+                      // Text(
+                      //   'Reset Password',
+                      //   style: TextStyle(
+                      //       color: DataProvider().primary,
+                      //       fontWeight: FontWeight.bold,
+                      //       fontSize: 40,
+                      //       height: 2.5),
+                      //   textAlign: TextAlign.left,
+                      // ),
                       Consumer<DataProvider>(
                         builder: (context, dataProvider, _) => TextFormField(
                           obscureText: dataProvider.securePassword,
-                           controller: passwordController,
+                          controller: passwordControllerOld,
                           maxLength: 32,
                           decoration: InputDecoration(
+                            enabledBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: DataProvider().primary),
+                            ),
                             border: OutlineInputBorder(
                               borderRadius: new BorderRadius.circular(5.0),
-                           ),
+                            ),
                             // border: OutlineInputBorder(),
-                            labelText: 'Password',
+                            labelText: 'Current Password',
                             // icon: new Icon(Icons.lock_outline),
                             suffixIcon: new IconButton(
                               icon: new Icon(
-                                Icons.remove_red_eye,color: danger,
+                                Icons.remove_red_eye,
+                                color: danger,
                               ),
                               onPressed: () {
-                               if(danger==Colors.deepPurple)
-                               {
-                                 setState(() {
-                                  danger=Colors.red; 
-                                 });
-                               }else if(danger==Colors.red)
-                               {
-                                 setState(() {
-                                  danger=Colors.deepPurple;
-                                 });
-                               } 
-                                  bool viewHide =
-                                  dataProvider.securePassword == true ? false : true;
-                                  dataProvider.securePassword = viewHide;
+                                if (danger == DataProvider().primary) {
+                                  setState(() {
+                                    danger = Colors.red;
+                                  });
+                                } else if (danger == Colors.red) {
+                                  setState(() {
+                                    danger = DataProvider().primary;
+                                  });
+                                }
+                                bool viewHide =
+                                    dataProvider.securePassword == true
+                                        ? false
+                                        : true;
+                                dataProvider.securePassword = viewHide;
                               },
                             ),
                           ),
-                          
+                          onSaved: (value) {},
+                        ),
+                      ),
+                      Consumer<DataProvider>(
+                        builder: (context, dataProvider, _) => TextFormField(
+                          obscureText: dataProvider.securePassword,
+                          controller: passwordController,
+                          maxLength: 32,
+                          decoration: InputDecoration(
+                            enabledBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: DataProvider().primary),
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: new BorderRadius.circular(5.0),
+                            ),
+                            // border: OutlineInputBorder(),
+                            labelText: 'New Password',
+                            // icon: new Icon(Icons.lock_outline),
+                            suffixIcon: new IconButton(
+                              icon: new Icon(
+                                Icons.remove_red_eye,
+                                color: danger,
+                              ),
+                              onPressed: () {
+                                if (danger == DataProvider().primary) {
+                                  setState(() {
+                                    danger = Colors.red;
+                                  });
+                                } else if (danger == Colors.red) {
+                                  setState(() {
+                                    danger = DataProvider().primary;
+                                  });
+                                }
+                                bool viewHide =
+                                    dataProvider.securePassword == true
+                                        ? false
+                                        : true;
+                                dataProvider.securePassword = viewHide;
+                              },
+                            ),
+                          ),
                           onSaved: (value) {},
                         ),
                       ),
@@ -90,53 +142,34 @@ class _SetNewPassword extends State<SetNewPassword> {
                             // if (value != passwordController.text) {
                             //     return 'Password is not matching';
                             //   }
-                            return value != passwordController.text ? 'Password is not matching':null;
-                            },
+                            return value != passwordController.text
+                                ? 'Password is not matching'
+                                : null;
+                          },
                           decoration: InputDecoration(
+                            enabledBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: DataProvider().primary),
+                            ),
                             border: OutlineInputBorder(
                               borderRadius: new BorderRadius.circular(5.0),
-                           ),
+                            ),
                             // border: OutlineInputBorder(),
-                            labelText: 'Confirm new Password',
+                            labelText: 'Confirm New Password',
                             // icon: new Icon(Icons.lock_outline),
                           ),
-                          
                           onSaved: (value) {},
                         ),
                       ),
-                      SizedBox(height: 50,),
-                      ButtonTheme(
-                        minWidth: double.infinity,
-                        height: 50.0,
-                          child: RaisedButton(
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-                          onPressed: (){
-                            // print(emailController.text);                            
-                          //  emailController.clear();
-                            },
-                          child: Text("Reset Password",style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20),
-                            ),
-                          color: DataProvider().primary),
+                      SizedBox(
+                        height: 50,
                       ),
-                      SizedBox(height: 10,),
-                      ButtonTheme(
-                      child: FlatButton(
-                        child: Text.rich(TextSpan(children: <TextSpan>[
-                          TextSpan(text: "Dont't have an account ? ",style: TextStyle(color: DataProvider().primary)),
-                          TextSpan(
-                            text: " Sign Up",
-                            style: TextStyle(color: DataProvider().primary,fontWeight: FontWeight.bold),
-                          )
-                        ])),
-                        onPressed: () {
-                          Navigator.push(context,MaterialPageRoute(builder: (context) => RegisterPage()),);
-                        },
+                      new register.SignUPButton(
+                        nameController: null,
+                        navigate: path,
+                        title: 'UPDATE PASSWORD',
                       ),
-                    )
-                       
+                      SizedBox(height: 10),
                     ],
                   ),
                 ),
