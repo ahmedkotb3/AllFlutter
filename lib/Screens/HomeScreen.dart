@@ -1,7 +1,6 @@
 import 'package:big/Screens/ContactUs.dart';
 import 'package:big/Screens/FAQ.dart';
 import 'package:big/Screens/Settings.dart';
-import 'package:big/Screens/SubCategory.dart';
 import 'package:big/Screens/Terms.dart';
 import 'package:big/Screens/cart.dart';
 import 'package:big/Screens/login.dart';
@@ -10,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:big/Screens/mall.dart';
 import 'package:big/Providers/Styles.dart';
+import 'package:big/componets/shopping_icons.dart';
+
 
 
 class HomeScreen extends StatefulWidget {
@@ -271,48 +272,101 @@ class CategoriesList extends StatelessWidget {
     'Fashion',
     'Electronics'
   ];
-  final List<Color> myColors = [
-    Colors.teal,
+
+
+ final List<LinearGradient> myColors = [
+    LinearGradient(
+        begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+      colors: [
+  Styles.catOneFirstColor,
+      Styles.catOneSceondColor
+    ]),
+
+   LinearGradient(
+      begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+     colors: [
+      Styles.catTwoFirstColor,
+      Styles.catTwoSceondColor
+    ]),
+       LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,colors: [
+      Styles.catThreeFirstColor,
+      Styles.catThreeSceondColor
+    ]),
+       LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+         colors: [
+     Styles.catFourFirstColor,
+      Styles.catFourSceondColor
+    ]),
+       LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+         colors: [
+     Styles.catOneFirstColor,
+      Styles.catOneSceondColor
+    ]),
+   /* Colors.teal,
     Colors.orange,
-    Colors.blue,
+    Colors.blue,  
     Colors.purple,
-    Colors.indigo
+    Colors.indigo*/
   ];
 
-  @override
+
+   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
       height: MediaQuery.of(context).size.height * 0.20,
       child: ListView.builder(
+         
           scrollDirection: Axis.horizontal,
           itemCount: numbers.length,
           itemBuilder: (context, index) {
             return Container(
+              decoration: BoxDecoration(
+                gradient:myColors[index],
+                
+              ),
+              margin: EdgeInsets.symmetric(horizontal: 5),
               width: MediaQuery.of(context).size.width * 0.25,
-              child: Card(
-                color: myColors[index],
+              
                 child:InkWell (onTap: (){
 
                   Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (BuildContext context) => SubCategory()));
+                      builder: (BuildContext context) => Malls()));
                 },
                                   child: Container(
-                    child: Center(
-                        child: Text(
+                      child:Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                      
+                        Icon(
+                          Shopping.shopping_bag_01,color: Colors.white,
+                        ),
+                        
+                        Text(
                       numbers[index],
                       style: TextStyle(color: Colors.white, fontSize: 14),
-                    )),
-                  ),
+                    )])
+                    
+                    ),
+                  
                 ),
-              ),
+              
             );
           }),
     );
   }
 }
+
 
 
 
