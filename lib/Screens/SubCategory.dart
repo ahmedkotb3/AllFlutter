@@ -124,7 +124,7 @@ class _SubCategoryState extends State<SubCategory> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar(title),
+      appBar: appBar(title,true),
       body: new Column(
         children: <Widget>[
           HorizontalList(),

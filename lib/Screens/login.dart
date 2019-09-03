@@ -1,5 +1,9 @@
+import 'package:big/Providers/Styles.dart';
 import 'package:big/Screens/HomeScreen.dart';
+import 'package:big/Screens/confirm.dart';
 import 'package:big/Screens/forget.dart';
+import 'package:big/componets/appBar.dart' as prefix0;
+import 'package:big/componets/appBar.dart';
 import 'package:big/componets/shopping_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -8,12 +12,12 @@ import 'package:flutter_signin_button/flutter_signin_button.dart';
 import './register.dart';
 import './forget.dart';
 
-
 class LoginPage extends StatefulWidget {
   _LoginPageState createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
+  String title = "Sign In";
   Color danger = Colors.deepPurple;
   TextEditingController emailController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
@@ -22,7 +26,9 @@ class _LoginPageState extends State<LoginPage> {
     return ChangeNotifierProvider(
       builder: (BuildContext context) => DataProvider(),
       child: Scaffold(
+        appBar: appBar(title, false),
         body: SafeArea(
+          minimum: EdgeInsets.all(DataProvider().paddingApp),
           child: SingleChildScrollView(
             child: Container(
               child: Center(
@@ -30,24 +36,24 @@ class _LoginPageState extends State<LoginPage> {
                   padding: const EdgeInsets.all(15.0),
                   child: Column(
                     children: <Widget>[
-                      Text(
-                        'Welcome Back !',
-                        style: TextStyle(
-                            color: DataProvider().primary,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.bold,
-                            fontSize: 28,
-                            height: 2.5),
-                        textAlign: TextAlign.center,
-                      ),
-                      SizedBox(
-                        height: 15,
-                      ),
+                      // Text(
+                      //   'Welcome Back !',
+                      //   style: TextStyle(
+                      //       color: DataProvider().primary,
+                      //       fontFamily: 'Poppins',
+                      //       fontWeight: FontWeight.bold,
+                      //       fontSize: 28,
+                      //       height: 2.5),
+                      //   textAlign: TextAlign.center,
+                      // ),
+                      // SizedBox(
+                      //   height: 15,
+                      // ),
                       Consumer<DataProvider>(
                         builder: (context, stateManager, _) => emailInput(),
                       ),
                       SizedBox(
-                        height: 15,
+                        height: 25,
                       ),
                       Consumer<DataProvider>(
                         builder: (context, dataProvider, _) => TextFormField(
@@ -56,6 +62,10 @@ class _LoginPageState extends State<LoginPage> {
                           maxLength: 32,
 //                          validator: (value),
                           decoration: InputDecoration(
+                            enabledBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: DataProvider().primary),
+                            ),
                             border: OutlineInputBorder(
                               borderRadius: new BorderRadius.circular(5.0),
                             ),
@@ -65,7 +75,7 @@ class _LoginPageState extends State<LoginPage> {
                             suffixIcon: new IconButton(
                               icon: new Icon(
                                 Icons.remove_red_eye,
-                                color: danger,
+                                color: dataProvider.primary,
                               ),
                               onPressed: () {
                                 if (danger == Colors.deepPurple) {
@@ -90,13 +100,16 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: <Widget>[
                           FlatButton(
                             child: Text(
                               "Forget Your Password ?",
                               style: TextStyle(
-                                  color: DataProvider().primary,
-                                  fontWeight: FontWeight.bold),
+                                color: DataProvider().pperrywinkle,
+                                fontWeight: FontWeight.bold,
+                                decoration: TextDecoration.underline,
+                              ),
                             ),
                             onPressed: () {
                               Navigator.push(
@@ -114,45 +127,53 @@ class _LoginPageState extends State<LoginPage> {
                       ButtonTheme(
                         minWidth: double.infinity,
                         height: 50.0,
-                          child: RaisedButton(
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-                          onPressed: (){
-                            // print(emailController.text);
-                            print(emailController.text);
-                            Navigator.push(context,MaterialPageRoute(builder: (context) => HomeScreen()),);
-
-                            //  emailController.clear();
-                            },
-                            child: Text(
-                              "Sign In",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5.0),
+                            gradient: LinearGradient(
+                              colors: [
+                                Styles.appFirstColor,
+                                Styles.appSecondColor
+                              ],
                             ),
-                            color: DataProvider().primary),
+                          ),
+                          child: RaisedButton(
+                              onPressed: () {
+                                // print(emailController.text);
+                                print(emailController.text);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => HomeScreen()),
+                                );
+
+                                //  emailController.clear();
+                              },
+                              child: Text(
+                                "Sign In",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20),
+                              ),
+                              color: Colors.transparent),
+                        ),
                       ),
                       SizedBox(
-                        height: 10,
+                        height: 40,
                       ),
                       Text(
-                        'OR',
+                        'or Sign In with',
                         style: TextStyle(
-                            color: DataProvider().primary,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        'Sign In With',
-                        style: TextStyle(
-                            color: DataProvider().primary, fontSize: 18),
+                          color: DataProvider().primary,
+                          fontSize: 18,
+                        ),
                       ),
                       SizedBox(
-                        height: 15,
+                        height: 35,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        
                         children: <Widget>[
                           Container(
                               width: 50,
@@ -174,8 +195,10 @@ class _LoginPageState extends State<LoginPage> {
                                     color: DataProvider().primary,
                                   ),
                                   onPressed: () {})),
-                                  SizedBox(width: 30,),
-                         Container(
+                          SizedBox(
+                            width: 30,
+                          ),
+                          Container(
                               width: 50,
                               height: 50,
                               decoration: BoxDecoration(
@@ -212,9 +235,9 @@ class _LoginPageState extends State<LoginPage> {
   TextFormField emailInput() {
     return TextFormField(
       decoration: InputDecoration(
-        border: OutlineInputBorder(
-          borderRadius: new BorderRadius.circular(5.0),
-        ),
+        enabledBorder: OutlineInputBorder(
+            borderRadius: new BorderRadius.circular(5.0),
+            borderSide: BorderSide(color: DataProvider().primary)),
         labelText: 'Email',
         // icon: new Icon(Icons.email),
       ),
@@ -237,16 +260,14 @@ class LoginScondButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ButtonTheme(
       child: FlatButton(
-        child: Text.rich(TextSpan(children: <TextSpan>[
+        child: Text.rich(
           TextSpan(
-              text: "Dont't have an account ? ",
-              style: TextStyle(color: DataProvider().primary)),
-          TextSpan(
-            text: " Sign Up",
+            text: "Don't have an account ? Sign Up ",
             style: TextStyle(
-                color: DataProvider().primary, fontWeight: FontWeight.bold),
-          )
-        ])),
+                color: DataProvider().primary,
+                decoration: TextDecoration.underline),
+          ),
+        ),
         onPressed: () {
           Navigator.push(
             context,

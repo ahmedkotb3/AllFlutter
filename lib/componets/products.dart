@@ -40,13 +40,15 @@ class _ProductsState extends State<Products> {
     var size = MediaQuery.of(context).size;
 
     /*24 is for notification bar on Android*/
-     final double itemHeight = ((size.height - kToolbarHeight - 24) *0.43);
-     final double itemWidth = size.width / 2;
+    final double itemHeight = ((size.height - kToolbarHeight - 24) * 0.5);
+    final double itemWidth = size.width / 2;
 
     return GridView.builder(
         itemCount: productList.length,
         gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
-            mainAxisSpacing: 5.0, crossAxisCount: 2, childAspectRatio: itemWidth/itemHeight),
+            mainAxisSpacing: 5.0,
+            crossAxisCount: 2,
+            childAspectRatio: itemWidth / itemHeight),
         itemBuilder: (BuildContext context, int index) {
           return Padding(
             padding: const EdgeInsets.only(top: 12.0),
@@ -80,56 +82,58 @@ class SingleProd extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    return Card(
-      child: Column(
-        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          InkWell(
-            child: new Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Stack(
-                    children: <Widget>[
-                      Transform.translate(
-                        offset: Offset(-10.0, -10.0),
-                        child: Container(
-                          width: 45.0,
-                          height: 20.0,
-                          color: Color(0XFFff2b2b),
-                          child: Text(
-                            "New",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Colors.white,
+    return Container(
+      child: Card(
+        child: Column(
+          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            InkWell(
+              child: new Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Stack(
+                      children: <Widget>[
+                        Transform.translate(
+                          offset: Offset(-10.0, -10.0),
+                          child: Container(
+                            width: 45.0,
+                            height: 20.0,
+                            color: Color(0XFFff2b2b),
+                            child: Text(
+                              "New",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              height: SizeConfig.safeBlockVertical * 20,
-              decoration: new BoxDecoration(
+                      ],
+                    ),
+                  ],
+                ),
+                height: SizeConfig.safeBlockVertical * 25,
+                decoration: new BoxDecoration(
                   image: new DecorationImage(
-                fit: BoxFit.contain,
-                image: AssetImage(prodPricture),
+                    fit: BoxFit.contain,
+                    image: AssetImage(prodPricture),
+                  ),
+                ),
               ),
-              ),
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ProductDetails()));
+              },
             ),
-            onTap: (){
-              Navigator.push(context,MaterialPageRoute(builder: (context) => ProductDetails()));
-            },
-          ),
-          new Container(
-            color: Colors.white,
-            child: new Padding(
-              padding: const EdgeInsets.all(7.0),
+            new Padding(
+              padding: EdgeInsets.all(10.0),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: <Widget>[
                   new Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Container(
@@ -139,7 +143,7 @@ class SingleProd extends StatelessWidget {
                               " $prodPrice \EGY ",
                               style: new TextStyle(
                                   fontWeight: FontWeight.w700,
-                                  fontSize: SizeConfig.safeBlockHorizontal*3,
+                                  fontSize: SizeConfig.safeBlockHorizontal * 3.5,
                                   color: Color(0XFF161a28)),
                             ),
                             new Text(
@@ -147,21 +151,29 @@ class SingleProd extends StatelessWidget {
                               style: TextStyle(
                                   color: Color(0XFF7f7f7f),
                                   fontWeight: FontWeight.w100,
-                                  fontSize: SizeConfig.safeBlockHorizontal*2,
+                                  fontSize: SizeConfig.safeBlockHorizontal * 2.5,
                                   decoration: TextDecoration.lineThrough),
                             ),
                           ],
                         ),
                       ),
-                      new IconButton(
-                          icon: Icon(
-                            Icons.favorite,
-                            color: Color(0XFFdbdbdb),
-                          ),
-                          onPressed: () {}),
+                      Container(
+                        height: SizeConfig.safeBlockVertical*5.0,
+                        padding: EdgeInsets.all(0.0),
+                        child: new IconButton(
+                            iconSize: 20.0, 
+                            padding: const EdgeInsets.all(0.0),
+                            alignment: Alignment.center,
+                            icon: Icon(
+                              Icons.favorite,
+                              color: Color(0XFFdbdbdb),
+                            ),
+                            onPressed: () {}),
+                      ),
                     ],
                   ),
                   new Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Expanded(
                         child: Container(
@@ -172,7 +184,7 @@ class SingleProd extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                             style: new TextStyle(
                                 fontWeight: FontWeight.w300,
-                                fontSize: 12.0,
+                                fontSize: SizeConfig.safeBlockVertical*1.5,
                                 color: Color(0XFF5d5e62)),
                             maxLines: 2,
                           ),
@@ -181,19 +193,19 @@ class SingleProd extends StatelessWidget {
                     ],
                   ),
 /*                   Container(
-                    width: double.infinity,
-                    child: RaisedButton(
-                      color: DataProvider().primary,
-                      onPressed: () {},
-                      child: const Text('ADD TO BAG',
-                          style: TextStyle(color: Colors.white)),
-                    ),
-                  ), */
+                      width: double.infinity,
+                      child: RaisedButton(
+                        color: DataProvider().primary,
+                        onPressed: () {},
+                        child: const Text('ADD TO BAG',
+                            style: TextStyle(color: Colors.white)),
+                      ),
+                    ), */
                 ],
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }
