@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:big/Screens/SubCategory.dart';
 import 'package:big/Screens/cart.dart';
+import 'package:big/Screens/login.dart';
 import 'package:big/componets/splashScreen.dart';
 import 'package:device_info/device_info.dart';
 import 'package:flutter/services.dart';
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.white,
       ),
       //home: LoginPage(),
-      home: SplashScreen(),
+      home: LoginPage(),
     );
   }
 }

@@ -1,24 +1,21 @@
+import 'package:big/Providers/AuthProvider.dart';
 import 'package:big/Providers/Styles.dart';
 import 'package:big/Screens/HomeScreen.dart';
-import 'package:big/Screens/confirm.dart';
 import 'package:big/Screens/forget.dart';
-import 'package:big/componets/appBar.dart' as prefix0;
 import 'package:big/componets/appBar.dart';
 import 'package:big/componets/shopping_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../Providers/DataProvider.dart';
-import 'package:flutter_signin_button/flutter_signin_button.dart';
 import './register.dart';
 import './forget.dart';
 
 class LoginPage extends StatefulWidget {
   _LoginPageState createState() => _LoginPageState();
 }
-
 class _LoginPageState extends State<LoginPage> {
   String title = "Sign In";
-  Color danger = Colors.deepPurple;
+  Color danger = DataProvider().primary;
   TextEditingController emailController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
   @override
@@ -36,19 +33,6 @@ class _LoginPageState extends State<LoginPage> {
                   padding: const EdgeInsets.all(15.0),
                   child: Column(
                     children: <Widget>[
-                      // Text(
-                      //   'Welcome Back !',
-                      //   style: TextStyle(
-                      //       color: DataProvider().primary,
-                      //       fontFamily: 'Poppins',
-                      //       fontWeight: FontWeight.bold,
-                      //       fontSize: 28,
-                      //       height: 2.5),
-                      //   textAlign: TextAlign.center,
-                      // ),
-                      // SizedBox(
-                      //   height: 15,
-                      // ),
                       Consumer<DataProvider>(
                         builder: (context, stateManager, _) => emailInput(),
                       ),
@@ -75,16 +59,16 @@ class _LoginPageState extends State<LoginPage> {
                             suffixIcon: new IconButton(
                               icon: new Icon(
                                 Icons.remove_red_eye,
-                                color: dataProvider.primary,
+                                color: danger,
                               ),
                               onPressed: () {
-                                if (danger == Colors.deepPurple) {
+                                if (danger == DataProvider().primary) {
                                   setState(() {
                                     danger = Colors.red;
                                   });
-                                } else if (danger == Colors.deepPurple) {
+                                } else if (danger == Colors.red) {
                                   setState(() {
-                                    danger = Colors.deepPurple;
+                                    danger = DataProvider().primary;
                                   });
                                 }
                                 bool viewHide =
@@ -106,7 +90,7 @@ class _LoginPageState extends State<LoginPage> {
                             child: Text(
                               "Forget Your Password ?",
                               style: TextStyle(
-                                color: DataProvider().pperrywinkle,
+                                color: DataProvider().primary,
                                 fontWeight: FontWeight.bold,
                                 decoration: TextDecoration.underline,
                               ),
@@ -194,7 +178,9 @@ class _LoginPageState extends State<LoginPage> {
                                     Shopping.facebook,
                                     color: DataProvider().primary,
                                   ),
-                                  onPressed: () {})),
+                                  onPressed: () {
+                                    AuthProvider().loginWithFB();
+                                  })),
                           SizedBox(
                             width: 30,
                           ),
@@ -217,7 +203,9 @@ class _LoginPageState extends State<LoginPage> {
                                     Shopping.google,
                                     color: DataProvider().primary,
                                   ),
-                                  onPressed: () {})),
+                                  onPressed: () {
+                                    AuthProvider().googleLogin();
+                                  })),
                         ],
                       ),
                       new LoginScondButton()
