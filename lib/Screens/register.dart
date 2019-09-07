@@ -23,7 +23,7 @@ class _RegisterPageState extends State<RegisterPage> {
     return ChangeNotifierProvider(
       builder: (BuildContext context) => DataProvider(),
       child: Scaffold(
-        appBar: appBar(title, false),
+        appBar: Mybar(title, false),
         body: SafeArea(
           minimum: EdgeInsets.all(DataProvider().paddingApp),
           child: SingleChildScrollView(

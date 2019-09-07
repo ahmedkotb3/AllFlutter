@@ -30,7 +30,7 @@ class _SetNewPassword extends State<SetNewPassword> {
     return ChangeNotifierProvider(
       builder: (BuildContext context) => DataProvider(),
       child: Scaffold(
-        appBar: appBar('Change Password', false),
+        appBar: Mybar('Change Password', false),
         body: SafeArea(
           minimum: EdgeInsets.all(DataProvider().paddingApp),
           child: SingleChildScrollView(

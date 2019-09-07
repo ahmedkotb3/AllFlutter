@@ -26,6 +26,7 @@ dependencies:
   smooth_star_rating: ^1.0.3
   shared_preferences: ^0.5.3+4
   device_info: ^0.4.0+2
+  country_code_picker: ^1.1.7
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -55,6 +56,7 @@ flutter:
     - lib/assets/images/cats/tshirt.png
     - lib/assets/images/cats/informal.png
     - lib/assets/images/products/blazer1.jpeg
+    - lib/assets/images/products/blazer2.jpeg
     - lib/assets/images/products/dress1.jpeg
     - lib/assets/images/emptybag.png
     - lib/assets/images/fullbag.png

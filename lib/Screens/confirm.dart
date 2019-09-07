@@ -24,7 +24,7 @@ class ConfirmPasswordState extends State<ConfirmPassword> {
     return ChangeNotifierProvider(
       builder: (BuildContext context) => DataProvider(),
       child: Scaffold(
-        appBar: appBar('Forgot password ?', false),
+        appBar: Mybar('Forgot password ?', false),
         body: SafeArea(
           minimum: EdgeInsets.all(DataProvider().paddingApp),
           child: SingleChildScrollView(

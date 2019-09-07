@@ -9,12 +9,13 @@ import '../componets/sort.dart';
 import '../componets/filter.dart';
 
 class SubCategory extends StatefulWidget {
+  final String subtitle; 
+  SubCategory({Key key, @required this.subtitle}) : super(key: key);
   @override
   _SubCategoryState createState() => _SubCategoryState();
 }
 
 class _SubCategoryState extends State<SubCategory> {
-  String title = "Fashion";
   String modalTitle;
   Filter filter = new Filter();
   Sort sort = new Sort();
@@ -124,7 +125,7 @@ class _SubCategoryState extends State<SubCategory> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar(title,true),
+      appBar: Mybar(widget.subtitle,true),
       body: new Column(
         children: <Widget>[
           HorizontalList(),

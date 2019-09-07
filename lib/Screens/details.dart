@@ -1,6 +1,7 @@
 import 'package:big/Providers/ColorsProvider.dart';
 import 'package:big/Screens/cart.dart';
 import 'package:big/componets/appBar.dart';
+import 'package:big/componets/products.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import '../componets/appBar.dart';
@@ -10,6 +11,8 @@ import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:provider/provider.dart';
 
 class ProductDetails extends StatefulWidget {
+  final product;
+  ProductDetails({Key key,this.product}): super(key: key);
   @override
   _ProductDetailsState createState() => _ProductDetailsState();
 }
@@ -21,7 +24,6 @@ class _ProductDetailsState extends State<ProductDetails> {
   String productBrand = "LC WAIKIKI";
   String productDetails = "Plus Button Back Guipure Lace Sleeve Belted Peplum Top";
   String currency="EGP";
-  double productOffers = 500;
   double productPrice = 700;
   double rating = 5;
   bool isNew = true;
@@ -34,7 +36,7 @@ class _ProductDetailsState extends State<ProductDetails> {
     return ChangeNotifierProvider(
       builder: (BuildContext context) => DataProvider(),
       child: Scaffold(
-        appBar: appBar(appBarTitle,true),
+        appBar: Mybar(appBarTitle,true),
         body: SafeArea(
             child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -128,7 +130,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                 children: <Widget>[
                   new Expanded(
                     child: Text(
-                      productDetails,
+                      widget.product['name'],
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: ColorProvider().secondColor,
@@ -146,7 +148,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                   Column(
                     children: <Widget>[
                       new Text(
-                        "$productOffers $currency",
+                        "${widget.product['price']} $currency",
                         style: TextStyle(
                           color: DataProvider().primary,
                           fontWeight: FontWeight.bold,
@@ -175,7 +177,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      "$productPrice $currency",
+                      "${widget.product['old_price']} $currency" ,
                       style: TextStyle(
                           color: ColorProvider().secondColor,
                           decoration: TextDecoration.lineThrough,

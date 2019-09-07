@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:big/Providers/DataProvider.dart';
 import 'package:big/SizeConfig.dart';
 
+
 class Products extends StatefulWidget {
   @override
   _ProductsState createState() => _ProductsState();
@@ -11,26 +12,25 @@ class Products extends StatefulWidget {
 class _ProductsState extends State<Products> {
   var productList = [
     {
-      "name": "Blazer",
+      "id":1,
       "picture": "lib/assets/images/products/blazer1.jpeg",
-      "old_price": 120,
-      "price": 85,
-      "description":
+      "old_price": 150,
+      "price": 55,
+      "name":
           "Plus Button Back Guipure Lace Sleeve Belted Peplum TopPlus Button Back Guipure Lace Sleeve Belted Peplum TopPlus Button Back Guipure Lace Sleeve Belted Peplum Top",
     },
     {
-      "name": "Blazer",
-      "picture": "lib/assets/images/products/blazer1.jpeg",
+      "id":2,
+      "picture": "lib/assets/images/products/blazer2.jpeg",
       "old_price": 120,
       "price": 85,
-      "description": "Plus Button Back Guipure Lace Sleeve Belted Peplum Top"
+      "name": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ut aliquet libero, sit amet feugiat eros. Quisque in ante augue. Nullam sed "
     },
     {
-      "name": "Red dress",
       "picture": "lib/assets/images/products/dress1.jpeg",
       "old_price": 100,
       "price": 50,
-      "description": "Plus Button Back Guipure Lace Sleeve Belted Peplum Top"
+      "name": "laoreet enim vel, suscipit enim. Proin porta elit sed justo blandit, eu placerat leo elementum"
     }
   ];
 
@@ -53,11 +53,12 @@ class _ProductsState extends State<Products> {
           return Padding(
             padding: const EdgeInsets.only(top: 12.0),
             child: SingleProd(
+              allProuct:productList[index],
               prodName: productList[index]['name'],
               prodPricture: productList[index]['picture'],
               prodOldPrice: productList[index]['old_price'],
               prodPrice: productList[index]['price'],
-              prodDesc: productList[index]['description'],
+              //prodDesc: productList[index]['description'],
             ),
           );
         });
@@ -65,18 +66,20 @@ class _ProductsState extends State<Products> {
 }
 
 class SingleProd extends StatelessWidget {
+  final allProuct;
   final prodName;
   final prodPricture;
   final prodOldPrice;
   final prodPrice;
-  final prodDesc;
+  //final prodDesc;
 
   SingleProd({
+    this.allProuct,
     this.prodName,
     this.prodPricture,
     this.prodOldPrice,
     this.prodPrice,
-    this.prodDesc,
+    //this.prodDesc,
   });
 
   @override
@@ -117,14 +120,14 @@ class SingleProd extends StatelessWidget {
                 height: SizeConfig.safeBlockVertical * 25,
                 decoration: new BoxDecoration(
                   image: new DecorationImage(
-                    fit: BoxFit.contain,
+                    fit: BoxFit.cover,
                     image: AssetImage(prodPricture),
                   ),
                 ),
               ),
               onTap: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => ProductDetails()));
+                    MaterialPageRoute(builder: (context) => ProductDetails(product:allProuct)));
               },
             ),
             new Padding(
@@ -180,7 +183,7 @@ class SingleProd extends StatelessWidget {
                           color: Colors.white,
                           height: SizeConfig.safeBlockVertical * 4,
                           child: Text(
-                            "$prodDesc",
+                            "$prodName",
                             overflow: TextOverflow.ellipsis,
                             style: new TextStyle(
                                 fontWeight: FontWeight.w300,

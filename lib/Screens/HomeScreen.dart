@@ -1,6 +1,7 @@
 import 'package:big/Screens/ContactUs.dart';
 import 'package:big/Screens/FAQ.dart';
 import 'package:big/Screens/Settings.dart';
+import 'package:big/Screens/SubCategory.dart';
 import 'package:big/Screens/Terms.dart';
 import 'package:big/Screens/cart.dart';
 import 'package:big/Screens/login.dart';
@@ -40,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
               title: new Text("My Title"),
               actions: <Widget>[
                 new IconButton(
-                  icon: new Icon(Icons.shopping_cart),
+                  icon: new Icon(Shopping.shopping_bag_01),
                   onPressed: () {
                     Navigator.push(context,MaterialPageRoute(builder: (context) => CartPage()));
                   },
@@ -264,17 +265,18 @@ class HomeScreenTopState extends State<HomeScreenTop> {
 
 // Categories Part --------Torres
 
+class Category {
+ String name;
+ LinearGradient colors;
+ IconData catIcon;
+Category(this.name,this.colors,this.catIcon);
+}
+
+
 class CategoriesList extends StatelessWidget {
-  final List<String> numbers = [
-    'Beauty',
-    'Phones',
-    'Frniture',
-    'Fashion',
-    'Electronics'
-  ];
 
 
- final List<LinearGradient> myColors = [
+  static List<LinearGradient> myColors = [
     LinearGradient(
         begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -317,6 +319,14 @@ class CategoriesList extends StatelessWidget {
     Colors.indigo*/
   ];
 
+   final List<Category> categories = [
+    Category('Fashion', myColors[0], Shopping.fashion),
+    Category('Electronics', myColors[1], Shopping.electronics),
+    Category('Furniture', myColors[2], Shopping.furntiure), 
+    Category('Phones and Tablet', myColors[3], Shopping.shopping_bag_01),    
+    Category('Beauty & Health', myColors[4], Shopping.shopping_bag_01),    
+  ];
+
 
    @override
   Widget build(BuildContext context) {
@@ -326,12 +336,12 @@ class CategoriesList extends StatelessWidget {
       child: ListView.builder(
          
           scrollDirection: Axis.horizontal,
-          itemCount: numbers.length,
+          itemCount: categories.length,
           itemBuilder: (context, index) {
             return Container(
               decoration: BoxDecoration(
                 gradient:myColors[index],
-                
+                borderRadius: BorderRadius.circular(5.0),
               ),
               margin: EdgeInsets.symmetric(horizontal: 5),
               width: MediaQuery.of(context).size.width * 0.25,
@@ -341,7 +351,7 @@ class CategoriesList extends StatelessWidget {
                   Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (BuildContext context) => Malls()));
+                      builder: (BuildContext context) => SubCategory(subtitle: categories[index].name,)));
                 },
                                   child: Container(
                       child:Column(
@@ -349,11 +359,11 @@ class CategoriesList extends StatelessWidget {
                         children: <Widget>[
                       
                         Icon(
-                          Shopping.shopping_bag_01,color: Colors.white,
+                         categories[index].catIcon,color: Colors.white,
                         ),
                         
                         Text(
-                      numbers[index],
+                      categories[index].name,
                       style: TextStyle(color: Colors.white, fontSize: 14),
                     )])
                     

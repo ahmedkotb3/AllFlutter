@@ -2,7 +2,6 @@ import 'package:big/Providers/DataProvider.dart';
 import 'package:big/Providers/Styles.dart';
 import 'package:big/Screens/register.dart';
 import 'package:big/Screens/set_NewPassword.dart';
-import 'package:big/componets/appBar.dart' as prefix0;
 import 'package:big/componets/appBar.dart';
 import 'package:flutter/material.dart';
 import 'package:big/Screens/login.dart';
@@ -23,7 +22,7 @@ class ForgetPassword extends StatelessWidget {
     return ChangeNotifierProvider(
       builder: (BuildContext context) => DataProvider(),
       child: Scaffold(
-        appBar: appBar('Forget Password', false),
+        appBar: Mybar('Forget Password', false),
         body: SafeArea(
           minimum: EdgeInsets.all(32.0),
           child: Center(

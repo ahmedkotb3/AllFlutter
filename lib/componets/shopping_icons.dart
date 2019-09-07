@@ -12,6 +12,10 @@
 ///       - asset: fonts/Shopping.ttf
 ///
 /// 
+/// * Material Design Icons, Copyright (C) Google, Inc
+///         Author:    Google
+///         License:   Apache 2.0 (https://www.apache.org/licenses/LICENSE-2.0)
+///         Homepage:  https://design.google.com/icons/
 /// * Font Awesome, Copyright (C) 2016 by Dave Gandy
 ///         Author:    Dave Gandy
 ///         License:   SIL ()
@@ -27,6 +31,14 @@ class Shopping {
   static const IconData shopping_bag_01 = const IconData(0xe800, fontFamily: _kFontFam);
   static const IconData path_263 = const IconData(0xe801, fontFamily: _kFontFam);
   static const IconData swap_vertical = const IconData(0xe802, fontFamily: _kFontFam);
+  static const IconData fashion = const IconData(0xe803, fontFamily: _kFontFam);
+  static const IconData furntiure = const IconData(0xe804, fontFamily: _kFontFam);
+  static const IconData malls = const IconData(0xe805, fontFamily: _kFontFam);
+  static const IconData electronics = const IconData(0xe806, fontFamily: _kFontFam);
+  static const IconData branding_watermark = const IconData(0xe807, fontFamily: _kFontFam);
+  static const IconData mobile_message = const IconData(0xe808, fontFamily: _kFontFam);
+  static const IconData mobile_search = const IconData(0xe809, fontFamily: _kFontFam);
+  static const IconData mobile_true = const IconData(0xe80a, fontFamily: _kFontFam);
   static const IconData facebook = const IconData(0xf09a, fontFamily: _kFontFam);
   static const IconData google = const IconData(0xf1a0, fontFamily: _kFontFam);
 }
