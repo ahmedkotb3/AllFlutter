@@ -32,6 +32,7 @@ class DataProvider with ChangeNotifier {
    deviceName = data.name;
    deviceVersion = data.systemVersion;
    identifier = data.identifierForVendor; //UUID for iOS
+   print(identifier);
   }
 //if (!mounted) return;
   return [deviceName, deviceVersion, identifier];

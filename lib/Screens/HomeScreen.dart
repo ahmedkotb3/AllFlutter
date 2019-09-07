@@ -4,6 +4,7 @@ import 'package:big/Screens/Settings.dart';
 import 'package:big/Screens/SubCategory.dart';
 import 'package:big/Screens/Terms.dart';
 import 'package:big/Screens/cart.dart';
+import 'package:big/Screens/editAccount.dart';
 import 'package:big/Screens/login.dart';
 import 'package:big/Screens/whishlist.dart';
 import 'package:flutter/material.dart';
@@ -56,24 +57,29 @@ class _HomeScreenState extends State<HomeScreen> {
                     accountName: Text('EsamMax'),
                     accountEmail: Text('Esam_Mouhamed'),
                     currentAccountPicture: GestureDetector(
-                      child: new CircleAvatar(
-                          backgroundImage: NetworkImage(
-                              'https://freedesignfile.com/upload/2017/09/Young-woman-shopping-online-at-home-Stock-Photo-19.jpg'),
-                          child: Stack(children: <Widget>[
-                            Padding(
-                              padding: EdgeInsets.only(left: 50, bottom: 50),
-                              child: Material(
-                                child: Icon(
-                                  Icons.edit,
-                                  color: Colors.white,
+                      child: InkWell(
+                        child: new CircleAvatar(
+                            backgroundImage: NetworkImage(
+                                'https://freedesignfile.com/upload/2017/09/Young-woman-shopping-online-at-home-Stock-Photo-19.jpg'),
+                            child: Stack(children: <Widget>[
+                              Padding(
+                                padding: EdgeInsets.only(left: 50, bottom: 50),
+                                child: Material(
+                                  child: Icon(
+                                    Icons.edit,
+                                    color: Colors.white,
+                                  ),
+                                  color: Colors.blue[100],
+                                  elevation: .1,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(30.0)),
                                 ),
-                                color: Colors.blue[100],
-                                elevation: .1,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(30.0)),
-                              ),
-                            )
-                          ])),
+                              )
+                            ],),),
+                        onTap: (){
+                          Navigator.push(context,MaterialPageRoute(builder: (context) => EditAccount()));
+                        },
+                      ),
                     ),
                   ),
                   Divider(),
