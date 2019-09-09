@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.white,
       ),
       //home: LoginPage(),
-      home: VerifyMobile(),
+      home: SplashScreen(),
     );
   }
 }

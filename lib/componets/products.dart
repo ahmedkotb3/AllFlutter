@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:big/Providers/DataProvider.dart';
 import 'package:big/SizeConfig.dart';
 
-
 class Products extends StatefulWidget {
   @override
   _ProductsState createState() => _ProductsState();
@@ -12,7 +11,8 @@ class Products extends StatefulWidget {
 class _ProductsState extends State<Products> {
   var productList = [
     {
-      "id":1,
+      'quantity': 1,
+      "id": 1,
       "picture": "lib/assets/images/products/blazer1.jpeg",
       "old_price": 150,
       "price": 55,
@@ -20,17 +20,21 @@ class _ProductsState extends State<Products> {
           "Plus Button Back Guipure Lace Sleeve Belted Peplum TopPlus Button Back Guipure Lace Sleeve Belted Peplum TopPlus Button Back Guipure Lace Sleeve Belted Peplum Top",
     },
     {
-      "id":2,
+      'quantity': 1,
+      "id": 2,
       "picture": "lib/assets/images/products/blazer2.jpeg",
       "old_price": 120,
       "price": 85,
-      "name": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ut aliquet libero, sit amet feugiat eros. Quisque in ante augue. Nullam sed "
+      "name":
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ut aliquet libero, sit amet feugiat eros. Quisque in ante augue. Nullam sed "
     },
     {
+      'quantity': 1,
       "picture": "lib/assets/images/products/dress1.jpeg",
       "old_price": 100,
       "price": 50,
-      "name": "laoreet enim vel, suscipit enim. Proin porta elit sed justo blandit, eu placerat leo elementum"
+      "name":
+          "laoreet enim vel, suscipit enim. Proin porta elit sed justo blandit, eu placerat leo elementum"
     }
   ];
 
@@ -53,7 +57,7 @@ class _ProductsState extends State<Products> {
           return Padding(
             padding: const EdgeInsets.only(top: 12.0),
             child: SingleProd(
-              allProuct:productList[index],
+              allProuct: productList[index],
               prodName: productList[index]['name'],
               prodPricture: productList[index]['picture'],
               prodOldPrice: productList[index]['old_price'],
@@ -126,8 +130,11 @@ class SingleProd extends StatelessWidget {
                 ),
               ),
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => ProductDetails(product:allProuct)));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            ProductDetails(product: allProuct)));
               },
             ),
             new Padding(
@@ -146,7 +153,8 @@ class SingleProd extends StatelessWidget {
                               " $prodPrice \EGY ",
                               style: new TextStyle(
                                   fontWeight: FontWeight.w700,
-                                  fontSize: SizeConfig.safeBlockHorizontal * 3.5,
+                                  fontSize:
+                                      SizeConfig.safeBlockHorizontal * 3.5,
                                   color: Color(0XFF161a28)),
                             ),
                             new Text(
@@ -154,17 +162,18 @@ class SingleProd extends StatelessWidget {
                               style: TextStyle(
                                   color: Color(0XFF7f7f7f),
                                   fontWeight: FontWeight.w100,
-                                  fontSize: SizeConfig.safeBlockHorizontal * 2.5,
+                                  fontSize:
+                                      SizeConfig.safeBlockHorizontal * 2.5,
                                   decoration: TextDecoration.lineThrough),
                             ),
                           ],
                         ),
                       ),
                       Container(
-                        height: SizeConfig.safeBlockVertical*5.0,
+                        height: SizeConfig.safeBlockVertical * 5.0,
                         padding: EdgeInsets.all(0.0),
                         child: new IconButton(
-                            iconSize: 20.0, 
+                            iconSize: 20.0,
                             padding: const EdgeInsets.all(0.0),
                             alignment: Alignment.center,
                             icon: Icon(
@@ -187,7 +196,7 @@ class SingleProd extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                             style: new TextStyle(
                                 fontWeight: FontWeight.w300,
-                                fontSize: SizeConfig.safeBlockVertical*1.5,
+                                fontSize: SizeConfig.safeBlockVertical * 1.5,
                                 color: Color(0XFF5d5e62)),
                             maxLines: 2,
                           ),

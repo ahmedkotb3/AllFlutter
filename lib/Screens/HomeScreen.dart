@@ -1,3 +1,4 @@
+import 'package:big/Providers/DataProvider.dart';
 import 'package:big/Screens/ContactUs.dart';
 import 'package:big/Screens/FAQ.dart';
 import 'package:big/Screens/Settings.dart';
@@ -7,6 +8,7 @@ import 'package:big/Screens/cart.dart';
 import 'package:big/Screens/editAccount.dart';
 import 'package:big/Screens/login.dart';
 import 'package:big/Screens/whishlist.dart';
+import 'package:big/componets/appBar.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:big/Screens/mall.dart';
@@ -41,12 +43,13 @@ class _HomeScreenState extends State<HomeScreen> {
               titleSpacing: 50,
               title: new Text("My Title"),
               actions: <Widget>[
-                new IconButton(
-                  icon: new Icon(Shopping.shopping_bag_01),
-                  onPressed: () {
-                    Navigator.push(context,MaterialPageRoute(builder: (context) => CartPage()));
-                  },
-                ),
+                // new IconButton(
+                //   icon: new Icon(Shopping.shopping_bag_01),
+                //   onPressed: () {
+                //     Navigator.push(context,MaterialPageRoute(builder: (context) => CartPage()));
+                //   },
+                // ),
+                     SearchCart(DataProvider().cartItems,false,false)
               ],
             ),
             drawer: Drawer(
