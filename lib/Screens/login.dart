@@ -4,6 +4,7 @@ import 'package:big/Screens/HomeScreen.dart';
 import 'package:big/Screens/forget.dart';
 import 'package:big/componets/appBar.dart';
 import 'package:big/componets/shopping_icons.dart';
+import 'package:big/model/User.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../Providers/DataProvider.dart';
