@@ -3,15 +3,31 @@ import '../componets/shopping_icons.dart';
 import '../Providers/DataProvider.dart';
 import './details.dart';
 import './main.dart';
+import 'package:big/model/User.dart';
+import 'package:provider/provider.dart';
+import 'package:big/Providers/api.dart';
 
-class LoginPage extends StatefulWidget {
-  LoginPageState createState() => LoginPageState();
+
+class CodeVerifity extends StatefulWidget {
+  final User userdata;
+
+  CodeVerifityState createState() => CodeVerifityState(userdata:userdata);
+  CodeVerifity({Key key, @required this.userdata}): super(key: key);
 }
 
+class CodeVerifityState extends State<CodeVerifity> {
+  User userdata ;
+  CodeVerifityState({Key key,@required this.userdata});
 
-class LoginPageState extends State<LoginPage> {
+TextEditingController codeController = new TextEditingController();
+
+
   @override
   Widget build(BuildContext context) {
+     return ChangeNotifierProvider(
+         builder: (_)=>User(),
+          child: Consumer<User>(
+            builder: (context,user,_){
     return MaterialApp(
         home: Scaffold(
             appBar: buildAppBar(),
@@ -46,6 +62,7 @@ class LoginPageState extends State<LoginPage> {
                       Padding(
                         padding: const EdgeInsets.all(30.0),
                         child: TextField(
+                          controller: codeController,
                           decoration: InputDecoration(
                               contentPadding:
                                   EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
@@ -75,7 +92,15 @@ class LoginPageState extends State<LoginPage> {
                             color: Colors.blue,
                             child: Text('VERIFY',
                                 style: TextStyle(color: Colors.white)),
-                            onPressed: () {
+                            onPressed: () async {
+                              userdata.setcodeuser(codeController.text);
+                              print(userdata.getCode());
+                              print(userdata.getEmail());
+
+                              var response =
+                                  await Api().register("register", userdata);
+                              print(userdata.toJson());
+
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -88,5 +113,5 @@ class LoginPageState extends State<LoginPage> {
                 ),
               ),
             )));
-  }
+  }));}
 }

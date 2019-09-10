@@ -7,14 +7,40 @@ import '../Providers/DataProvider.dart';
 import './codeVerify.dart';
 import 'package:http/http.dart' as http;
 import 'package:async/async.dart';
+import 'package:big/model/User.dart';
+import 'package:provider/provider.dart';
+import 'package:big/Providers/api.dart';
 
 
-class VerifyMobile extends StatelessWidget {
-  //VerifyMobile() : super(key: key);
+
+class Verify extends StatefulWidget{
+  VerifyMobile createState()=> VerifyMobile(newuser: newuser);
+    Verify({Key key, @required this.newuser}) : super(key: key);
+  User newuser;
+
+}
+
+class VerifyMobile extends State<Verify> {
+  
+  String phoneCountry="SA";
+  TextEditingController phoneController = new TextEditingController();
+  User newuser;
+  VerifyMobile({Key key, @required this.newuser});
+
+
+void _onCountryChange(CountryCode countryCode) {
+      setState(() {
+       phoneCountry=countryCode.code.toString(); 
+      });
+  }
 
   @override
   Widget build(BuildContext context) {
-    SizeConfig().init(context);
+SizeConfig().init(context);
+    return ChangeNotifierProvider(
+         builder: (_)=>User(),
+          child: Consumer<User>(
+            builder: (context,user,_){    
     return Scaffold(
         appBar: buildAppBar(),
         body: SafeArea(
@@ -73,7 +99,7 @@ class VerifyMobile extends StatelessWidget {
                                   right: BorderSide(
                                       color: DataProvider().primary))),
                           child: new CountryCodePicker(
-                            onChanged: print,
+                            onChanged: _onCountryChange,
                             // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
                             initialSelection: '+966',
                             favorite: ['+2', 'EG'],
@@ -90,6 +116,8 @@ class VerifyMobile extends StatelessWidget {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: TextFormField(
+                                                            controller: phoneController,
+
                               //maxLength: 15,
                               inputFormatters: [
                                 LengthLimitingTextInputFormatter(15)
@@ -113,12 +141,19 @@ class VerifyMobile extends StatelessWidget {
                         style: TextStyle(
                             color: Colors.white, fontWeight: FontWeight.bold),
                       ),
-                      onPressed: () {
-                        //sendphone();
-                        Navigator.push(
+                      onPressed: () async{
+                       newuser.setphoneCountryuser(phoneCountry);
+                           newuser.setphoneuser(phoneController.text);
+                           print(newuser.toJson());
+
+                         var rsponse= await Api().phoneVerify("message",newuser);
+                          
+
+                           
+                       Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => LoginPage()),
-                        );
+                          MaterialPageRoute(builder: (context) => CodeVerifity(userdata:newuser)),
+                       );
                       },
                       color: DataProvider().primary,
                     ),
@@ -128,7 +163,7 @@ class VerifyMobile extends StatelessWidget {
             ),
           ),
         ));
-  }
+  }));}
 }
 
 AppBar buildAppBar() {

@@ -6,6 +6,10 @@ import '../Providers/DataProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import './login.dart';
+import 'package:big/model/User.dart';
+import 'package:big/verifyMobile/codeVerify.dart';
+import 'package:big/verifyMobile/main.dart';
+
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -20,9 +24,17 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController passwordController = new TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      builder: (BuildContext context) => DataProvider(),
-      child: Scaffold(
+    return MultiProvider(
+    providers:[
+          ChangeNotifierProvider(
+
+            builder: (BuildContext context) => DataProvider(),),
+
+    ChangeNotifierProvider(
+            builder: (_) => User(),)],
+
+      child: Consumer<User>(builder: (context, user, _) {
+     return Scaffold(
         appBar: Mybar(title, false),
         body: SafeArea(
           minimum: EdgeInsets.all(DataProvider().paddingApp),
@@ -116,7 +128,27 @@ class _RegisterPageState extends State<RegisterPage> {
                       SizedBox(
                         height: 20,
                       ),
-                      new SignUPButton(nameController: nameController,title: title,navigate: null,),
+                      new SignUPButton(
+                        nameController: nameController,
+                        title: title,
+                        navigate: () {
+                          var myuser = Provider.of<User>(context);
+                          myuser.setnameuser(nameController.text);
+                          myuser.setemailuser(emailController.text);
+                          myuser.setpassworduser(passwordController.text);
+                          myuser.settypeuser('normal');
+                          myuser.setdeviceIduser('12345678');
+
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Verify(
+                                        newuser: myuser,
+                                      )));
+
+                          print(myuser.toJson());
+                        },
+                      ),
                       SizedBox(
                         height: 20,
                       ),
@@ -128,9 +160,13 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
           ),
         ),
-      ),
-    );
+      );
+      }
+      ));
+    
+      
   }
+
 }
 
 class LoginScondButton extends StatelessWidget {
@@ -167,10 +203,8 @@ class SignUPButton extends StatelessWidget {
     @required this.nameController,
     @required this.title,
     @required this.navigate,
-
-
   }) : super(key: key);
-  
+
   String title;
   Function navigate;
   final TextEditingController nameController;
