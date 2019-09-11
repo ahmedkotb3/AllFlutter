@@ -1,16 +1,8 @@
 import 'dart:io';
-import 'package:big/Screens/SubCategory.dart';
-import 'package:big/Screens/cart.dart';
-import 'package:big/Screens/editAccount.dart';
-import 'package:big/Screens/login.dart';
 import 'package:big/componets/splashScreen.dart';
-import 'package:big/verifyMobile/main.dart';
-import 'package:device_info/device_info.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import './Providers/DataProvider.dart';
-import 'package:big/Screens/HomeScreen.dart';
-import 'package:big/Screens/checkout.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
