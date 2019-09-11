@@ -28,7 +28,7 @@ class _CartPageState extends State<CartPage> {
     return ChangeNotifierProvider(
         builder: (BuildContext context) => DataProvider(),
           child: Scaffold(
-        appBar: Mybar("Your Bag", false,true),
+        appBar: Mybar("Your Bag",false,true),
 //       appBar: AppBar(
 //         title: new Row(
 //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
