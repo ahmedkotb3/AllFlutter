@@ -4,12 +4,13 @@ import 'package:big/Providers/DataProvider.dart';
 import 'package:big/SizeConfig.dart';
 
 class Products extends StatefulWidget {
+
   @override
   _ProductsState createState() => _ProductsState();
 }
 
 class _ProductsState extends State<Products> {
-  var productList = [
+  List productList = [
     {
       'quantity': 1,
       "id": 1,
@@ -42,7 +43,6 @@ class _ProductsState extends State<Products> {
   Widget build(BuildContext context, [bool isFavorite]) {
     SizeConfig().init(context);
     var size = MediaQuery.of(context).size;
-
     /*24 is for notification bar on Android*/
     final double itemHeight = ((size.height - kToolbarHeight - 24) * 0.5);
     final double itemWidth = size.width / 2;
@@ -178,7 +178,7 @@ class SingleProd extends StatelessWidget {
                             alignment: Alignment.center,
                             icon: Icon(
                               Icons.favorite,
-                              color: Color(0XFFdbdbdb),
+                              color:Colors.grey ,
                             ),
                             onPressed: () {}),
                       ),

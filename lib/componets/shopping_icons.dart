@@ -39,6 +39,10 @@ class Shopping {
   static const IconData mobile_message = const IconData(0xe808, fontFamily: _kFontFam);
   static const IconData mobile_search = const IconData(0xe809, fontFamily: _kFontFam);
   static const IconData mobile_true = const IconData(0xe80a, fontFamily: _kFontFam);
+  static const IconData brightness_2 = const IconData(0xe80b, fontFamily: _kFontFam);
+  static const IconData emptybag = const IconData(0xe80c, fontFamily: _kFontFam);
+  static const IconData logout = const IconData(0xe80d, fontFamily: _kFontFam);
+  static const IconData whislistempty = const IconData(0xe80e, fontFamily: _kFontFam);
   static const IconData facebook = const IconData(0xf09a, fontFamily: _kFontFam);
   static const IconData google = const IconData(0xf1a0, fontFamily: _kFontFam);
 }

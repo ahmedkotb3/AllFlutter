@@ -29,9 +29,49 @@ class _CartPageState extends State<CartPage> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      builder: (BuildContext context) => DataProvider(),
-      child: Scaffold(
-        appBar: Mybar("Your Bag", false, true),
+        builder: (BuildContext context) => DataProvider(),
+          child: Scaffold(
+        appBar: Mybar("Your Bag",false,true),
+//       appBar: AppBar(
+//         title: new Row(
+//           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//           children: <Widget>[
+//             IconButton(
+//               icon: Icon(Icons.arrow_back),
+//               color: ColorProvider().primary,
+//               onPressed: () {},
+//             ),
+//             new Text(
+//               "Your Bag",
+//               style: TextStyle(color: ColorProvider().primary),
+//             ),
+//             DropdownButton<String>(
+//               icon: Icon(Icons.more_vert),
+// //              value: dropdownValue,
+//               onChanged: (String newValue) {
+//                 setState(() {
+//                   dropdownValue = newValue;
+//                 });
+//               },
+//               items:<String>['Delete all Items']
+//                   .map<DropdownMenuItem<String>>((String value) {
+//                 return DropdownMenuItem<String>(
+//                   value: value,
+//                   child: InkWell(child: Text(value),
+//                     onTap: (){
+//                       Navigator.of(context).pushReplacement(
+//                           new MaterialPageRoute(builder: (context) => new EmptyCart()));
+//                     },
+//                   ),
+//                 );
+//               })
+//                   .toList(),
+//             )
+
+//           ],
+//         ),
+//         backgroundColor: Colors.white,
+//       ),
         bottomNavigationBar: BottomAppBar(
           child: Padding(
             padding: const EdgeInsets.all(5.0),

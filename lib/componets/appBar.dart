@@ -1,3 +1,4 @@
+import 'package:big/Screens/HomeScreen.dart';
 import 'package:big/Screens/cart.dart';
 import 'package:flutter/material.dart';
 import 'package:big/Providers/DataProvider.dart';
@@ -5,10 +6,11 @@ import 'package:big/componets/shopping_icons.dart';
 import 'package:big/Screens/emptyCart.dart';
 
 AppBar Mybar(String titleA, bool searchCartA,
-    [bool deleteItemsA = false]) {
+    [bool deleteItemsA = false,bool noBack= false]) {
   String title = titleA;
   bool searchCart = searchCartA;
   bool deleteItems = deleteItemsA;
+  bool noback = noBack;
   return new AppBar(
       elevation: 0.1,
       backgroundColor: Colors.white,
@@ -19,7 +21,14 @@ AppBar Mybar(String titleA, bool searchCartA,
               Icons.arrow_back,
               color: DataProvider().primary,
             ),
-            onPressed: () => Navigator.of(context).pop(),
+            onPressed: () => 
+            noback
+            ? Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) => HomeScreen()))
+            : Navigator.of(context).pop()
+
           );
         },
       ),
@@ -30,7 +39,7 @@ AppBar Mybar(String titleA, bool searchCartA,
         ),
       ]),
       actions: <Widget>[
-        deleteItems ? Dropdown() : Container(),
+        deleteItems ? Dropdown(titleA) : Container(),
        
         searchCart ? SearchCart(DataProvider().cartItems) : Container()
       ]);
@@ -103,6 +112,8 @@ class _SearchCartState extends State<SearchCart> {
 }
 
 class Dropdown extends StatefulWidget {
+  String pagetitle;
+  Dropdown(this.pagetitle);
   @override
   _DropdownState createState() => _DropdownState();
 }
@@ -129,7 +140,7 @@ class _DropdownState extends State<Dropdown> {
               child: Text(value),
               onTap: () {
                 Navigator.of(context).pushReplacement(new MaterialPageRoute(
-                    builder: (context) => new EmptyCart()));
+                    builder: (context) => new EmptyCart(widget.pagetitle)));
               },
             ),
           );

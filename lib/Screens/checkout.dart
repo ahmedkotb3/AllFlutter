@@ -1,4 +1,5 @@
 import 'package:big/Screens/submittedPage.dart';
+import 'package:big/componets/appBar.dart';
 import 'package:flutter/material.dart';
 
 class Checkout extends StatefulWidget {
@@ -16,9 +17,7 @@ class CheckoutState extends State<Checkout> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Checkout'),
-      ),
+      appBar: Mybar("Checkout", false),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(10.0),
