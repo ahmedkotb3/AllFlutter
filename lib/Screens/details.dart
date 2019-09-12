@@ -30,7 +30,16 @@ class _ProductDetailsState extends State<ProductDetails> {
   bool isFavorite = false;
   bool isOffer = true;
   Color favoriteColor = Colors.grey;
-
+@override
+  void initState() {
+    if(widget.product['isfav']==true ){
+      favoriteColor=Colors.red;
+    }
+    else if(widget.product['isfav']==false ){
+      favoriteColor=Colors.grey;
+    }
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(

@@ -139,7 +139,7 @@ class _SubCategoryState extends State<SubCategory> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Column(children: <Widget>[
-                    Text('600 Items'),
+                    Text('${DataProvider.productList.length} Items'),
                   ]),
                   Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -7,7 +7,7 @@ enum Status {
   google,
 }
 
-class User with ChangeNotifier {
+ class User with ChangeNotifier {
   String name;
   String email;
   String password;

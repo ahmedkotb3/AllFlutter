@@ -17,6 +17,7 @@ class DataProvider with ChangeNotifier {
       "qty":1,
       "name":
           "Plus Button Back Guipure Lace Sleeve Belted Peplum TopPlus Button Back Guipure Lace Sleeve Belted Peplum TopPlus Button Back Guipure Lace Sleeve Belted Peplum Top",
+      "isfav":true
     }
     ,
     {
@@ -27,7 +28,8 @@ class DataProvider with ChangeNotifier {
       "price": 50,
       "qty":1,
       "name":
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ut aliquet libero, sit amet feugiat eros. Quisque in ante augue. Nullam sed "
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ut aliquet libero, sit amet feugiat eros. Quisque in ante augue. Nullam sed ",
+      "isfave":false
     }
     ,
     {
@@ -37,14 +39,11 @@ class DataProvider with ChangeNotifier {
       "price": 100,
       "qty":1,
       "name":
-          "laoreet enim vel, suscipit enim. Proin porta elit sed justo blandit, eu placerat leo elementum"
+          "laoreet enim vel, suscipit enim. Proin porta elit sed justo blandit, eu placerat leo elementum",
+      "isfav":true
     }
   ];
    int cartItems=productList.length;
-// set cartitemse(int number){
-//   cartItems=number;
-//   notifyListeners();
-// }
   get productes=>productList;
 
  set setPassword(bool check) {

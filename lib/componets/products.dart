@@ -1,4 +1,7 @@
 import 'package:big/Screens/details.dart';
+import 'package:big/Screens/whishlist.dart';
+import 'package:big/Widgets/dataManager.dart';
+import 'package:big/model/Productsmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:big/Providers/DataProvider.dart';
 import 'package:big/SizeConfig.dart';
@@ -10,34 +13,7 @@ class Products extends StatefulWidget {
 }
 
 class _ProductsState extends State<Products> {
-  List productList = [
-    {
-      'quantity': 1,
-      "id": 1,
-      "picture": "lib/assets/images/products/blazer1.jpeg",
-      "old_price": 150,
-      "price": 55,
-      "name":
-          "Plus Button Back Guipure Lace Sleeve Belted Peplum TopPlus Button Back Guipure Lace Sleeve Belted Peplum TopPlus Button Back Guipure Lace Sleeve Belted Peplum Top",
-    },
-    {
-      'quantity': 1,
-      "id": 2,
-      "picture": "lib/assets/images/products/blazer2.jpeg",
-      "old_price": 120,
-      "price": 85,
-      "name":
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ut aliquet libero, sit amet feugiat eros. Quisque in ante augue. Nullam sed "
-    },
-    {
-      'quantity': 1,
-      "picture": "lib/assets/images/products/dress1.jpeg",
-      "old_price": 100,
-      "price": 50,
-      "name":
-          "laoreet enim vel, suscipit enim. Proin porta elit sed justo blandit, eu placerat leo elementum"
-    }
-  ];
+  List productList = DataProvider.productList;
 
   @override
   Widget build(BuildContext context, [bool isFavorite]) {
@@ -58,34 +34,57 @@ class _ProductsState extends State<Products> {
             padding: const EdgeInsets.only(top: 12.0),
             child: SingleProd(
               allProuct: productList[index],
+              prodId: productList[index]['id'],
               prodName: productList[index]['name'],
               prodPricture: productList[index]['picture'],
               prodOldPrice: productList[index]['old_price'],
               prodPrice: productList[index]['price'],
+              prodFav: productList[index]['isfav'],
               //prodDesc: productList[index]['description'],
             ),
           );
         });
   }
 }
-
-class SingleProd extends StatelessWidget {
+class SingleProd extends StatefulWidget {
   final allProuct;
+  final prodId;
   final prodName;
   final prodPricture;
   final prodOldPrice;
   final prodPrice;
+  bool prodFav;
   //final prodDesc;
 
   SingleProd({
     this.allProuct,
+    this.prodId,
     this.prodName,
     this.prodPricture,
     this.prodOldPrice,
     this.prodPrice,
+    this.prodFav
     //this.prodDesc,
   });
+  @override
+  _SingleProdState createState() => _SingleProdState();
+}
 
+class _SingleProdState extends State<SingleProd> {
+  bool isFav;
+  Color favColor=Colors.grey;
+
+
+  @override
+  void initState() {
+   if(widget.allProuct['isfav']==true){
+     favColor=Colors.red;
+   }
+   else if(widget.allProuct['isfav']==false){
+     favColor=Colors.grey;
+   }
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -108,12 +107,8 @@ class SingleProd extends StatelessWidget {
                             width: 45.0,
                             height: 20.0,
                             color: Color(0XFFff2b2b),
-                            child: Text(
-                              "New",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Colors.white,
-                              ),
+                            child: Text("New", textAlign: TextAlign.center,
+                              style: TextStyle(color: Colors.white,),
                             ),
                           ),
                         ),
@@ -125,17 +120,12 @@ class SingleProd extends StatelessWidget {
                 decoration: new BoxDecoration(
                   image: new DecorationImage(
                     fit: BoxFit.cover,
-                    image: AssetImage(prodPricture),
+                    image: NetworkImage(widget.prodPricture),
                   ),
                 ),
               ),
               onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            ProductDetails(product: allProuct)));
-              },
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ProductDetails(product: widget.allProuct)));},
             ),
             new Padding(
               padding: EdgeInsets.all(10.0),
@@ -150,7 +140,7 @@ class SingleProd extends StatelessWidget {
                         child: Row(
                           children: <Widget>[
                             new Text(
-                              " $prodPrice \EGY ",
+                              " ${widget.prodPrice} \EGY ",
                               style: new TextStyle(
                                   fontWeight: FontWeight.w700,
                                   fontSize:
@@ -158,7 +148,7 @@ class SingleProd extends StatelessWidget {
                                   color: Color(0XFF161a28)),
                             ),
                             new Text(
-                              "$prodOldPrice\EGY",
+                              "${widget.prodOldPrice}\EGY",
                               style: TextStyle(
                                   color: Color(0XFF7f7f7f),
                                   fontWeight: FontWeight.w100,
@@ -178,9 +168,22 @@ class SingleProd extends StatelessWidget {
                             alignment: Alignment.center,
                             icon: Icon(
                               Icons.favorite,
-                              color:Colors.grey ,
+                              color:favColor ,
                             ),
-                            onPressed: () {}),
+                            onPressed: ()async {
+                              var db = new DatabaseManager();
+//                      int insert=await db.saveProduct(new Product(
+//                        'lcwkiki','njknjkjkjkjbjkbjkbjk','https://www.logaster.com/blog/wp-content/uploads/2013/06/jpg.png','EGY',500, 300,1, 1),
+//                      );
+//                      print("saved Product : $insert");
+                         List  myUsers = await db.getAllUsers();
+                              for(int i =0 ; i < myUsers.length;i++){
+                                Product product = Product.map(myUsers[i]);
+                                print('ID: ${product.title} - username: ${product.description} - city: ${product.isFavorite}');
+
+                              }
+                           }
+                            ),
                       ),
                     ],
                   ),
@@ -192,7 +195,7 @@ class SingleProd extends StatelessWidget {
                           color: Colors.white,
                           height: SizeConfig.safeBlockVertical * 4,
                           child: Text(
-                            "$prodName",
+                            "${widget.prodName}",
                             overflow: TextOverflow.ellipsis,
                             style: new TextStyle(
                                 fontWeight: FontWeight.w300,
