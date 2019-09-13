@@ -598,7 +598,7 @@ class HomeOffers extends StatelessWidget {
                                     style: TextStyle(
                                         fontSize: 12,
                                         fontWeight: FontWeight.bold),
-                                    maxLines: 5,
+                                    maxLines: 6,
                                   ),
                                 )
                               ]),
