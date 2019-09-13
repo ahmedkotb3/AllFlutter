@@ -366,7 +366,7 @@ class CategoriesList extends StatelessWidget {
                     //crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Container(
-                        padding: EdgeInsets.only(bottom: 15.0),
+                        padding: EdgeInsets.only(bottom: 7.0),
                         width: MediaQuery.of(context).size.width * 0.13,
                         child: Icon(
                           categories[index].catIcon,
@@ -590,8 +590,7 @@ class HomeOffers extends StatelessWidget {
                                   size: 18,
                                 ),
                               ]),
-                              Wrap(
-                                children: <Widget>[
+                              Wrap(children: <Widget>[
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
@@ -599,6 +598,7 @@ class HomeOffers extends StatelessWidget {
                                     style: TextStyle(
                                         fontSize: 12,
                                         fontWeight: FontWeight.bold),
+                                    maxLines: 5,
                                   ),
                                 )
                               ]),
