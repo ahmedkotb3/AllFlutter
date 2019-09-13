@@ -12,7 +12,7 @@ AppBar Mybar(String titleA, bool searchCartA,
   bool deleteItems = deleteItemsA;
   bool noback = noBack;
   return new AppBar(
-      elevation: 0.1,
+      elevation: 0,
       backgroundColor: Colors.white,
       leading: Builder(
         builder: (BuildContext context) {

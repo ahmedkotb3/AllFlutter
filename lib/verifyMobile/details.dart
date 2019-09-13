@@ -1,3 +1,4 @@
+import 'package:big/componets/appBar.dart';
 import 'package:flutter/material.dart';
 import '../componets/shopping_icons.dart';
 import '../Providers/DataProvider.dart';
@@ -13,7 +14,7 @@ class CodeTrue extends StatelessWidget {
   Widget build(BuildContext context) {
     // Use the Todo to create the UI.
     return Scaffold(
-      appBar: AppBar(),
+      appBar: Mybar("", false),
       body: SafeArea(
         child: Center(
           child: Column(
@@ -23,7 +24,7 @@ class CodeTrue extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Icon(
                   Shopping.mobile_true,
-                  size: 120.0,
+                  size: 140.0,
                   color: DataProvider().primary,
                 ),
               ),
@@ -38,7 +39,7 @@ class CodeTrue extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Color(0XFF3f3f3f), fontSize: 14.0),
               ),
-              SizedBox(height: 30.0),
+              SizedBox(height: 50.0),
               Container(
                 width: MediaQuery.of(context).size.width * .8,
                 height: MediaQuery.of(context).size.height * .08,
