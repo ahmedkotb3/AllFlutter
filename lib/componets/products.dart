@@ -172,10 +172,10 @@ class _SingleProdState extends State<SingleProd> {
                             ),
                             onPressed: ()async {
                               var db = new DatabaseManager();
-//                      int insert=await db.saveProduct(new Product(
-//                        'lcwkiki','njknjkjkjkjbjkbjkbjk','https://www.logaster.com/blog/wp-content/uploads/2013/06/jpg.png','EGY',500, 300,1, 1),
-//                      );
-//                      print("saved Product : $insert");
+                      int insert=await db.saveProduct(new Product(
+                        'lcwkiki','njknjkjkjkjbjkbjkbjk','https://www.logaster.com/blog/wp-content/uploads/2013/06/jpg.png','EGY',500, 300,1, 1),
+                      );
+                      print("saved Product : $insert");
                          List  myUsers = await db.getAllUsers();
                               for(int i =0 ; i < myUsers.length;i++){
                                 Product product = Product.map(myUsers[i]);
