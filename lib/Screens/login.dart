@@ -14,6 +14,7 @@ import './forget.dart';
 class LoginPage extends StatefulWidget {
   _LoginPageState createState() => _LoginPageState();
 }
+
 class _LoginPageState extends State<LoginPage> {
   String title = "Sign In";
   Color danger = DataProvider().primary;
@@ -225,8 +226,11 @@ class _LoginPageState extends State<LoginPage> {
     return TextFormField(
       decoration: InputDecoration(
         enabledBorder: OutlineInputBorder(
-            borderRadius: new BorderRadius.circular(5.0),
-            borderSide: BorderSide(color: DataProvider().primary)),
+          borderSide: BorderSide(color: DataProvider().primary),
+        ),
+        border: OutlineInputBorder(
+          borderRadius: new BorderRadius.circular(5.0),
+        ),
         labelText: 'Email',
         // icon: new Icon(Icons.email),
       ),
