@@ -185,38 +185,28 @@ class Checkoutbottom extends StatelessWidget {
 Widget shipmentFees(MainAxisAlignment jj) => Column(
       children: <Widget>[
         Row(
-          mainAxisAlignment: jj,
-          children: <Widget>[
-            Text('Sum'),
-            SizedBox(
-              width: 20,
-            ),
-            Text('3000 EGP')
-          ],
-        ),
-        Row(
-          mainAxisAlignment: jj,
-          children: <Widget>[
-            Text('Shipping fees'),
-            SizedBox(
-              width: 20,
-            ),
-            Text('3000 EGP')
-          ],
-        ),
-        Row(
-          mainAxisAlignment: jj,
-          children: <Widget>[
-            Text('Discount'),
-            SizedBox(
-              width: 20,
-            ),
-            Text('3000 EGP')
-          ],
-        ),
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text('Sum'),
+                  Text('Shipping fees'),
+                  Text('Discount'),
+                ],
+              ), //Spacer(),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: <Widget>[
+                  Text('3000 EGP'),
+                  Text('300000 EGP'),
+                  Text('30000 EGP'),
+                ],
+              ),
+            ]),
         Divider(),
         Row(
-          mainAxisAlignment: jj,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Text(
               'TOTAL AMOUNT',

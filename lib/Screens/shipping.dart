@@ -29,12 +29,12 @@ class _ShippingState extends State<Shipping> {
         appBar: Mybar("Shipping", false),
         body: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.all(32.0),
+            padding: EdgeInsets.only(right:32.0,left:32.0,bottom:32.0),
             child: Column(children: <Widget>[
               CustomProgressBar(2),
               SizedBox(height: hieghtAll),
               Container(
-                height: 42.0,
+                height: 52.0,
                 width: double.infinity,
                 decoration: BoxDecoration(
                     border: Border.all(color: DataProvider().primary),

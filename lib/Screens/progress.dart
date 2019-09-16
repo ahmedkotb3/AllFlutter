@@ -22,7 +22,7 @@ class ProgressBar extends StatelessWidget {
 //line height
   final double lineHeight;
 //header textstyle
-  final TextStyle _headerStyle;
+  // final TextStyle _headerStyle;
 //steps text
   final TextStyle _stepStyle;
 
@@ -31,7 +31,7 @@ class ProgressBar extends StatelessWidget {
   List<Widget> _buildText() {
     var wids = <Widget>[];
     _stepsText.asMap().forEach((i, text) {
-      wids.add(Text(text, style: _stepStyle));
+      wids.add(Text(text, style: _stepStyle,textAlign: TextAlign.center,));
     });
 
     return wids;
@@ -72,7 +72,7 @@ class ProgressBar extends StatelessWidget {
     double dotRadius,
     Color activeColor,
     Color inactiveColor,
-    TextStyle headerStyle,
+    //TextStyle headerStyle,
     TextStyle stepsStyle, {
     Key key,
     this.decoration,
@@ -86,7 +86,7 @@ class ProgressBar extends StatelessWidget {
         _dotRadius = dotRadius,
         _activeColor = activeColor,
         _inactiveColor = inactiveColor,
-        _headerStyle = headerStyle,
+        //_headerStyle = headerStyle,
         _stepStyle = stepsStyle,
         assert(curStep > 0 == true && curStep <= stepsText.length),
         assert(width > 0),

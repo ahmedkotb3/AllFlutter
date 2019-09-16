@@ -31,7 +31,7 @@ class _PaymentState extends State<Payment> {
         appBar: Mybar("Proceed to Payment", false),
         body: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.all(32.0),
+            padding: EdgeInsets.only(right:32.0,left:32.0,bottom:32.0),
             child: Column(children: <Widget>[
               CustomProgressBar(4),
               SizedBox(height: 15.0),
