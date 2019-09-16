@@ -1,3 +1,4 @@
+import 'package:big/Providers/AuthProvider.dart';
 import 'package:big/componets/appBar.dart';
 import 'package:flutter/material.dart';
 import '../componets/shopping_icons.dart';
@@ -6,7 +7,6 @@ import './details.dart';
 import './main.dart';
 import 'package:big/model/User.dart';
 import 'package:provider/provider.dart';
-import 'package:big/Providers/api.dart';
 
 class CodeVerifity extends StatefulWidget {
   final User userdata;
@@ -41,11 +41,7 @@ class CodeVerifityState extends State<CodeVerifity> {
                                 style: TextStyle(
                                     fontSize: 20, fontWeight: FontWeight.bold)),
                             SizedBox(height: 30.0),
-                            Icon(
-                              Shopping.mobile_message,
-                              size: 100.0,
-                              color: DataProvider().primary,
-                            ),
+                            Icon(Shopping.mobile_message, size: 100.0, color: DataProvider().primary),
                             SizedBox(height: 30.0),
                             Padding(
                               padding: const EdgeInsets.only(top: 20.0),
@@ -68,19 +64,14 @@ class CodeVerifityState extends State<CodeVerifity> {
                                     contentPadding: EdgeInsets.fromLTRB(
                                         20.0, 15.0, 20.0, 15.0),
                                     hintText: "Enter The Code",
-                                    border: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(5.0))),
+                                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0))),
                               ),
                             ),
                             Text('Didnt recive the code?'),
                             Padding(
                               padding: const EdgeInsets.only(top: 0.0),
                               child: InkWell(
-                                child: Text(
-                                  'RESEND',
-                                  style: TextStyle(color: Colors.blue),
-                                ),
+                                child: Text('RESEND', style: TextStyle(color: Colors.blue),),
                                 onTap: () {},
                               ),
                             ),
@@ -100,14 +91,11 @@ class CodeVerifityState extends State<CodeVerifity> {
                                     print(userdata.getCode());
                                     print(userdata.getEmail());
 
-                                    var response = await Api()
-                                        .register("register", userdata);
+                                    var response = await AuthProvider()
+                                        .register(userdata);
                                     print(userdata.toJson());
 
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => CodeTrue()),
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => CodeTrue()),
                                     );
                                   },
                                 ))

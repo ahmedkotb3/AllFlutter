@@ -7,7 +7,6 @@ import 'package:big/Providers/DataProvider.dart';
 import 'package:big/SizeConfig.dart';
 
 class Products extends StatefulWidget {
-
   @override
   _ProductsState createState() => _ProductsState();
 }
@@ -55,7 +54,6 @@ class SingleProd extends StatefulWidget {
   final prodPrice;
   bool prodFav;
   //final prodDesc;
-
   SingleProd({
     this.allProuct,
     this.prodId,
@@ -173,8 +171,7 @@ class _SingleProdState extends State<SingleProd> {
                             onPressed: ()async {
                               var db = new DatabaseManager();
                       int insert=await db.saveProduct(new Product(
-                        'lcwkiki','njknjkjkjkjbjkbjkbjk','https://www.logaster.com/blog/wp-content/uploads/2013/06/jpg.png','EGY',500, 300,1, 1),
-                      );
+                        'lcwkiki','njknjkjkjkjbjkbjkbjk','https://www.logaster.com/blog/wp-content/uploads/2013/06/jpg.png','EGY',500, 300,1, 1),);
                       print("saved Product : $insert");
                          List  myUsers = await db.getAllUsers();
                               for(int i =0 ; i < myUsers.length;i++){

@@ -1,3 +1,4 @@
+import 'package:big/Screens/HomeScreen.dart';
 import 'package:big/componets/appBar.dart';
 import 'package:flutter/material.dart';
 import '../componets/shopping_icons.dart';
@@ -50,6 +51,8 @@ class CodeTrue extends StatelessWidget {
                         color: Colors.white, fontWeight: FontWeight.bold),
                   ),
                   onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => HomeScreen()));
+
                     //sendphone();
                     // Navigator.push(
                     //   context,

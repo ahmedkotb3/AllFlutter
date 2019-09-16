@@ -1,3 +1,4 @@
+import 'package:big/Providers/AuthProvider.dart';
 import 'package:big/componets/appBar.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,6 @@ import 'package:http/http.dart' as http;
 import 'package:async/async.dart';
 import 'package:big/model/User.dart';
 import 'package:provider/provider.dart';
-import 'package:big/Providers/api.dart';
 
 class Verify extends StatefulWidget {
   VerifyMobile createState() => VerifyMobile(newuser: newuser);
@@ -143,7 +143,7 @@ class VerifyMobile extends State<Verify> {
                               print(newuser.toJson());
 
                               var rsponse =
-                                  await Api().phoneVerify("message", newuser);
+                                  await AuthProvider().phoneVerify(newuser);
 
                               Navigator.push(
                                 context,

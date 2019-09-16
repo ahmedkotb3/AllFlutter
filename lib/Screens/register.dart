@@ -26,12 +26,9 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return MultiProvider(
     providers:[
-          ChangeNotifierProvider(
+      ChangeNotifierProvider(builder: (BuildContext context) => DataProvider(),),
 
-            builder: (BuildContext context) => DataProvider(),),
-
-    ChangeNotifierProvider(
-            builder: (_) => User(),)],
+      ChangeNotifierProvider(builder: (_) => User(),)],
 
       child: Consumer<User>(builder: (context, user, _) {
      return Scaffold(
@@ -45,25 +42,6 @@ class _RegisterPageState extends State<RegisterPage> {
                   padding: const EdgeInsets.all(15.0),
                   child: Column(
                     children: <Widget>[
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.center,
-                      //   children: <Widget>[
-                      //     FittedBox(
-                      //       fit:BoxFit.fitWidth,
-                      //       child: Text(
-                      //         'Create New Account',
-                      //         style: TextStyle(
-                      //             color: DataProvider().primary,
-                      //             fontWeight: FontWeight.bold,
-                      //             fontFamily: 'Poppins',
-                      //             fontSize: 28,
-                      //             height: 2.5),
-                      //         textAlign: TextAlign.center,
-                      //       ),
-                      //     ),
-                      //     SizedBox(height: 20,),
-                      //   ],
-                      // ),
                       Consumer<DataProvider>(
                         builder: (context, stateManager, _) =>
                             new Nameinput(nameController: nameController),
@@ -131,21 +109,18 @@ class _RegisterPageState extends State<RegisterPage> {
                       new SignUPButton(
                         nameController: nameController,
                         title: title,
-                        navigate: () {
+                        navigate: () async{
                           var myuser = Provider.of<User>(context);
                           myuser.setnameuser(nameController.text);
                           myuser.setemailuser(emailController.text);
                           myuser.setpassworduser(passwordController.text);
                           myuser.settypeuser('normal');
                           myuser.setdeviceIduser('12345678');
-
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Verify(
-                                        newuser: myuser,
-                                      )));
-
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => Verify(newuser: myuser)));
+                          SharedPreferences prefs = await SharedPreferences.getInstance();
+                          await prefs.setString('userName', nameController.text);
+                          await prefs.setString('userEmail', emailController.text);
+                          await prefs.setString('userPassword', passwordController.text);
                           print(myuser.toJson());
                         },
                       ),
@@ -208,11 +183,6 @@ class SignUPButton extends StatelessWidget {
   String title;
   Function navigate;
   final TextEditingController nameController;
-  void _signup() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('userName', nameController.text);
-  }
-
   @override
   Widget build(BuildContext context) {
     return ButtonTheme(

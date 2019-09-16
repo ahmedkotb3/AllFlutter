@@ -1,12 +1,13 @@
+import 'package:big/Providers/AuthProvider.dart';
 import 'package:big/Providers/DataProvider.dart';
 import 'package:big/Screens/ContactUs.dart';
 import 'package:big/Screens/FAQ.dart';
 import 'package:big/Screens/Settings.dart';
 import 'package:big/Screens/SubCategory.dart';
 import 'package:big/Screens/Terms.dart';
-import 'package:big/Screens/cart.dart';
 import 'package:big/Screens/editAccount.dart';
 import 'package:big/Screens/login.dart';
+import 'package:big/Screens/register.dart';
 import 'package:big/Screens/whishlist.dart';
 import 'package:big/componets/appBar.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,7 @@ import 'package:carousel_pro/carousel_pro.dart';
 import 'package:big/Screens/mall.dart';
 import 'package:big/Providers/Styles.dart';
 import 'package:big/componets/shopping_icons.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
@@ -21,7 +23,15 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  bool isLogin = false;
+  bool isLogin=true;
+  String userName="mohamed";
+  String userEmail="m@m.com";
+  String userImage="https://onlinecoursemasters.com/wp-content/uploads/2019/05/OCM-16-Maximilian-Schwarzmuller.jpg";
+  @override
+  void initState() {
+   getData();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -29,10 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
         home: Scaffold(
             appBar: AppBar(
               leading: IconButton(
-                icon: new Icon(
-                  Icons.menu,
-                  color: Colors.white,
-                ),
+                icon: new Icon(Icons.menu, color: Colors.white),
                 onPressed: () => _scaffoldKey.currentState.openDrawer(),
               ),
               elevation: 0,
@@ -52,14 +59,24 @@ class _HomeScreenState extends State<HomeScreen> {
             drawer: Drawer(
               child: ListView(
                 children: <Widget>[
-                  UserAccountsDrawerHeader(
-                    accountName: Text('EsamMax'),
-                    accountEmail: Text('Esam_Mouhamed'),
-                    currentAccountPicture: GestureDetector(
-                      child: InkWell(
+                 if(isLogin) UserAccountsDrawerHeader(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                    ),
+                    accountName: Row(
+                      children: <Widget>[
+                         Text(userName,style: TextStyle(color: DataProvider().primary,fontWeight: FontWeight.bold,fontSize: 18.0),),
+                      ],
+                    ),
+                    accountEmail: Row(
+                      children: <Widget>[
+                         Text(userEmail,style: TextStyle(color:DataProvider().primary,fontWeight: FontWeight.bold)
+                        ),
+                      ],
+                    ),
+                    currentAccountPicture: InkWell(
                         child: new CircleAvatar(
-                          backgroundImage: NetworkImage(
-                              'https://freedesignfile.com/upload/2017/09/Young-woman-shopping-online-at-home-Stock-Photo-19.jpg'),
+                          backgroundImage: NetworkImage(userImage),
                           child: Stack(
                             children: <Widget>[
                               Padding(
@@ -67,32 +84,64 @@ class _HomeScreenState extends State<HomeScreen> {
                                 child: Material(
                                   child: Icon(
                                     Icons.edit,
-                                    color: Colors.white,
+                                    color: DataProvider().primary,
                                   ),
-                                  color: Colors.blue[100],
-                                  elevation: .1,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(30.0)),
+                                  color: Colors.white,
+                                  elevation: 10.1,
+                                  borderRadius: BorderRadius.all(Radius.circular(30.0)),
                                 ),
                               )
                             ],
                           ),
                         ),
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => EditAccount()));
-                        },
+                        onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => EditAccount()));},
                       ),
+                  )else UserAccountsDrawerHeader(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                    ),
+                    accountName: Row(
+                      children: <Widget>[
+                        InkWell(child: Text('SIGN IN',style: TextStyle(color: DataProvider().primary,fontWeight: FontWeight.bold,fontSize: 18.0),),
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));},),
+                      ],
+                    ),
+                    accountEmail: Row(
+                      children: <Widget>[
+                        Text("Don't have an account?",style: TextStyle(color:Colors.black,fontWeight: FontWeight.bold),),
+                        InkWell(child: Text("SIGN UP",style: TextStyle(color:DataProvider().primary,fontWeight: FontWeight.bold)),
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>RegisterPage()));
+                          },
+                        ),
+                      ],
+                    ),
+                    currentAccountPicture: InkWell(
+                      child: new CircleAvatar(
+                        backgroundImage: NetworkImage(
+                            "https://cdn0.iconfinder.com/data/icons/avatar-78/128/12-512.png"),
+                        child: Stack(
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.only(left: 50, bottom: 50),
+                              child: Material(
+                                child: Icon(
+                                  Icons.edit,
+                                  color: DataProvider().primary,
+                                ),
+                                color: Colors.white,
+                                elevation: 10.1,
+                                borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => EditAccount()));},
                     ),
                   ),
                   Divider(),
-                  if (!isLogin)
-                    DrawerlistTile(Icons.account_circle, 'Login', () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => LoginPage()));
-                    }),
                   DrawerlistTile(Icons.favorite, 'WishList', () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => Wishlist()));
@@ -118,7 +167,16 @@ class _HomeScreenState extends State<HomeScreen> {
                         MaterialPageRoute(builder: (context) => ContactUs()));
                   }),
                   if (isLogin)
-                    DrawerlistTile(Icons.exit_to_app, 'Logout', () {}),
+                    DrawerlistTile(Icons.exit_to_app, 'Logout', () async{
+                      SharedPreferences prefs = await SharedPreferences.getInstance();
+                      setState(() {
+                        isLogin=false;
+                        prefs.clear();
+                        AuthProvider().googleLogout();
+                        AuthProvider().logoutFace();
+
+                      });
+                    }),
                 ],
               ),
             ),
@@ -134,6 +192,18 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             )));
+  }
+  Future getData()async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      if((prefs.containsKey('userName')&&prefs.containsKey('userEmail'))) {
+        userName = prefs.getString('userName');
+        userEmail = prefs.getString('userEmail');
+      }else{
+        isLogin=false;
+      }
+    });
+
   }
 }
 
@@ -156,7 +226,7 @@ class DrawerlistTile extends StatelessWidget {
           children: <Widget>[
             Icon(
               draweIcon,
-              color: Colors.blue,
+              color: DataProvider().primary,
             ),
             SizedBox(
               width: 8,
