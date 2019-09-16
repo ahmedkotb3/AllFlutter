@@ -1,6 +1,6 @@
 import 'package:big/Providers/ColorsProvider.dart';
 import 'package:big/Providers/DataProvider.dart';
-import 'package:big/Screens/checkout.dart';
+import 'package:big/Screens/shipping.dart';
 import 'package:big/componets/appBar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -15,13 +15,13 @@ class _CartPageState extends State<CartPage> {
   int counter = 1;
   int itemPrice;
   int totalPrice = 0;
-  Color iconColor=Colors.grey;
+  Color iconColor = Colors.grey;
   bool isBagFull = true;
   String dropdownValue = 'Delete all Items';
 
   initState() {
-    for(int i=0;i<productList.length;i++){
-      totalPrice+=productList[i]['price'];
+    for (int i = 0; i < productList.length; i++) {
+      totalPrice += productList[i]['price'];
     }
     super.initState();
   }
@@ -56,7 +56,11 @@ class _CartPageState extends State<CartPage> {
                 ),
                 RaisedButton(
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => Checkout()));},
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) => Shipping()));
+                  },
                   child: Text(
                     "CHECKOUT",
                     style: TextStyle(
@@ -70,151 +74,186 @@ class _CartPageState extends State<CartPage> {
             ),
           ),
         ),
-        body: Consumer<DataProvider>(
-          builder: (context, dataProvider, _) => ListView.builder(
-            scrollDirection: Axis.vertical,
-            itemCount: DataProvider().cartItems,
-            itemBuilder: (context, index) {
-              return Column(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Container(
-                      child: new FittedBox(
-                        child: Material(
-                            color: Colors.white,
-                            elevation: 14.0,
-                            borderRadius: BorderRadius.circular(24.0),
-                            shadowColor: Color(0x802196F3),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Container(
-                                  width: 150.0,
-                                  height: 218.0,
-                                  child: ClipRRect(
-                                    borderRadius:
-                                        new BorderRadius.circular(24.0),
-                                    child: Image(
-                                        fit: BoxFit.contain,
-                                        alignment: Alignment.topLeft,
-                                        image: NetworkImage(
-                                            productList[index]['picture'])),
-                                  ),
-                                ),
-                                Container(
-                                  height: 218.0,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(right: 16.0),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(right: 8.0),
-                                          child: Container(
-                                              child: Row(
-                                            children: <Widget>[
-                                              Container(
-                                                  width: 200.0,
-                                                  child: Padding(padding: const EdgeInsets.all(8.0),
-                                                    child: Text(
-                                                      productList[index]
-                                                          ['name'],
-                                                      maxLines: 4,
-                                                      textAlign: TextAlign.center, style: TextStyle(fontSize: 20.0),
-                                                    ),
-                                                  )),
-                                            ],
-                                          )),
-                                        ),
-                                        Container(
-                                            child: Text(
-                                          "${productList[index]['price']}",
-                                          style: TextStyle(
-                                              color: ColorProvider().primary,
-                                              fontSize: 25.0,
-                                              fontWeight: FontWeight.bold),
-                                        )),
-                                        Container(
-                                          child: Row(
-                                            children: <Widget>[
-                                              IconButton(
-                                                onPressed: () {
-                                                  if (counter > 1) {
-                                                    setState(() {
-                                                      counter--;
-                                                      itemPrice = productList[index]['price'] * counter;
-                                                      print("lluuuuuuuuuuuuul**$totalPrice");
-                                                      totalPrice -= productList[index]['price'];
-                                                    });
-                                                  }
-                                                },
-                                                icon: Icon(Icons.remove_circle),
-                                                color: ColorProvider().primary,
-                                                iconSize: 50.0,
-                                              ),
-                                              Text("${counter}", style: TextStyle(fontSize: 30.0),),
-                                              IconButton(
-                                                onPressed: () {
-                                                  setState(() {
-                                                    counter++;
-                                                    itemPrice = productList[index]['price'] * counter;
-                                                    print("lluuuuuuuuuuuuul**$totalPrice");
-                                                    totalPrice += productList[index]['price'];
-                                                  });
-                                                },
-                                                icon: Icon(Icons.add_circle),
-                                                color: ColorProvider().primary,
-                                                iconSize: 50.0,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
+        body: //Column(
+          //children: <Widget>[
+            //Shipping(),
+            Consumer<DataProvider>(
+              builder: (context, dataProvider, _) => ListView.builder(
+                scrollDirection: Axis.vertical,
+                itemCount: DataProvider().cartItems,
+                itemBuilder: (context, index) {
+                  return Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Container(
+                          child: new FittedBox(
+                            child: Material(
+                                color: Colors.white,
+                                elevation: 14.0,
+                                borderRadius: BorderRadius.circular(24.0),
+                                shadowColor: Color(0x802196F3),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Container(
+                                      width: 150.0,
+                                      height: 218.0,
+                                      child: ClipRRect(
+                                        borderRadius:
+                                            new BorderRadius.circular(24.0),
+                                        child: Image(
+                                            fit: BoxFit.contain,
+                                            alignment: Alignment.topLeft,
+                                            image: NetworkImage(
+                                                productList[index]['picture'])),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                                Container(
-                                  height: 218,
-                                  child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: <Widget>[
-                                      IconButton(
-                                        icon: Icon(Icons.close),
-                                        iconSize: 40.0,
-                                        onPressed: () {},
+                                    Container(
+                                      height: 218.0,
+                                      child: Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 16.0),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: <Widget>[
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  right: 8.0),
+                                              child: Container(
+                                                  child: Row(
+                                                children: <Widget>[
+                                                  Container(
+                                                      width: 200.0,
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8.0),
+                                                        child: Text(
+                                                          productList[index]
+                                                              ['name'],
+                                                          maxLines: 4,
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: TextStyle(
+                                                              fontSize: 20.0),
+                                                        ),
+                                                      )),
+                                                ],
+                                              )),
+                                            ),
+                                            Container(
+                                                child: Text(
+                                              "${productList[index]['price']}",
+                                              style: TextStyle(
+                                                  color:
+                                                      ColorProvider().primary,
+                                                  fontSize: 25.0,
+                                                  fontWeight: FontWeight.bold),
+                                            )),
+                                            Container(
+                                              child: Row(
+                                                children: <Widget>[
+                                                  IconButton(
+                                                    onPressed: () {
+                                                      if (counter > 1) {
+                                                        setState(() {
+                                                          counter--;
+                                                          itemPrice =
+                                                              productList[index]
+                                                                      [
+                                                                      'price'] *
+                                                                  counter;
+                                                          print(
+                                                              "lluuuuuuuuuuuuul**$totalPrice");
+                                                          totalPrice -=
+                                                              productList[index]
+                                                                  ['price'];
+                                                        });
+                                                      }
+                                                    },
+                                                    icon: Icon(
+                                                        Icons.remove_circle),
+                                                    color:
+                                                        ColorProvider().primary,
+                                                    iconSize: 50.0,
+                                                  ),
+                                                  Text(
+                                                    "${counter}",
+                                                    style: TextStyle(
+                                                        fontSize: 30.0),
+                                                  ),
+                                                  IconButton(
+                                                    onPressed: () {
+                                                      setState(() {
+                                                        counter++;
+                                                        itemPrice =
+                                                            productList[index]
+                                                                    ['price'] *
+                                                                counter;
+                                                        print(
+                                                            "lluuuuuuuuuuuuul**$totalPrice");
+                                                        totalPrice +=
+                                                            productList[index]
+                                                                ['price'];
+                                                      });
+                                                    },
+                                                    icon:
+                                                        Icon(Icons.add_circle),
+                                                    color:
+                                                        ColorProvider().primary,
+                                                    iconSize: 50.0,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                      IconButton(
-                                        icon: Icon(Icons.favorite),
-                                        iconSize: 40.0,
-                                        color: iconColor,
-                                        onPressed: () {
-                                          setState(() {
-                                            if(iconColor==Colors.grey){
-                                              iconColor=Colors.red;
-                                            }
-                                            else if(iconColor==Colors.red){
-                                              iconColor=Colors.grey;
-                                            }
-                                          });
-                                        },
+                                    ),
+                                    Container(
+                                      height: 218,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: <Widget>[
+                                          IconButton(
+                                            icon: Icon(Icons.close),
+                                            iconSize: 40.0,
+                                            onPressed: () {},
+                                          ),
+                                          IconButton(
+                                            icon: Icon(Icons.favorite),
+                                            iconSize: 40.0,
+                                            color: iconColor,
+                                            onPressed: () {
+                                              setState(() {
+                                                if (iconColor == Colors.grey) {
+                                                  iconColor = Colors.red;
+                                                } else if (iconColor ==
+                                                    Colors.red) {
+                                                  iconColor = Colors.grey;
+                                                }
+                                              });
+                                            },
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            )),
+                                    ),
+                                  ],
+                                )),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                ],
-              );
-            },
-          ),
-        ),
+                    ],
+                  );
+                },
+              ),
+            ),
+        //   ],
+        // ),
       ),
     );
   }

@@ -1,3 +1,5 @@
+import 'package:big/Screens/customProgess.dart';
+import 'package:big/Screens/payment.dart';
 import 'package:big/Screens/submittedPage.dart';
 import 'package:big/componets/appBar.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +25,7 @@ class CheckoutState extends State<Checkout> {
           padding: const EdgeInsets.all(10.0),
           child: Column(
             children: <Widget>[
+              CustomProgressBar(3),
               Container(
                 width: MediaQuery.of(context).size.width,
                 child: Card(
@@ -51,7 +54,7 @@ class CheckoutState extends State<Checkout> {
               Container(
                 width: MediaQuery.of(context).size.width,
                 child: Card(
-                  child: shipmentFees(),
+                  child: shipmentFees(MainAxisAlignment.end),
                 ),
               ),
               Checkoutbottom(),
@@ -167,8 +170,10 @@ class Checkoutbottom extends StatelessWidget {
                 color: Colors.blue,
                 child: Text('PLACE ORDER'),
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => SubmittedPage()));
-
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) => Payment()));
                 },
               ))
         ],
@@ -177,10 +182,10 @@ class Checkoutbottom extends StatelessWidget {
   }
 }
 
-Widget shipmentFees() => Column(
+Widget shipmentFees(MainAxisAlignment jj) => Column(
       children: <Widget>[
         Row(
-          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisAlignment: jj,
           children: <Widget>[
             Text('Sum'),
             SizedBox(
@@ -190,7 +195,7 @@ Widget shipmentFees() => Column(
           ],
         ),
         Row(
-          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisAlignment: jj,
           children: <Widget>[
             Text('Shipping fees'),
             SizedBox(
@@ -200,7 +205,7 @@ Widget shipmentFees() => Column(
           ],
         ),
         Row(
-          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisAlignment: jj,
           children: <Widget>[
             Text('Discount'),
             SizedBox(
@@ -211,13 +216,19 @@ Widget shipmentFees() => Column(
         ),
         Divider(),
         Row(
-          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisAlignment: jj,
           children: <Widget>[
-            Text('TOTAL AMOUNT',style: TextStyle(color: Colors.blue),),
+            Text(
+              'TOTAL AMOUNT',
+              style: TextStyle(color: Colors.blue),
+            ),
             SizedBox(
               width: 20,
             ),
-            Text('3000 EGP',style: TextStyle(color: Colors.red),)
+            Text(
+              '3000 EGP',
+              style: TextStyle(color: Colors.red),
+            )
           ],
         ),
       ],

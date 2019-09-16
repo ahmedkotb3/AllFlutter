@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:big/Providers/ColorsProvider.dart';
 import 'package:big/Screens/changePassword.dart';
 import 'package:big/componets/appBar.dart';
+import 'package:big/componets/buildTextForm.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -132,7 +133,7 @@ class _EditAccountState extends State<EditAccount> {
                 SizedBox(height: hieghtAll),
                 InkWell(
                   child: buildTextForm(null, "Edit Password", null,
-                      Icon(Icons.edit), null, false, 1, false),
+                      Icon(Icons.edit), null, false, true,1, false),
                   onTap: () {
                     Navigator.push(
                       context,
@@ -260,33 +261,6 @@ class _EditAccountState extends State<EditAccount> {
     );
   }
 
-  Container buildTextForm(TextEditingController takeInput, String oldData,
-      [String sideText,
-      Icon sideIcon,
-      TextInputType mytype,
-      bool secret = false,
-      int lines,
-      bool Enabled = true]) {
-    return new Container(
-      decoration: BoxDecoration(
-        border: Border.all(color: ColorProvider().primary),
-        borderRadius: BorderRadius.circular(5.0),
-      ),
-      child: TextFormField(
-        enabled: Enabled,
-        decoration: InputDecoration(
-          suffixText: sideText,
-          hintText: oldData,
-          suffixIcon: sideIcon,
-          contentPadding: EdgeInsets.all(15.0),
-        ),
-        obscureText: secret,
-        keyboardType: mytype,
-        maxLines: lines,
-        controller: takeInput,
-        style: TextStyle(
-            fontWeight: FontWeight.bold, color: ColorProvider().primary),
-      ),
-    );
-  }
+  
+  
 }
