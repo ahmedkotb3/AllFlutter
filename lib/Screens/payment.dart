@@ -23,6 +23,7 @@ class _PaymentState extends State<Payment> {
   String democardno = "1234 - 5678 - 3459 - 2456";
   String demoexpiryDate = "05 / 21";
   String democvv = "123";
+  String dropdownValue = 'Cash on Delivery';
 
   @override
   Widget build(BuildContext context) {
@@ -31,18 +32,71 @@ class _PaymentState extends State<Payment> {
         appBar: Mybar("Proceed to Payment", false),
         body: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.only(right:32.0,left:32.0,bottom:32.0),
+            padding: EdgeInsets.only(right: 32.0, left: 32.0, bottom: 32.0),
             child: Column(children: <Widget>[
               CustomProgressBar(4),
               SizedBox(height: 15.0),
-              buildTextForm(cardNameController, demoname, "CARDHOLDER NAME",
-                  null, TextInputType.text),
-              buildTextForm(cardNoController, democardno, "CARD NUMBER", null,
-                  TextInputType.text, false, false),
-              buildTextForm(expiresDataController, demoexpiryDate,
-                  "EXPIRE DATE", null, TextInputType.datetime, true, false),
-              buildTextForm(cvvController, democvv, "CVV", null,
-                  TextInputType.number, true),
+              Container(
+                decoration: BoxDecoration(
+                    border: Border.all(color: DataProvider().primary),
+                    borderRadius: BorderRadius.circular(5.0)),
+                width: double.infinity,
+                child: DropdownButtonHideUnderline(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: DropdownButton<String>(
+                      value: dropdownValue,
+                      icon: Icon(
+                        Icons.arrow_drop_down,
+                        color: DataProvider().primary,
+                      ),
+                      iconSize: 24,
+                      elevation: 16,
+                      style: TextStyle(color: DataProvider().primary),
+                      // underline: Container(
+                      //   height: 2,
+                      //   color: DataProvider().primary,
+                      // ),
+                      onChanged: (String newValue) {
+                        setState(() {
+                          dropdownValue = newValue;
+                        });
+                      },
+                      items: <String>[
+                        'Cash on Delivery',
+                        'Credit or Debit Card',
+                      ].map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 15.0),
+              dropdownValue == "Credit or Debit Card"
+                  ? Column(children: <Widget>[
+                      buildTextForm(cardNameController, demoname,
+                          "CARDHOLDER NAME", null, TextInputType.text),
+                      buildTextForm(cardNoController, democardno, "CARD NUMBER",
+                          null, TextInputType.text, false, false),
+                      buildTextForm(
+                          expiresDataController,
+                          demoexpiryDate,
+                          "EXPIRE DATE",
+                          null,
+                          TextInputType.datetime,
+                          false,
+                          false,
+                          1,
+                          true,
+                          5),
+                      buildTextForm(cvvController, democvv, "CVV", null,
+                          TextInputType.number, true, true, 1, true, 3),
+                    ])
+                  : Container(),
               SizedBox(height: 15.0),
               Container(
                 width: MediaQuery.of(context).size.width,

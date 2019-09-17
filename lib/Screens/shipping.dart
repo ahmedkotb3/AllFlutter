@@ -65,7 +65,7 @@ class _ShippingState extends State<Shipping> {
                   null, TextInputType.text),
               SizedBox(height: hieghtAll),
               buildTextForm(zipController, demozip, "Zip code", null,
-                  TextInputType.number),
+                  TextInputType.text),
               SizedBox(height: hieghtAll),
               Container(
                   width: MediaQuery.of(context).size.width * .85,
@@ -83,7 +83,9 @@ class _ShippingState extends State<Shipping> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (BuildContext context) => Checkout()));
+                              builder: (BuildContext context) => Checkout(
+                                addressController,_selected, landmarkController,zipController
+                              )));
                     },
                   ))
             ]),
