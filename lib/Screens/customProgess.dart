@@ -1,3 +1,4 @@
+import 'package:big/Providers/DataProvider.dart';
 import 'package:big/Screens/HomeScreen.dart';
 import 'package:big/Screens/cart.dart';
 import 'package:big/Screens/checkout.dart';
@@ -8,16 +9,14 @@ import 'package:big/componets/appBar.dart';
 import 'package:flutter/material.dart';
 
 class CustomProgressBar extends StatefulWidget {
-   final int currentpage ;
-   CustomProgressBar(this.currentpage);
-   @override
-   _CustomProgressBarState createState() => _CustomProgressBarState();
- }
- 
- class _CustomProgressBarState extends State<CustomProgressBar> { 
+  final int currentpage;
+  CustomProgressBar(this.currentpage);
+  @override
+  _CustomProgressBarState createState() => _CustomProgressBarState();
+}
 
-   
-  final _stepsText = ["CART", "SHIPPING", "CHECKOUT","COMPLITED"];
+class _CustomProgressBarState extends State<CustomProgressBar> {
+  final _stepsText = ["CART", "SHIPPING", "CHECKOUT", "COMPLITED"];
 
   final _stepCircleRadius = 10.0;
 
@@ -27,17 +26,19 @@ class CustomProgressBar extends StatefulWidget {
 
   Color _inactiveColor = Color(0xffe3eaff);
 
-  TextStyle _headerStyle =
-      TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold);
+  // TextStyle _headerStyle =
+  //     TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold);
 
-  TextStyle _stepStyle = TextStyle(fontSize: 12.0, fontWeight: FontWeight.bold);
-
+  TextStyle _stepStyle = TextStyle(
+      fontSize: 12.0,
+      fontWeight: FontWeight.bold,
+      color: DataProvider().primary);
 
   int _curPage = 1;
 
   ProgressBar _getStepProgress() {
     setState(() {
-     _curPage = widget.currentpage; 
+      _curPage = widget.currentpage;
     });
     return ProgressBar(
       _stepsText,
@@ -47,7 +48,6 @@ class CustomProgressBar extends StatefulWidget {
       _stepCircleRadius,
       _activeColor,
       _inactiveColor,
-      _headerStyle,
       _stepStyle,
       decoration: BoxDecoration(color: Colors.white),
       padding: EdgeInsets.only(
@@ -57,25 +57,9 @@ class CustomProgressBar extends StatefulWidget {
       ),
     );
   }
-   @override
-   Widget build(BuildContext context) {
-    return 
-        Container(height: 70.0, child: _getStepProgress());
-        // Expanded(
-        //   child: PageView(
-        //   onPageChanged: (i) {
-        //     setState(() {
-        //       _curPage = i + 1;
-        //     });
-        //   },
-        //   children: <Widget>[
-        //     CartPage(),
-        //     HomeScreen(),
-        //     Checkout(),
-        //     RegisterPage(),
-        //   ],
-        // ),
-        // )
-      
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(height: 70.0, child: _getStepProgress());
   }
 }

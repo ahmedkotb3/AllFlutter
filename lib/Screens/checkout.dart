@@ -3,8 +3,14 @@ import 'package:big/Screens/payment.dart';
 import 'package:big/Screens/submittedPage.dart';
 import 'package:big/componets/appBar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_country_picker/flutter_country_picker.dart';
 
 class Checkout extends StatefulWidget {
+  TextEditingController address;
+  Country country;
+  TextEditingController landmark;
+  TextEditingController zip;
+  Checkout(this.address, this.country, this.landmark, this.zip);
   CheckoutState createState() => CheckoutState();
 }
 
@@ -39,7 +45,9 @@ class CheckoutState extends State<Checkout> {
                         Text('johndoe@example.com'),
                         Text('01270089499'),
                         Text(
-                            '236 - xyz st, San Francisco, CA \n Alexandria ,Egypt.')
+                            'Address: ${widget.address.text} ${widget.country.name}'),
+                        Text('Landmark: ${widget.landmark.text}'),
+                        Text('Zip: ${widget.zip.text}')
                       ],
                     ),
                   ),
@@ -185,38 +193,28 @@ class Checkoutbottom extends StatelessWidget {
 Widget shipmentFees(MainAxisAlignment jj) => Column(
       children: <Widget>[
         Row(
-          mainAxisAlignment: jj,
-          children: <Widget>[
-            Text('Sum'),
-            SizedBox(
-              width: 20,
-            ),
-            Text('3000 EGP')
-          ],
-        ),
-        Row(
-          mainAxisAlignment: jj,
-          children: <Widget>[
-            Text('Shipping fees'),
-            SizedBox(
-              width: 20,
-            ),
-            Text('3000 EGP')
-          ],
-        ),
-        Row(
-          mainAxisAlignment: jj,
-          children: <Widget>[
-            Text('Discount'),
-            SizedBox(
-              width: 20,
-            ),
-            Text('3000 EGP')
-          ],
-        ),
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text('Sum'),
+                  Text('Shipping fees'),
+                  Text('Discount'),
+                ],
+              ), //Spacer(),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: <Widget>[
+                  Text('3000 EGP'),
+                  Text('300000 EGP'),
+                  Text('30000 EGP'),
+                ],
+              ),
+            ]),
         Divider(),
         Row(
-          mainAxisAlignment: jj,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Text(
               'TOTAL AMOUNT',

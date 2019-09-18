@@ -29,12 +29,12 @@ class _ShippingState extends State<Shipping> {
         appBar: Mybar("Shipping", false),
         body: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.all(32.0),
+            padding: EdgeInsets.only(right:32.0,left:32.0,bottom:32.0),
             child: Column(children: <Widget>[
               CustomProgressBar(2),
               SizedBox(height: hieghtAll),
               Container(
-                height: 42.0,
+                height: 52.0,
                 width: double.infinity,
                 decoration: BoxDecoration(
                     border: Border.all(color: DataProvider().primary),
@@ -65,7 +65,7 @@ class _ShippingState extends State<Shipping> {
                   null, TextInputType.text),
               SizedBox(height: hieghtAll),
               buildTextForm(zipController, demozip, "Zip code", null,
-                  TextInputType.number),
+                  TextInputType.text),
               SizedBox(height: hieghtAll),
               Container(
                   width: MediaQuery.of(context).size.width * .85,
@@ -83,7 +83,9 @@ class _ShippingState extends State<Shipping> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (BuildContext context) => Checkout()));
+                              builder: (BuildContext context) => Checkout(
+                                addressController,_selected, landmarkController,zipController
+                              )));
                     },
                   ))
             ]),
