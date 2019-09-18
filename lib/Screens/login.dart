@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:toast/toast.dart';
 import 'package:big/Providers/AuthProvider.dart';
 import 'package:big/Providers/Styles.dart';
 import 'package:big/Screens/HomeScreen.dart';
@@ -21,6 +23,7 @@ class _LoginPageState extends State<LoginPage> {
   Color danger = DataProvider().primary;
   TextEditingController emailController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
+  var data;
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -47,8 +50,8 @@ class _LoginPageState extends State<LoginPage> {
                             controller: passwordController,
                             maxLength: 32,
                             validator: (value) {
-                              if (value.length < 6) {
-                                return 'Please enter Password more than 6 ';
+                              if (value.length < 8) {
+                                return 'Please enter Password more than 7 ';
                               }
                               return null;
                             },
@@ -90,13 +93,8 @@ class _LoginPageState extends State<LoginPage> {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[
                             FlatButton(
-                              child: Text(
-                                "Forget Your Password ?",
-                                style: TextStyle(
-                                  color: DataProvider().primary,
-                                  fontWeight: FontWeight.bold,
-                                  decoration: TextDecoration.underline,
-                                ),
+                              child: Text("Forget Your Password ?", style: TextStyle(color: DataProvider().primary,
+                                  fontWeight: FontWeight.bold, decoration: TextDecoration.underline),
                               ),
                               onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => ForgetPassword()),);
                               },
@@ -121,11 +119,17 @@ class _LoginPageState extends State<LoginPage> {
                                 onPressed: ()async {
                                   if (_formKey.currentState.validate()) {
                                     //auth in api
-                                    await AuthProvider().login('normal',emailController.text.trim(),passwordController.text);
-                                    //save user data in local storage
-                                    Navigator.of(context).pushReplacement(
-                                        new MaterialPageRoute(builder: (context) => new HomeScreen()));
-                                    print(emailController.text.trim());
+                                    await AuthProvider().login('normal', emailController.text.trim(),passwordController.text).then((res){
+                                       data=json.decode(res);
+                                      if(data["success"]==true){
+                                        print(data);
+                                        //save name & email & image & token and navigate to home page
+                                       goHome();
+                                      }//handling errors
+                                      else if(data["success"]==false){
+                                        Toast.show("Email and Password do not match", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
+                                      }
+                                    });
                                   }
                                 },
                                 child: Text("Sign In", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
@@ -155,7 +159,7 @@ class _LoginPageState extends State<LoginPage> {
                                       Shopping.facebook,
                                       color: DataProvider().primary,
                                     ),
-                                    onPressed: () {
+                                    onPressed: ()async {
                                       AuthProvider().loginWithFB();
                                     })),
                             SizedBox(width: 30),
@@ -175,8 +179,9 @@ class _LoginPageState extends State<LoginPage> {
                                       Shopping.google,
                                       color: DataProvider().primary,
                                     ),
-                                    onPressed: () {
-                                      AuthProvider().googleLogin();
+                                    onPressed: () async{
+                                   await   AuthProvider().googleLogin();
+                                   await  Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
                                     })),
                           ],
                         ),
@@ -192,7 +197,14 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-
+Future goHome()async{
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs.setString('userToken',data["data"]["token"]);
+  await prefs.setString('userName', data["data"]["user"]["name"]);
+  await prefs.setString('userEmail', data["data"]["user"]["email"]);
+  await prefs.setString('userImage', "https://cdn0.iconfinder.com/data/icons/avatar-78/128/12-512.png");
+  await Navigator.of(context).pushReplacement(new MaterialPageRoute(builder: (context) => new HomeScreen()));
+}
   TextFormField emailInput() {
     return TextFormField(
       decoration: InputDecoration(

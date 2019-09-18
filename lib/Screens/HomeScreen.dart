@@ -40,18 +40,12 @@ class _HomeScreenState extends State<HomeScreen> {
             appBar: AppBar(
               leading: IconButton(
                 icon: new Icon(Icons.menu, color: Colors.white),
-                onPressed: () => _scaffoldKey.currentState.openDrawer(),
-              ),
+                onPressed: () => _scaffoldKey.currentState.openDrawer()),
+            backgroundColor: DataProvider().primary,
               elevation: 0,
               titleSpacing: 50,
               title: new Text("My Title"),
               actions: <Widget>[
-                // new IconButton(
-                //   icon: new Icon(Shopping.shopping_bag_01),
-                //   onPressed: () {
-                //     Navigator.push(context,MaterialPageRoute(builder: (context) => CartPage()));
-                //   },
-                // ),
                 SearchCart(DataProvider().cartItems, false, false)
               ],
             ),
@@ -82,10 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               Padding(
                                 padding: EdgeInsets.only(left: 50, bottom: 50),
                                 child: Material(
-                                  child: Icon(
-                                    Icons.edit,
-                                    color: DataProvider().primary,
-                                  ),
+                                  child: Icon(Icons.edit, color: DataProvider().primary),
                                   color: Colors.white,
                                   elevation: 10.1,
                                   borderRadius: BorderRadius.all(Radius.circular(30.0)),
@@ -103,8 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     accountName: Row(
                       children: <Widget>[
                         InkWell(child: Text('SIGN IN',style: TextStyle(color: DataProvider().primary,fontWeight: FontWeight.bold,fontSize: 18.0),),
-                          onTap: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));},),
+                          onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));},),
                       ],
                     ),
                     accountEmail: Row(
@@ -168,14 +158,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   }),
                   if (isLogin)
                     DrawerlistTile(Icons.exit_to_app, 'Logout', () async{
-                      SharedPreferences prefs = await SharedPreferences.getInstance();
-                      setState(() {
-                        isLogin=false;
-                        prefs.clear();
-                        AuthProvider().googleLogout();
-                        AuthProvider().logoutFace();
-
-                      });
+                      ShowAlertDailog();
                     }),
                 ],
               ),
@@ -196,14 +179,55 @@ class _HomeScreenState extends State<HomeScreen> {
   Future getData()async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      if((prefs.containsKey('userName')&&prefs.containsKey('userEmail'))) {
+      if((prefs.containsKey('userName')&&prefs.containsKey('userEmail')&&prefs.containsKey('userImage'))) {
         userName = prefs.getString('userName');
         userEmail = prefs.getString('userEmail');
+        userImage=prefs.getString('userImage');
       }else{
         isLogin=false;
       }
     });
-
+  }
+  Future<void> ShowAlertDailog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape:RoundedRectangleBorder(borderRadius: new BorderRadius.circular(15.0)),
+          title: Text('Are you Sure ?'),
+          actions: <Widget>[
+            Row(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: RaisedButton(
+                    child: Text('Logout'),
+                    color: DataProvider().primary,
+                    onPressed: ()async {
+                      SharedPreferences prefs = await SharedPreferences.getInstance();
+                      setState(() {
+                        isLogin=false;
+                        prefs.clear();
+                        AuthProvider().googleLogout();
+                        AuthProvider().logoutFace();
+                      });
+                     await Navigator.of(context).pop();
+                    },
+                  ),
+                ), RaisedButton(
+                  child: Text('Cancel'),
+                  color: Colors.red,
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            ),
+          ],
+        );
+      },
+    );
   }
 }
 
@@ -224,13 +248,8 @@ class DrawerlistTile extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            Icon(
-              draweIcon,
-              color: DataProvider().primary,
-            ),
-            SizedBox(
-              width: 8,
-            ),
+            Icon(draweIcon, color: DataProvider().primary),
+            SizedBox(width: 8),
             Text(drawerItem),
           ],
         ),

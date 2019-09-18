@@ -22,6 +22,7 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController nameController = new TextEditingController();
   TextEditingController emailController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -40,95 +41,88 @@ class _RegisterPageState extends State<RegisterPage> {
               child: Center(
                 child: Padding(
                   padding: const EdgeInsets.all(15.0),
-                  child: Column(
-                    children: <Widget>[
-                      Consumer<DataProvider>(
-                        builder: (context, stateManager, _) =>
-                            new Nameinput(nameController: nameController),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Consumer<DataProvider>(
-                        builder: (context, stateManager, _) =>
-                            new EmailInput(emailController: emailController),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-
-                      Consumer<DataProvider>(
-                        builder: (context, dataProvider, _) => TextFormField(
-                          obscureText: dataProvider.securePassword,
-                          controller: passwordController,
-                          maxLength: 32,
-                          decoration: InputDecoration(
-                            enabledBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: DataProvider().primary),
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: new BorderRadius.circular(5.0),
-                            ),
-                            labelText: 'Password',
-//                            labelStyle: TextStyle(fontSize: 23),
-                            suffixIcon: new IconButton(
-                              icon: new Icon(
-                                Icons.remove_red_eye,
-                                color: danger,
-                              ),
-                              onPressed: () {
-                                if (danger == DataProvider().primary) {
-                                  setState(() {
-                                    danger = Colors.red;
-                                  });
-                                } else if (danger == Colors.red) {
-                                  setState(() {
-                                    danger = Colors.deepPurple;
-                                  });
-                                }
-                                bool viewHide =
-                                    dataProvider.securePassword == true
-                                        ? false
-                                        : true;
-                                dataProvider.securePassword = viewHide;
-                              },
-                            ),
-                          ),
-                          validator: (value) {
-                            return value.isEmpty
-                                ? "password is required"
-                                : null;
-                          },
-                          onSaved: (value) {},
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: <Widget>[
+                        Consumer<DataProvider>(
+                          builder: (context, stateManager, _) =>
+                              new Nameinput(nameController: nameController),
                         ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      new SignUPButton(
-                        nameController: nameController,
-                        title: title,
-                        navigate: () async{
-                          var myuser = Provider.of<User>(context);
-                          myuser.setnameuser(nameController.text);
-                          myuser.setemailuser(emailController.text);
-                          myuser.setpassworduser(passwordController.text);
-                          myuser.settypeuser('normal');
-                          myuser.setdeviceIduser('12345678');
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => Verify(newuser: myuser)));
-                          SharedPreferences prefs = await SharedPreferences.getInstance();
-                          await prefs.setString('userName', nameController.text);
-                          await prefs.setString('userEmail', emailController.text);
-                          await prefs.setString('userPassword', passwordController.text);
-                          print(myuser.toJson());
-                        },
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      new LoginScondButton(),
-                    ],
+                        SizedBox(height: 20),
+                        Consumer<DataProvider>(
+                          builder: (context, stateManager, _) =>
+                              new EmailInput(emailController: emailController),
+                        ),
+                        SizedBox(height: 20),
+
+                        Consumer<DataProvider>(
+                          builder: (context, dataProvider, _) => TextFormField(
+                            obscureText: dataProvider.securePassword,
+                            controller: passwordController,
+                            maxLength: 32,
+                            decoration: InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: DataProvider().primary),
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: new BorderRadius.circular(5.0),
+                              ),
+                              labelText: 'Password',
+//                            labelStyle: TextStyle(fontSize: 23),
+                              suffixIcon: new IconButton(
+                                icon: new Icon(Icons.remove_red_eye, color: danger),
+                                onPressed: () {
+                                  if (danger == DataProvider().primary) {
+                                    setState(() {
+                                      danger = Colors.red;
+                                    });
+                                  } else if (danger == Colors.red) {
+                                    setState(() {
+                                      danger = DataProvider().primary;
+                                    });
+                                  }
+                                  bool viewHide =
+                                      dataProvider.securePassword == true
+                                          ? false
+                                          : true;
+                                  dataProvider.securePassword = viewHide;
+                                },
+                              ),
+                            ),
+                            validator: (value) {
+                              if (value.length < 8) {
+                                return 'Please enter Password more than 6 ';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        new SignUPButton(
+                          nameController: nameController,
+                          title: title,
+                          navigate: () async{
+                            var myuser = Provider.of<User>(context);
+                            myuser.setnameuser(nameController.text.trim());
+                            myuser.setemailuser(emailController.text.trim());
+                            myuser.setpassworduser(passwordController.text.trim());
+                            myuser.settypeuser('normal');
+                            myuser.setdeviceIduser('12345678');
+                            SharedPreferences prefs = await SharedPreferences.getInstance();
+                            await prefs.setString('userName', nameController.text.trim());
+                            await prefs.setString('userEmail', emailController.text.trim());
+                            await prefs.setString('userPassword', passwordController.text.trim());
+                            await prefs.setString('userImage',"https://cdn0.iconfinder.com/data/icons/avatar-78/128/12-512.png");
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => Verify(newuser: myuser)));
+                            print(myuser.toJson());
+                          },
+                        ),
+                        SizedBox(height: 20),
+                        new LoginScondButton(),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -138,12 +132,8 @@ class _RegisterPageState extends State<RegisterPage> {
       );
       }
       ));
-    
-      
   }
-
 }
-
 class LoginScondButton extends StatelessWidget {
   const LoginScondButton({
     Key key,
@@ -179,7 +169,6 @@ class SignUPButton extends StatelessWidget {
     @required this.title,
     @required this.navigate,
   }) : super(key: key);
-
   String title;
   Function navigate;
   final TextEditingController nameController;
@@ -200,8 +189,7 @@ class SignUPButton extends StatelessWidget {
             title,
             style: TextStyle(color: Colors.white, fontSize: 20.0),
           ),
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
           onPressed: navigate,
           color: Colors.transparent,
         ),

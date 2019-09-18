@@ -1,5 +1,7 @@
 import 'dart:convert' as JSON;
+import 'dart:convert';
 import 'dart:io';
+
 import 'package:big/Screens/HomeScreen.dart';
 import 'package:big/Screens/login.dart';
 import 'package:big/model/User.dart';
@@ -10,6 +12,7 @@ import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'MainProvider.dart';
 
@@ -20,12 +23,22 @@ String loginUrl = MainProvider().baseUrl + customerAuth + "login";
 
 class AuthProvider with ChangeNotifier {
   BuildContext context;
+
   /////////////////////////////////Google Auth Login/////////////////////////////////////////////////
   GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
+
   googleLogin() async {
     try {
       await _googleSignIn.signIn();
-      String googleemail= _googleSignIn.currentUser.email;
+      String googleUsermail = _googleSignIn.currentUser.email;
+      String googleUserImage = _googleSignIn.currentUser.photoUrl;
+      String googleUserName = _googleSignIn.currentUser.displayName;
+      print(
+          'welcome from Google Auth name: ${googleUserName} email:${googleUsermail} image:${googleUserImage} ');
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setString('userName', googleUserName);
+      await prefs.setString('userEmail', googleUsermail);
+      await prefs.setString('userImage', googleUserImage);
       notifyListeners();
     } catch (err) {
       print(err);
@@ -34,7 +47,9 @@ class AuthProvider with ChangeNotifier {
 
   googleLogout() {
     _googleSignIn.signOut();
+    print("logout scsucccc");
   }
+
 ///////////////////////////////Facebook Auth Login/////////////////////////////////////////
   Map userProfile;
   final facebookLogin = FacebookLogin();
@@ -50,20 +65,24 @@ class AuthProvider with ChangeNotifier {
             'https://graph.facebook.com/v2.12/me?fields=name,picture,email&access_token=${token}');
         final profile = JSON.jsonDecode(graphResponse.body);
         print(profile);
-        Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => HomeScreen()));
         break;
       case FacebookLoginStatus.cancelledByUser:
         BuildContext context;
-        Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => LoginPage()));
         break;
       case FacebookLoginStatus.error:
         break;
     }
   }
+
   logoutFace() {
     facebookLogin.logOut();
     notifyListeners();
   }
+
   ///////////////////////////////////////////Device token//////////////////////////////////////////////////////
   //get device token
   Future<List<String>> getDeviceDetails() async {
@@ -87,8 +106,9 @@ class AuthProvider with ChangeNotifier {
 //if (!mounted) return;
     return [deviceName, deviceVersion, identifier];
   }
+
 ////////////////////////////////////////////Normal Login & Register////////////////////////////////////////////////////////////
-  register(User user) async {
+  Future register(User user) async {
     Response response = await post(registerUrl, body: {
       'name': user.getName(),
       'email': user.getEmail(),
@@ -112,16 +132,18 @@ class AuthProvider with ChangeNotifier {
     });
   }
 
-  login(String type,String email,String password)async{
-    Response response=await http.post(loginUrl,body: {
-  'email': email,
-  'password': password,
-  'type': type,
-});
-int statusCode = response.statusCode;
-print("statusCode:${statusCode}");
+  Future<String> login(String type, String email, String password) async {
+    Response response = await http.post(loginUrl, body: {
+      'email': email,
+      'password': password,
+      'type': type,
+    });
+    int statusCode = response.statusCode;
+    print("statusCode:${statusCode}");
 //save in local storge for take all data from user
-String body = response.body;
-print("body:$body");
+    var body = json.decode(response.body);
+//print('body $body');
+//print('userAuthToken:${body["data"]["token"]}');
+    return response.body;
   }
 }

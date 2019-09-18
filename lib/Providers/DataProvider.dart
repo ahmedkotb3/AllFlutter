@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
 class DataProvider with ChangeNotifier {
- Color primary = Colors.blue[900];
+ Color primary = Color (0xff193ca1);
  double paddingApp = 32.0;
  Color pperrywinkle = Color(0XFF7a90d6);
  bool securePassword = true;

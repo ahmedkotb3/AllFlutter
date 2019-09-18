@@ -104,6 +104,8 @@ class CodeVerifityState extends State<CodeVerifity> {
                       ),
                     ),
                   )));
-        }));
+
+        },)
+    );
   }
 }
