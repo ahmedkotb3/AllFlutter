@@ -1,13 +1,13 @@
+import 'package:big/Providers/AuthProvider.dart';
 import 'package:big/Providers/Styles.dart';
-import 'package:big/Screens/mall.dart';
 import 'package:big/componets/appBar.dart';
+import 'package:big/componets/shopping_icons.dart';
 import 'package:flutter/material.dart';
 import '../Providers/DataProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import './login.dart';
 import 'package:big/model/User.dart';
-import 'package:big/verifyMobile/codeVerify.dart';
 import 'package:big/verifyMobile/main.dart';
 
 
@@ -93,7 +93,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             ),
                             validator: (value) {
                               if (value.length < 8) {
-                                return 'Please enter Password more than 6 ';
+                                return 'Please enter Password more than 7 ';
                               }
                               return null;
                             },
@@ -104,6 +104,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           nameController: nameController,
                           title: title,
                           navigate: () async{
+                            if (_formKey.currentState.validate()) {
                             var myuser = Provider.of<User>(context);
                             myuser.setnameuser(nameController.text.trim());
                             myuser.setemailuser(emailController.text.trim());
@@ -115,11 +116,76 @@ class _RegisterPageState extends State<RegisterPage> {
                             await prefs.setString('userEmail', emailController.text.trim());
                             await prefs.setString('userPassword', passwordController.text.trim());
                             await prefs.setString('userImage',"https://cdn0.iconfinder.com/data/icons/avatar-78/128/12-512.png");
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => Verify(newuser: myuser)));
+                             await  Navigator.push(context, MaterialPageRoute(builder: (context) => Verify(newuser: myuser)));
                             print(myuser.toJson());
-                          },
+                          }
+                           },
                         ),
                         SizedBox(height: 20),
+                        Text('Or Sign up with', style: TextStyle(color: DataProvider().primary, fontSize: 18)),
+                        SizedBox(height: 25),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Container(
+                                width: 50,
+                                height: 50,
+                                decoration: BoxDecoration(
+                                  borderRadius: new BorderRadius.all(
+                                      new Radius.circular(50.0)),
+                                  border: new Border.all(
+                                    color: DataProvider().primary,
+                                    width: 2.0,
+                                  ),
+                                ),
+                                child: IconButton(padding: EdgeInsets.all(0.0), alignment: Alignment.center, iconSize: 20,
+                                    icon: Icon(Shopping.facebook, color: DataProvider().primary),
+//                                    onPressed: ()async {
+//                                      AuthProvider().loginWithFB();
+//                                    }
+                                onPressed: (){},
+                                    )),
+                            SizedBox(width: 30),
+                            Container(
+                                width: 50,
+                                height: 50,
+                                decoration: BoxDecoration(
+                                  borderRadius: new BorderRadius.all(
+                                      new Radius.circular(50.0)),
+                                  border: new Border.all(color: DataProvider().primary, width: 2.0),
+                                ),
+                                child: IconButton(
+                                    padding: EdgeInsets.all(0.0),
+                                    alignment: Alignment.center,
+                                    iconSize: 20,
+                                    icon: Icon(Shopping.google, color: DataProvider().primary),
+                                    //onPressed: //() async{
+                                      //await   AuthProvider().googleLogin();
+                                      //await  Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+                                    //}
+                                  onPressed: ()async{
+                                      //call google model
+                                  await  AuthProvider().googleLogin();
+                                  // call storage to get data has been set before
+                                    SharedPreferences prefs = await SharedPreferences.getInstance();
+                                    var googleName= prefs.getString('userName');
+                                    var googleEmail= prefs.getString('userEmail');
+                                    //get device Id
+                                    String deviceId;
+                                    await AuthProvider().getDeviceDetails().then((res){deviceId=res[0];
+                                      print( 'device id$deviceId');
+                                    });
+                                    var myuser = Provider.of<User>(context);
+                                    myuser.setnameuser(googleName);
+                                    myuser.setemailuser(googleEmail);
+                                    myuser.settypeuser('google');
+                                    myuser.setdeviceIduser(deviceId);
+                                  await Navigator.push(context, MaterialPageRoute(builder: (context) => Verify(newuser: myuser)));
+                                  },
+                                    ),
+                            ),
+                          ],
+                        ),
                         new LoginScondButton(),
                       ],
                     ),
@@ -133,6 +199,7 @@ class _RegisterPageState extends State<RegisterPage> {
       }
       ));
   }
+
 }
 class LoginScondButton extends StatelessWidget {
   const LoginScondButton({
@@ -196,6 +263,7 @@ class SignUPButton extends StatelessWidget {
       ),
     );
   }
+
 }
 
 class EmailInput extends StatelessWidget {
@@ -203,9 +271,7 @@ class EmailInput extends StatelessWidget {
     Key key,
     @required this.emailController,
   }) : super(key: key);
-
   final TextEditingController emailController;
-
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -219,11 +285,34 @@ class EmailInput extends StatelessWidget {
         labelText: 'Email',
 //        labelStyle: TextStyle(fontSize: 23),
       ),
-      validator: (value) {},
+      validator: _validateEmail,
       onSaved: (value) {},
       controller: emailController,
       keyboardType: TextInputType.emailAddress,
     );
+  }
+  String _validateEmail(String value) {
+    if (value.isEmpty) {
+      // The form is empty
+      return "Please Enter valid email address";
+    }
+    // This is just a regular expression for email addresses
+    String p = "[a-zA-Z0-9\+\.\_\%\-\+]{1,256}" +
+        "\\@" +
+        "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
+        "(" +
+        "\\." +
+        "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
+        ")+";
+    RegExp regExp = new RegExp(p);
+
+    if (regExp.hasMatch(value)) {
+      // So, the email is valid
+      return null;
+    }
+
+    // The pattern of the email didn't match the regex above.
+    return 'Email is not valid';
   }
 }
 
@@ -248,7 +337,12 @@ class Nameinput extends StatelessWidget {
         labelText: 'Name',
 //        labelStyle: TextStyle(fontSize: 23),
       ),
-      validator: (value) {},
+      validator: (value) {
+        if (value.isEmpty == true) {
+          return 'Please enter your name ';
+        }
+        return null;
+      },
       onSaved: (value) {},
       controller: nameController,
       keyboardType: TextInputType.text,

@@ -202,7 +202,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: RaisedButton(
-                    child: Text('Logout'),
+                    child: Text('Logout',style: TextStyle(color: Colors.white),),
                     color: DataProvider().primary,
                     onPressed: ()async {
                       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -216,7 +216,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                   ),
                 ), RaisedButton(
-                  child: Text('Cancel'),
+                  child: Text('Cancel',style: TextStyle(color: Colors.white),),
                   color: Colors.red,
                   onPressed: () {
                     Navigator.of(context).pop();

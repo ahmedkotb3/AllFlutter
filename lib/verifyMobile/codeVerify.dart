@@ -45,11 +45,9 @@ class CodeVerifityState extends State<CodeVerifity> {
                             SizedBox(height: 30.0),
                             Padding(
                               padding: const EdgeInsets.only(top: 20.0),
-                              child: Text(
-                                'Verification Code sent to',
-                              ),
+                              child: Text('Verification Code sent to'),
                             ),
-                            Text('+2018595626622',
+                            Text(userdata.getPhoneCountry()+':'+userdata.getPhone(),
                                 style: TextStyle(color: Colors.blue)),
                             Padding(
                               padding: const EdgeInsets.only(top: 20.0),

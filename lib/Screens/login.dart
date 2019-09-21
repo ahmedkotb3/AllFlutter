@@ -155,10 +155,7 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                 ),
                                 child: IconButton(padding: EdgeInsets.all(0.0), alignment: Alignment.center, iconSize: 20,
-                                    icon: Icon(
-                                      Shopping.facebook,
-                                      color: DataProvider().primary,
-                                    ),
+                                    icon: Icon(Shopping.facebook, color: DataProvider().primary),
                                     onPressed: ()async {
                                       AuthProvider().loginWithFB();
                                     })),
@@ -175,10 +172,7 @@ class _LoginPageState extends State<LoginPage> {
                                     padding: EdgeInsets.all(0.0),
                                     alignment: Alignment.center,
                                     iconSize: 20,
-                                    icon: Icon(
-                                      Shopping.google,
-                                      color: DataProvider().primary,
-                                    ),
+                                    icon: Icon(Shopping.google, color: DataProvider().primary),
                                     onPressed: () async{
                                    await   AuthProvider().googleLogin();
                                    await  Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));

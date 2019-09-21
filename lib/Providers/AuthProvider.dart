@@ -27,14 +27,13 @@ class AuthProvider with ChangeNotifier {
   /////////////////////////////////Google Auth Login/////////////////////////////////////////////////
   GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
 
-  googleLogin() async {
+ Future googleLogin() async {
     try {
       await _googleSignIn.signIn();
       String googleUsermail = _googleSignIn.currentUser.email;
       String googleUserImage = _googleSignIn.currentUser.photoUrl;
       String googleUserName = _googleSignIn.currentUser.displayName;
-      print(
-          'welcome from Google Auth name: ${googleUserName} email:${googleUsermail} image:${googleUserImage} ');
+      print('welcome from Google Auth name: ${googleUserName} email:${googleUsermail} image:${googleUserImage} ');
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString('userName', googleUserName);
       await prefs.setString('userEmail', googleUsermail);
@@ -104,7 +103,8 @@ class AuthProvider with ChangeNotifier {
       print(identifier);
     }
 //if (!mounted) return;
-    return [deviceName, deviceVersion, identifier];
+//    return [deviceName, deviceVersion, identifier];
+    return [identifier];
   }
 
 ////////////////////////////////////////////Normal Login & Register////////////////////////////////////////////////////////////
