@@ -125,11 +125,15 @@ class AuthProvider with ChangeNotifier {
     print("body:$body");
   }
 
-  phoneVerify(User user) {
-    var response = http.post(phoneVerifyUrl, body: {
+  Future phoneVerify(User user)async {
+    Response response = await post(phoneVerifyUrl, body: {
       "phone": user.getPhone(),
       "phone_country": user.getPhoneCountry()
     });
+    int statusCode = response.statusCode;
+    print("statusCode phoneVerify:${statusCode}");
+    String body = response.body;
+    print("body phoneVerify:$body");
   }
 
   Future<String> login(String type, String email, String password) async {

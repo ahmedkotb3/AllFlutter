@@ -124,7 +124,7 @@ class VerifyMobile extends State<Verify> {
                               newuser.setphoneuser(phoneController.text);
                               print(newuser.toJson());
                               var rsponse = await AuthProvider().phoneVerify(newuser);
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => CodeVerifity(userdata: newuser)),);
+                               await Navigator.push(context, MaterialPageRoute(builder: (context) => CodeVerifity(userdata: newuser)),);
                             },
                             color: DataProvider().primary,
                           ),

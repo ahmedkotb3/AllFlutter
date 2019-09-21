@@ -70,7 +70,9 @@ class CodeVerifityState extends State<CodeVerifity> {
                               padding: const EdgeInsets.only(top: 0.0),
                               child: InkWell(
                                 child: Text('RESEND', style: TextStyle(color: Colors.blue),),
-                                onTap: () {},
+                                onTap: () async{
+                                  var rsponse = await AuthProvider().phoneVerify(userdata);
+                                },
                               ),
                             ),
                             SizedBox(
@@ -88,12 +90,9 @@ class CodeVerifityState extends State<CodeVerifity> {
                                     userdata.setcodeuser(codeController.text);
                                     print(userdata.getCode());
                                     print(userdata.getEmail());
-
-                                    var response = await AuthProvider()
-                                        .register(userdata);
+                                    var response = await AuthProvider().register(userdata);
                                     print(userdata.toJson());
-
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => CodeTrue()),
+                                    await Navigator.push(context, MaterialPageRoute(builder: (context) => CodeTrue()),
                                     );
                                   },
                                 ))
