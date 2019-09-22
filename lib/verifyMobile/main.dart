@@ -1,3 +1,4 @@
+import 'package:big/Providers/AuthProvider.dart';
 import 'package:big/componets/appBar.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
@@ -10,26 +11,22 @@ import 'package:http/http.dart' as http;
 import 'package:async/async.dart';
 import 'package:big/model/User.dart';
 import 'package:provider/provider.dart';
-import 'package:big/Providers/api.dart';
 
 class Verify extends StatefulWidget {
   VerifyMobile createState() => VerifyMobile(newuser: newuser);
   Verify({Key key, @required this.newuser}) : super(key: key);
   User newuser;
 }
-
 class VerifyMobile extends State<Verify> {
-  String phoneCountry = "SA";
+  String phoneCountry = "EG";
   TextEditingController phoneController = new TextEditingController();
   User newuser;
   VerifyMobile({Key key, @required this.newuser});
-
   void _onCountryChange(CountryCode countryCode) {
     setState(() {
       phoneCountry = countryCode.code.toString();
     });
   }
-
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -50,24 +47,17 @@ class VerifyMobile extends State<Verify> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             new Text(
-                              "Mobile Number Verification",
-                              style: TextStyle(
-                                  fontSize: 20.0, fontWeight: FontWeight.bold),
-                            ),
+                              "Mobile Number Verification", style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),),
                           ],
                         ),
                         SizedBox(height: 30.0),
                         Padding(
                           padding:
-                              const EdgeInsets.only(top: 20.0, bottom: 20.0),
+                          const EdgeInsets.only(top: 20.0, bottom: 20.0),
                           child: new Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              Icon(
-                                Shopping.mobile_search,
-                                size: 100.0,
-                                color: DataProvider().primary,
-                              ),
+                              Icon(Shopping.mobile_search, size: 100.0, color: DataProvider().primary,),
                             ],
                           ),
                         ),
@@ -75,10 +65,7 @@ class VerifyMobile extends State<Verify> {
                         new Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
-                            new Text(
-                              "Enter your Mobile Number",
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
+                            new Text("Enter your Mobile Number", style: TextStyle(fontWeight: FontWeight.bold),),
                           ],
                         ),
                         SizedBox(height: 20.0),
@@ -97,8 +84,8 @@ class VerifyMobile extends State<Verify> {
                                 child: new CountryCodePicker(
                                   onChanged: _onCountryChange,
                                   // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
-                                  initialSelection: '+966',
-                                  favorite: ['+2', 'EG'],
+                                  initialSelection: 'EG',
+                                  favorite: ['+2', '+966'],
                                   // optional. Shows only country name and flag
                                   showCountryOnly: false,
                                   // optional. Shows only country name and flag when popup is closed.
@@ -131,26 +118,13 @@ class VerifyMobile extends State<Verify> {
                           width: MediaQuery.of(context).size.width * .8,
                           height: MediaQuery.of(context).size.height * .08,
                           child: RaisedButton(
-                            child: Text(
-                              'SEND CODE',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
-                            ),
+                            child: Text('SEND CODE', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
                             onPressed: () async {
                               newuser.setphoneCountryuser(phoneCountry);
                               newuser.setphoneuser(phoneController.text);
                               print(newuser.toJson());
-
-                              var rsponse =
-                                  await Api().phoneVerify("message", newuser);
-
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        CodeVerifity(userdata: newuser)),
-                              );
+                              var rsponse = await AuthProvider().phoneVerify(newuser);
+                               await Navigator.push(context, MaterialPageRoute(builder: (context) => CodeVerifity(userdata: newuser)),);
                             },
                             color: DataProvider().primary,
                           ),
@@ -159,11 +133,12 @@ class VerifyMobile extends State<Verify> {
                     ),
                   ),
                 ),
-              ));
-        }));
+              ),
+          );
+        }),
+    );
   }
 }
-
 AppBar buildAppBar() {
   return AppBar(
     backgroundColor: Colors.white,
@@ -180,11 +155,9 @@ AppBar buildAppBar() {
     ),
   );
 }
-
 sendphone() async {
   var response = await http.post(
       'http://18.217.190.199/api/auth/customer/message',
       body: {"phone_country": "EG", "phone": "1270089496"});
-
   print(response);
 }

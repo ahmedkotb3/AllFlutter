@@ -14,11 +14,9 @@ class ConfirmPassword extends StatefulWidget {
 
 class ConfirmPasswordState extends State<ConfirmPassword> {
       void path() {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => SetNewPassword()),
+      Navigator.push(context, MaterialPageRoute(builder: (context) => SetNewPassword()),
       );
-    }
+      }
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -34,19 +32,12 @@ class ConfirmPasswordState extends State<ConfirmPassword> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    // SizedBox(height: 40,),
-                    // Text('Forgot password ?',style:TextStyle(color:DataProvider().primary,
-                    //     fontSize: 30,fontWeight: FontWeight.bold)),
-                    SizedBox(
-                      height: 40,
-                    ),
+                    SizedBox(height: 40),
                     Text(
                       'A Confirmation code has been sent to your email',
                       style: TextStyle(fontSize: 18, color: Colors.grey),
                     ),
-                    SizedBox(
-                      height: 40,
-                    ),
+                    SizedBox(height: 40),
                     Padding(
                       padding: EdgeInsets.only(left: 40, right: 40),
                       child: TextField(
@@ -60,21 +51,16 @@ class ConfirmPasswordState extends State<ConfirmPassword> {
                         keyboardType: TextInputType.phone,
                       ),
                     ),
-                    SizedBox(
-                      height: 40,
-                    ),
+                    SizedBox(height: 40),
                     new SignUPButton(
                       nameController: null,
                       title: 'Submit',
                       navigate: path,
                     ),
-
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        SizedBox(
-                          height: 60,
-                        ),
+                        SizedBox(height: 60),
                         login.LoginScondButton(),
                       ],
                     )

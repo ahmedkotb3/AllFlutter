@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:toast/toast.dart';
 import 'package:big/Providers/AuthProvider.dart';
 import 'package:big/Providers/Styles.dart';
 import 'package:big/Screens/HomeScreen.dart';
@@ -7,6 +9,7 @@ import 'package:big/componets/shopping_icons.dart';
 import 'package:big/model/User.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../Providers/DataProvider.dart';
 import './register.dart';
 import './forget.dart';
@@ -20,6 +23,8 @@ class _LoginPageState extends State<LoginPage> {
   Color danger = DataProvider().primary;
   TextEditingController emailController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
+  var data;
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -33,185 +38,150 @@ class _LoginPageState extends State<LoginPage> {
               child: Center(
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
-                  child: Column(
-                    children: <Widget>[
-                      Consumer<DataProvider>(
-                        builder: (context, stateManager, _) => emailInput(),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Consumer<DataProvider>(
-                        builder: (context, dataProvider, _) => TextFormField(
-                          obscureText: dataProvider.securePassword,
-                          controller: passwordController,
-                          maxLength: 32,
-//                          validator: (value),
-                          decoration: InputDecoration(
-                            enabledBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: DataProvider().primary),
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: new BorderRadius.circular(5.0),
-                            ),
-                            // border: OutlineInputBorder(),
-                            labelText: 'Password',
-                            // icon: new Icon(Icons.lock_outline),
-                            suffixIcon: new IconButton(
-                              icon: new Icon(
-                                Icons.remove_red_eye,
-                                color: danger,
-                              ),
-                              onPressed: () {
-                                if (danger == DataProvider().primary) {
-                                  setState(() {
-                                    danger = Colors.red;
-                                  });
-                                } else if (danger == Colors.red) {
-                                  setState(() {
-                                    danger = DataProvider().primary;
-                                  });
-                                }
-                                bool viewHide =
-                                    dataProvider.securePassword == true
-                                        ? false
-                                        : true;
-                                dataProvider.securePassword = viewHide;
-                              },
-                            ),
-                          ),
-
-                          onSaved: (value) {},
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
-                          FlatButton(
-                            child: Text(
-                              "Forget Your Password ?",
-                              style: TextStyle(
-                                color: DataProvider().primary,
-                                fontWeight: FontWeight.bold,
-                                decoration: TextDecoration.underline,
-                              ),
-                            ),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ForgetPassword()),
-                              );
+                  child: Form(
+                      key: _formKey,
+                    child: Column(
+                      children: <Widget>[
+                        Consumer<DataProvider>(builder: (context, stateManager, _) => emailInput()),
+                        SizedBox(height: 20),
+                        Consumer<DataProvider>(
+                          builder: (context, dataProvider, _) => TextFormField(
+                            obscureText: dataProvider.securePassword,
+                            controller: passwordController,
+                            maxLength: 32,
+                            validator: (value) {
+                              if (value.length < 8) {
+                                return 'Please enter Password more than 7 ';
+                              }
+                              return null;
                             },
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      ButtonTheme(
-                        minWidth: double.infinity,
-                        height: 50.0,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5.0),
-                            gradient: LinearGradient(
-                              colors: [
-                                Styles.appFirstColor,
-                                Styles.appSecondColor
-                              ],
+//                          validator: (value),
+                            decoration: InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: DataProvider().primary),
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: new BorderRadius.circular(5.0),
+                              ),
+                              // border: OutlineInputBorder(),
+                              labelText: 'Password',
+                              // icon: new Icon(Icons.lock_outline),
+                              suffixIcon: new IconButton(
+                                icon: new Icon(Icons.remove_red_eye, color: danger),
+                                onPressed: () {
+                                  if (danger == DataProvider().primary) {
+                                    setState(() {
+                                      danger = Colors.red;
+                                    });
+                                  } else if (danger == Colors.red) {
+                                    setState(() {
+                                      danger = DataProvider().primary;
+                                    });
+                                  }
+                                  bool viewHide =
+                                      dataProvider.securePassword == true
+                                          ? false
+                                          : true;
+                                  dataProvider.securePassword = viewHide;
+                                },
+                              ),
                             ),
                           ),
-                          child: RaisedButton(
-                              onPressed: () {
-                                // print(emailController.text);
-                                print(emailController.text);
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => HomeScreen()),
-                                );
-
-                                //  emailController.clear();
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            FlatButton(
+                              child: Text("Forget Your Password ?", style: TextStyle(color: DataProvider().primary,
+                                  fontWeight: FontWeight.bold, decoration: TextDecoration.underline),
+                              ),
+                              onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => ForgetPassword()),);
                               },
-                              child: Text(
-                                "Sign In",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 15),
+                        ButtonTheme(
+                          minWidth: double.infinity,
+                          height: 50.0,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5.0),
+                              gradient: LinearGradient(
+                                colors: [
+                                  Styles.appFirstColor,
+                                  Styles.appSecondColor
+                                ],
                               ),
-                              color: Colors.transparent),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        'or Sign In with',
-                        style: TextStyle(
-                          color: DataProvider().primary,
-                          fontSize: 18,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 35,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Container(
-                              width: 50,
-                              height: 50,
-                              decoration: BoxDecoration(
-                                borderRadius: new BorderRadius.all(
-                                    new Radius.circular(50.0)),
-                                border: new Border.all(
-                                  color: DataProvider().primary,
-                                  width: 2.0,
+                            ),
+                            child: RaisedButton(
+                                onPressed: ()async {
+                                  if (_formKey.currentState.validate()) {
+                                    //auth in api
+                                    await AuthProvider().login('normal', emailController.text.trim(),passwordController.text).then((res){
+                                       data=json.decode(res);
+                                      if(data["success"]==true){
+                                        print(data);
+                                        //save name & email & image & token and navigate to home page
+                                       goHome();
+                                      }//handling errors
+                                      else if(data["success"]==false){
+                                        Toast.show("Email and Password do not match", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
+                                      }
+                                    });
+                                  }
+                                },
+                                child: Text("Sign In", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
                                 ),
-                              ),
-                              child: IconButton(
-                                  padding: EdgeInsets.all(0.0),
-                                  alignment: Alignment.center,
-                                  iconSize: 20,
-                                  icon: Icon(
-                                    Shopping.facebook,
-                                    color: DataProvider().primary,
-                                  ),
-                                  onPressed: () {
-                                    AuthProvider().loginWithFB();
-                                  })),
-                          SizedBox(
-                            width: 30,
+                                color: Colors.transparent),
                           ),
-                          Container(
-                              width: 50,
-                              height: 50,
-                              decoration: BoxDecoration(
-                                borderRadius: new BorderRadius.all(
-                                    new Radius.circular(50.0)),
-                                border: new Border.all(
-                                  color: DataProvider().primary,
-                                  width: 2.0,
-                                ),
-                              ),
-                              child: IconButton(
-                                  padding: EdgeInsets.all(0.0),
-                                  alignment: Alignment.center,
-                                  iconSize: 20,
-                                  icon: Icon(
-                                    Shopping.google,
+                        ),
+                        SizedBox(height: 20),
+                        Text('or Sign In with', style: TextStyle(color: DataProvider().primary, fontSize: 18)),
+                        SizedBox(height: 35),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Container(
+                                width: 50,
+                                height: 50,
+                                decoration: BoxDecoration(
+                                  borderRadius: new BorderRadius.all(
+                                      new Radius.circular(50.0)),
+                                  border: new Border.all(
                                     color: DataProvider().primary,
+                                    width: 2.0,
                                   ),
-                                  onPressed: () {
-                                    AuthProvider().googleLogin();
-                                  })),
-                        ],
-                      ),
-                      new LoginScondButton()
-                    ],
+                                ),
+                                child: IconButton(padding: EdgeInsets.all(0.0), alignment: Alignment.center, iconSize: 20,
+                                    icon: Icon(Shopping.facebook, color: DataProvider().primary),
+                                    onPressed: ()async {
+                                      AuthProvider().loginWithFB();
+                                    })),
+                            SizedBox(width: 30),
+                            Container(
+                                width: 50,
+                                height: 50,
+                                decoration: BoxDecoration(
+                                  borderRadius: new BorderRadius.all(
+                                      new Radius.circular(50.0)),
+                                  border: new Border.all(color: DataProvider().primary, width: 2.0),
+                                ),
+                                child: IconButton(
+                                    padding: EdgeInsets.all(0.0),
+                                    alignment: Alignment.center,
+                                    iconSize: 20,
+                                    icon: Icon(Shopping.google, color: DataProvider().primary),
+                                    onPressed: () async{
+                                   await   AuthProvider().googleLogin();
+                                   await  Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+                                    })),
+                          ],
+                        ),
+                        new LoginScondButton()
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -221,7 +191,14 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-
+Future goHome()async{
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs.setString('userToken',data["data"]["token"]);
+  await prefs.setString('userName', data["data"]["user"]["name"]);
+  await prefs.setString('userEmail', data["data"]["user"]["email"]);
+  await prefs.setString('userImage', "https://cdn0.iconfinder.com/data/icons/avatar-78/128/12-512.png");
+  await Navigator.of(context).pushReplacement(new MaterialPageRoute(builder: (context) => new HomeScreen()));
+}
   TextFormField emailInput() {
     return TextFormField(
       decoration: InputDecoration(
@@ -236,7 +213,6 @@ class _LoginPageState extends State<LoginPage> {
       ),
       controller: emailController,
       keyboardType: TextInputType.emailAddress,
-      onSaved: (value) {},
       validator: (value) {
         return value.isEmpty ? "Email is required" : null;
       },
@@ -261,11 +237,7 @@ class LoginScondButton extends StatelessWidget {
                 decoration: TextDecoration.underline),
           ),
         ),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => RegisterPage()),
-          );
+        onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterPage()),);
         },
       ),
     );

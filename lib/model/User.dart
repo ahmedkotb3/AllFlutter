@@ -1,11 +1,9 @@
+import 'dart:core' as prefix0;
+import 'dart:core';
+
 import 'package:flutter/foundation.dart';
 
-
-enum Status {
-  normal,
-  facebook,
-  google,
-}
+List<String> status = ['normal','facebook','google'];
 
  class User with ChangeNotifier {
   String name;
