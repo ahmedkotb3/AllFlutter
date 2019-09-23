@@ -1,9 +1,11 @@
 import 'package:big/Screens/HomeScreen.dart';
 import 'package:big/Screens/cart.dart';
+import 'package:big/Screens/register.dart';
 import 'package:flutter/material.dart';
 import 'package:big/Providers/DataProvider.dart';
 import 'package:big/componets/shopping_icons.dart';
 import 'package:big/Screens/emptyCart.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 AppBar Mybar(String titleA, bool searchCartA,
     [bool deleteItemsA = false,bool noBack= false]) {
@@ -66,9 +68,17 @@ class _SearchCartState extends State<SearchCart> {
                     color: widget.iconColor ?DataProvider().primary:Colors.white,
                   //size: 50,
                 ),
-                onPressed: () {
-                  Navigator.push(
-                      context, MaterialPageRoute(builder: (context) => CartPage()));
+                onPressed: () async{
+                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                  if(prefs.containsKey('userToken')){
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => CartPage()));
+                  }
+                  else
+                    {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterPage()));
+
+                    }
+
                 },
               ),
               widget.cartItems == 0

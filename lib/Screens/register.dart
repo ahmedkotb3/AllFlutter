@@ -105,12 +105,16 @@ class _RegisterPageState extends State<RegisterPage> {
                           title: title,
                           navigate: () async{
                             if (_formKey.currentState.validate()) {
+                              String deviceId;
+                              await AuthProvider().getDeviceDetails().then((res){deviceId=res[0];
+                              print( 'device id$deviceId');
+                              });
                             var myuser = Provider.of<User>(context);
                             myuser.setnameuser(nameController.text.trim());
                             myuser.setemailuser(emailController.text.trim());
                             myuser.setpassworduser(passwordController.text.trim());
                             myuser.settypeuser('normal');
-                            myuser.setdeviceIduser('12345678');
+                            myuser.setdeviceIduser(deviceId);
                             SharedPreferences prefs = await SharedPreferences.getInstance();
                             await prefs.setString('userName', nameController.text.trim());
                             await prefs.setString('userEmail', emailController.text.trim());
