@@ -169,7 +169,7 @@ class AuthProvider with ChangeNotifier {
     var body = json.decode(response.body);
 //print('body $body');
 //print('userAuthToken:${body["data"]["token"]}');
-    return response.body;
+    return body;
   }
   Future<String> loginfb(String type, String email) async {
     Response response = await http.post(loginUrl, body: {

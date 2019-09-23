@@ -168,6 +168,12 @@ class _LoginPageState extends State<LoginPage> {
                                           print(data);
                                           savetoken();
                                           //save name & email & image & token and navigate to home page
+                                        }
+                                        else if(data["success"]==false){
+                                          AuthProvider().logoutFace();
+                                          prefs.clear();
+                                          String error=data["errors"].toString();
+                                          Toast.show(error, context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
                                         }//handling errors
                                       });
                                     })),
@@ -191,13 +197,19 @@ class _LoginPageState extends State<LoginPage> {
                                        await AuthProvider().googleLogin();
                                       var googleEmail= prefs.getString('userEmail');
                                        print('googleEmail $googleEmail');
-                                      await AuthProvider().loginfb('google', googleEmail).then((res){
+                                      await AuthProvider().loginfb('google', googleEmail).then((res) async {
                                         print(res);
                                         data=json.decode(res);
                                         if(data["success"]==true){
                                           print(data);
                                           savetoken();
                                           //save name & email & image & token and navigate to home page
+                                        }
+                                        else if(data["success"]==false){
+                                          AuthProvider().googleLogout();
+                                          prefs.clear();
+                                          String error=data["errors"].toString();
+                                          Toast.show(error, context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
                                         }//handling errors
                                       });
                                     })),

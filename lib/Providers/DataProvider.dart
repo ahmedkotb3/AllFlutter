@@ -56,12 +56,12 @@ class DataProvider with ChangeNotifier {
  }
  bool get getPassword => securePassword;
 /////////////////////////////////////////////////////////////////////////////////////////
-  Future<String> productDetails(String Id) async {
-    Response response = await http.post(ProductDetailsUrl+Id);
+  Future<String> productDetails(int Id) async {
+    Response response = await http.get(ProductDetailsUrl+ Id.toString());
     int statusCode = response.statusCode;
     print("statusCode:${statusCode}");
     var body = json.decode(response.body);
-      print('body $body');
+     // print('body $body');
     return response.body;
   }
 

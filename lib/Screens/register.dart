@@ -148,22 +148,29 @@ class _RegisterPageState extends State<RegisterPage> {
 //                                      AuthProvider().loginWithFB();
 //                                    }
                                 onPressed: ()async{
-                                  await  AuthProvider().loginWithFB();
-                                  // call storage to get data has been set before
                                   SharedPreferences prefs = await SharedPreferences.getInstance();
-                                  var facebookName= prefs.getString('userName');
-                                  var facebookEmail= prefs.getString('userEmail');
-                                  //get device Id
-                                  String deviceId;
-                                  await AuthProvider().getDeviceDetails().then((res){deviceId=res[0];
-                                  print( 'device id$deviceId');
+                                    AuthProvider().loginWithFB().then((res) async {
+                                    if(prefs.containsKey('userEmail')){
+                                      // call storage to get data has been set before
+                                      var facebookName= prefs.getString('userName');
+                                      var facebookEmail= prefs.getString('userEmail');
+                                      //get device Id
+                                      String deviceId;
+                                      await AuthProvider().getDeviceDetails().then((res){deviceId=res[0];
+                                      print( 'device id$deviceId');
+                                      });
+                                      var myuser = Provider.of<User>(context);
+                                      myuser.setnameuser(facebookName);
+                                      myuser.setemailuser(facebookEmail);
+                                      myuser.settypeuser('facebook');
+                                      myuser.setdeviceIduser(deviceId);
+                                      await Navigator.push(context, MaterialPageRoute(builder: (context) => Verify(newuser: myuser)));
+                                    }else{
+                                      AuthProvider().logoutFace();
+                                      prefs.clear();
+                                    }
                                   });
-                                  var myuser = Provider.of<User>(context);
-                                  myuser.setnameuser(facebookName);
-                                  myuser.setemailuser(facebookEmail);
-                                  myuser.settypeuser('facebook');
-                                  myuser.setdeviceIduser(deviceId);
-                                  await Navigator.push(context, MaterialPageRoute(builder: (context) => Verify(newuser: myuser)));
+
                                 },
                                     )),
                             SizedBox(width: 30),
@@ -186,22 +193,31 @@ class _RegisterPageState extends State<RegisterPage> {
                                     //}
                                   onPressed: ()async{
                                       //call google model
-                                  await  AuthProvider().googleLogin();
-                                  // call storage to get data has been set before
                                     SharedPreferences prefs = await SharedPreferences.getInstance();
-                                    var googleName= prefs.getString('userName');
-                                    var googleEmail= prefs.getString('userEmail');
-                                    //get device Id
-                                    String deviceId;
-                                    await AuthProvider().getDeviceDetails().then((res){deviceId=res[0];
+                                    AuthProvider().googleLogin().then((res) async {
+                                    if(prefs.containsKey('userEmail')){
+                                      // call storage to get data has been set before
+                                      var googleName= prefs.getString('userName');
+                                      var googleEmail= prefs.getString('userEmail');
+                                      //get device Id
+                                      String deviceId;
+                                      await AuthProvider().getDeviceDetails().then((res){deviceId=res[0];
                                       print( 'device id$deviceId');
-                                    });
-                                    var myuser = Provider.of<User>(context);
-                                    myuser.setnameuser(googleName);
-                                    myuser.setemailuser(googleEmail);
-                                    myuser.settypeuser('google');
-                                    myuser.setdeviceIduser(deviceId);
-                                  await Navigator.push(context, MaterialPageRoute(builder: (context) => Verify(newuser: myuser)));
+                                      });
+                                      var myuser = Provider.of<User>(context);
+                                      myuser.setnameuser(googleName);
+                                      myuser.setemailuser(googleEmail);
+                                      myuser.settypeuser('google');
+                                      myuser.setdeviceIduser(deviceId);
+                                      await Navigator.push(context, MaterialPageRoute(builder: (context) => Verify(newuser: myuser)));
+                                    }
+                                    else {
+                                      AuthProvider().googleLogout();
+                                      prefs.clear();
+                                    }
+
+                                  });
+
                                   },
                                     ),
                             ),

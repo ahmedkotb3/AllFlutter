@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:big/Providers/ColorsProvider.dart';
 import 'package:big/Screens/cart.dart';
 import 'package:big/componets/appBar.dart';
@@ -32,6 +34,13 @@ class _ProductDetailsState extends State<ProductDetails> {
   Color favoriteColor = Colors.grey;
 @override
   void initState() {
+  DataProvider().productDetails(1).then((res){
+   var data=json.decode(res);
+   print(data);
+   setState(() {
+
+   });
+  });
     if(widget.product['isfav']==true ){
       favoriteColor=Colors.red;
     }
