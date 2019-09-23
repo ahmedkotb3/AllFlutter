@@ -154,10 +154,22 @@ class _LoginPageState extends State<LoginPage> {
                                     width: 2.0,
                                   ),
                                 ),
+                                //////////////////////////////////facebook////////////////////////////////////////////////////////////
                                 child: IconButton(padding: EdgeInsets.all(0.0), alignment: Alignment.center, iconSize: 20,
                                     icon: Icon(Shopping.facebook, color: DataProvider().primary),
                                     onPressed: ()async {
-                                      AuthProvider().loginWithFB();
+                                      SharedPreferences prefs = await SharedPreferences.getInstance();
+                                      await  AuthProvider().loginWithFB();
+                                      var facebookEmail= prefs.getString('userEmail');
+                                      await AuthProvider().loginfb('facebook', facebookEmail).then((res){
+                                        print(res);
+                                        data=json.decode(res);
+                                        if(data["success"]==true){
+                                          print(data);
+                                          savetoken();
+                                          //save name & email & image & token and navigate to home page
+                                        }//handling errors
+                                      });
                                     })),
                             SizedBox(width: 30),
                             Container(
@@ -168,14 +180,26 @@ class _LoginPageState extends State<LoginPage> {
                                       new Radius.circular(50.0)),
                                   border: new Border.all(color: DataProvider().primary, width: 2.0),
                                 ),
+                                /////////////////////////////////////google////////////////////////////////////////////////////////////
                                 child: IconButton(
                                     padding: EdgeInsets.all(0.0),
                                     alignment: Alignment.center,
                                     iconSize: 20,
                                     icon: Icon(Shopping.google, color: DataProvider().primary),
                                     onPressed: () async{
-                                   await   AuthProvider().googleLogin();
-                                   await  Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+                                      SharedPreferences prefs = await SharedPreferences.getInstance();
+                                       await AuthProvider().googleLogin();
+                                      var googleEmail= prefs.getString('userEmail');
+                                       print('googleEmail $googleEmail');
+                                      await AuthProvider().loginfb('google', googleEmail).then((res){
+                                        print(res);
+                                        data=json.decode(res);
+                                        if(data["success"]==true){
+                                          print(data);
+                                          savetoken();
+                                          //save name & email & image & token and navigate to home page
+                                        }//handling errors
+                                      });
                                     })),
                           ],
                         ),
@@ -198,6 +222,11 @@ Future goHome()async{
   await prefs.setString('userEmail', data["data"]["user"]["email"]);
   await prefs.setString('userImage', "https://cdn0.iconfinder.com/data/icons/avatar-78/128/12-512.png");
   await Navigator.of(context).pushReplacement(new MaterialPageRoute(builder: (context) => new HomeScreen()));
+}
+Future savetoken()async{
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs.setString('userToken',data["data"]["token"]);
+  await  Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
 }
   TextFormField emailInput() {
     return TextFormField(

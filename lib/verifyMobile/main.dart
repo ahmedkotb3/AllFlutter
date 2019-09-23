@@ -85,7 +85,7 @@ class VerifyMobile extends State<Verify> {
                                   onChanged: _onCountryChange,
                                   // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
                                   initialSelection: 'EG',
-                                  favorite: ['+2', '+966'],
+                                  favorite: ['+2', '+966','EG'],
                                   // optional. Shows only country name and flag
                                   showCountryOnly: false,
                                   // optional. Shows only country name and flag when popup is closed.

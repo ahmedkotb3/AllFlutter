@@ -24,7 +24,7 @@ String loginUrl = MainProvider().baseUrl + customerAuth + "login";
 class AuthProvider with ChangeNotifier {
   BuildContext context;
 
-  /////////////////////////////////Google Auth Login/////////////////////////////////////////////////
+/////////////////////////////////Google Auth Login/////////////////////////////////////////////////
   GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
 
  Future googleLogin() async {
@@ -43,7 +43,6 @@ class AuthProvider with ChangeNotifier {
       print(err);
     }
   }
-
   googleLogout() {
     _googleSignIn.signOut();
     print("logout scsucccc");
@@ -53,19 +52,27 @@ class AuthProvider with ChangeNotifier {
   Map userProfile;
   final facebookLogin = FacebookLogin();
 
-  loginWithFB() async {
+  Future loginWithFB() async {
     facebookLogin.loginBehavior = FacebookLoginBehavior.webViewOnly;
     final result = await facebookLogin.logInWithReadPermissions(['email']);
     switch (result.status) {
       case FacebookLoginStatus.loggedIn:
         final token = result.accessToken.token;
-        print('heloooooToken$token');
+      //  print('heloooooToken$token');
         final graphResponse = await http.get(
             'https://graph.facebook.com/v2.12/me?fields=name,picture,email&access_token=${token}');
         final profile = JSON.jsonDecode(graphResponse.body);
         print(profile);
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => HomeScreen()));
+        String fBUsrName=profile['name'];
+        String fBUesrMail=profile['email'];
+        String fBUserImage=profile['picture']['data']['url'];
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('userName', fBUsrName);
+        await prefs.setString('userEmail', fBUesrMail);
+        await prefs.setString('userImage', fBUserImage);
+        print(fBUsrName);
+        print(fBUesrMail);
+        print(fBUserImage);
         break;
       case FacebookLoginStatus.cancelledByUser:
         BuildContext context;
@@ -76,12 +83,10 @@ class AuthProvider with ChangeNotifier {
         break;
     }
   }
-
   logoutFace() {
     facebookLogin.logOut();
     notifyListeners();
   }
-
   ///////////////////////////////////////////Device token//////////////////////////////////////////////////////
   //get device token
   Future<List<String>> getDeviceDetails() async {
@@ -122,9 +127,25 @@ class AuthProvider with ChangeNotifier {
     int statusCode = response.statusCode;
     print("statusCode:${statusCode}");
     String body = response.body;
-    print("body:$body");
+    print("body rrrrrrrrrrrrrrrrrrr:$body");
+    return body;
   }
-
+  Future registerFG(User user) async {
+    Response response = await post(registerUrl, body: {
+      'name': user.getName(),
+      'email': user.getEmail(),
+      'code': user.getCode(),
+      'type': user.getType(),
+      'device_id': user.getdeviceId(),
+      "phone": user.getPhone(),
+      "phone_country": user.getPhoneCountry()
+    });
+    int statusCode = response.statusCode;
+    print("statusCode:${statusCode}");
+    String body = response.body;
+    print("bodyfbfbfb:$body");
+    return body;
+  }
   Future phoneVerify(User user)async {
     Response response = await post(phoneVerifyUrl, body: {
       "phone": user.getPhone(),
@@ -148,6 +169,19 @@ class AuthProvider with ChangeNotifier {
     var body = json.decode(response.body);
 //print('body $body');
 //print('userAuthToken:${body["data"]["token"]}');
+    return response.body;
+  }
+  Future<String> loginfb(String type, String email) async {
+    Response response = await http.post(loginUrl, body: {
+      'email': email,
+      'type': type,
+    });
+    int statusCode = response.statusCode;
+    print("statusCode:${statusCode}");
+//save in local storge for take all data from user
+    var body = json.decode(response.body);
+//print('body $body');
+//print('userAuthTokenfb:${body["data"]["token"]}');
     return response.body;
   }
 }

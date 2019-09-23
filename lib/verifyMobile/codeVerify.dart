@@ -1,6 +1,11 @@
+import 'dart:convert';
+
 import 'package:big/Providers/AuthProvider.dart';
+import 'package:big/Screens/register.dart';
 import 'package:big/componets/appBar.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:toast/toast.dart';
 import '../componets/shopping_icons.dart';
 import '../Providers/DataProvider.dart';
 import './details.dart';
@@ -17,6 +22,7 @@ class CodeVerifity extends StatefulWidget {
 
 class CodeVerifityState extends State<CodeVerifity> {
   User userdata;
+  var data;
   CodeVerifityState({Key key, @required this.userdata});
 
   TextEditingController codeController = new TextEditingController();
@@ -90,10 +96,39 @@ class CodeVerifityState extends State<CodeVerifity> {
                                     userdata.setcodeuser(codeController.text);
                                     print(userdata.getCode());
                                     print(userdata.getEmail());
-                                    var response = await AuthProvider().register(userdata);
+                                    if(userdata.getPassword()==null){
+                                      var response = await AuthProvider().registerFG(userdata).then((res)async{
+                                        print('pppppppppppppp$res');
+                                        data=json.decode(res);
+                                        if(data["success"]==true){
+                                          Navigator.push(context, MaterialPageRoute(builder: (context) => CodeTrue()),);
+                                        }//handling errors
+                                        else if(data["success"]==false){
+                                          String error=data["errors"].toString();
+                                          Toast.show(error, context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
+                                          SharedPreferences prefs = await SharedPreferences.getInstance();
+                                          await prefs.clear();
+                                          await  Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterPage()),);
+                                        }
+                                      });
+                                    }
+                                    else{
+                                      var response = await AuthProvider().register(userdata).then((res) async {
+                                        data=json.decode(res);
+                                        if(data["success"]==true){
+                                          Navigator.push(context, MaterialPageRoute(builder: (context) => CodeTrue()),);
+                                        }//handling errors
+                                        else if(data["success"]==false){
+                                          String error=data["errors"].toString();
+                                          Toast.show(error, context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
+                                          SharedPreferences prefs = await SharedPreferences.getInstance();
+                                          await prefs.clear();
+                                        await  Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterPage()),);
+                                        }
+                                      });
+                                    }
+
                                     print(userdata.toJson());
-                                    await Navigator.push(context, MaterialPageRoute(builder: (context) => CodeTrue()),
-                                    );
                                   },
                                 ))
                           ],

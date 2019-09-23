@@ -143,7 +143,24 @@ class _RegisterPageState extends State<RegisterPage> {
 //                                    onPressed: ()async {
 //                                      AuthProvider().loginWithFB();
 //                                    }
-                                onPressed: (){},
+                                onPressed: ()async{
+                                  await  AuthProvider().loginWithFB();
+                                  // call storage to get data has been set before
+                                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                                  var facebookName= prefs.getString('userName');
+                                  var facebookEmail= prefs.getString('userEmail');
+                                  //get device Id
+                                  String deviceId;
+                                  await AuthProvider().getDeviceDetails().then((res){deviceId=res[0];
+                                  print( 'device id$deviceId');
+                                  });
+                                  var myuser = Provider.of<User>(context);
+                                  myuser.setnameuser(facebookName);
+                                  myuser.setemailuser(facebookEmail);
+                                  myuser.settypeuser('facebook');
+                                  myuser.setdeviceIduser(deviceId);
+                                  await Navigator.push(context, MaterialPageRoute(builder: (context) => Verify(newuser: myuser)));
+                                },
                                     )),
                             SizedBox(width: 30),
                             Container(
@@ -334,12 +351,12 @@ class Nameinput extends StatelessWidget {
         border: OutlineInputBorder(
           borderRadius: new BorderRadius.circular(5.0),
         ),
-        labelText: 'Name',
+        labelText: 'Full Name',
 //        labelStyle: TextStyle(fontSize: 23),
       ),
       validator: (value) {
-        if (value.isEmpty == true) {
-          return 'Please enter your name ';
+        if (value.length <  5) {
+          return 'Please enter correct name ';
         }
         return null;
       },

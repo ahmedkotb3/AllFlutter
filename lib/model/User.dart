@@ -4,7 +4,6 @@ import 'dart:core';
 import 'package:flutter/foundation.dart';
 
 List<String> status = ['normal','facebook','google'];
-
  class User with ChangeNotifier {
   String name;
   String email;
