@@ -16,6 +16,7 @@ import 'package:big/Screens/mall.dart';
 import 'package:big/Providers/Styles.dart';
 import 'package:big/componets/shopping_icons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:big/model/Category.dart';
 
 class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
@@ -345,15 +346,15 @@ class HomeScreenTopState extends State<HomeScreenTop> {
 
 // Categories Part --------Torres
 
-class Category {
+/*class Category {
   String name;
   LinearGradient colors;
   IconData catIcon;
   Category(this.name, this.colors, this.catIcon);
-}
+}*/
 
 class CategoriesList extends StatelessWidget {
-  static List<String> catNames = [
+ /* static List<String> catNames = [
     'Fashion',
     'Electronics',
     'Home & Kitchen',
@@ -423,77 +424,75 @@ class CategoriesList extends StatelessWidget {
   //   Category('Phones and Tablet', myColors[3], Shopping.mobile),
   //   Category('Beauty & Health', myColors[4], Shopping.health),
   // ];
+*/
+
 
   @override
   Widget build(BuildContext context) {
       return Container(
         padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
-        height: MediaQuery.of(context).size.height * 0.20,
-      child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: categories.length,
-          itemBuilder: (context, index) {
-            return Container(
-              decoration: BoxDecoration(
-                gradient: myColors[index],
-                borderRadius: BorderRadius.circular(5.0),
-              ),
-              margin: EdgeInsets.symmetric(horizontal: 5),
-              width: MediaQuery.of(context).size.width * 0.25,
-              child: InkWell(
-                onTap: () {
-                  Navigator.push(
+              height: MediaQuery.of(context).size.height * 0.20,
+              child: FutureBuilder<List<Category>>(
+                  future: fetchdata(),
+                  builder: (context, snapshot) {
+                    List<Category> mylist = snapshot.data;
+                    return ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: mylist.length,
+                      itemBuilder: ((BuildContext context, int index) {
+                        return Container(
+                         decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                                colors: [
+                                  Color(int.parse(mylist[index].fColor)),
+                                  Color(int.parse(mylist[index].lColor))
+                                ]),
+                            borderRadius: BorderRadius.circular(5.0),
+                          ),
+                          margin: EdgeInsets.symmetric(horizontal: 5),
+                          width: MediaQuery.of(context).size.width * 0.25,
+                          child: InkWell(
+                            onTap: () {
+                              /* Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (BuildContext context) => SubCategory(
                                 subtitle: categories[index].name,
-                              )));
-                },
-                child: Container(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    //crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        padding: EdgeInsets.only(bottom: 7.0),
-                        width: MediaQuery.of(context).size.width * 0.13,
-                        child: Icon(
-                          categories[index].catIcon,
-                          color: Colors.white,
-                        ),
-                      ),
-                      Text(
-                        categories[index].name,
-                        textAlign: TextAlign.center,
-                        maxLines: 2,
-                        style: TextStyle(color: Colors.white, fontSize: 14),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.center,
-                      //   //crossAxisAlignment: CrossAxisAlignment.center,
-                      //   children: <Widget>[
-                      //     Container(
-                      //       color: Colors.grey,
-                      //       width: MediaQuery.of(context).size.width * 0.13,
-                      //       child: Icon(
-                      //         categories[index].catIcon,
-                      //         color: Colors.white,
-                      //       ),
-                      //     ),
-                      //   ],
-                      // ),
-                      // Expanded(
-                      //   child: Text(
-                      //     categories[index].name,
-                      //     textAlign: TextAlign.center,
-                      //     maxLines: 2,
-                      //     style: TextStyle(color: Colors.white, fontSize: 14),
-                      //     overflow: TextOverflow.ellipsis,
-                      //   ),
-                      // ),
-                    ],
-                  ),
+                              ))); */
+                            },
+                 child: Container(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                //crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  Container(
+                                      padding: EdgeInsets.only(bottom: 7.0),
+                                          width: MediaQuery.of(context).size.width *
+                                          0.13,
+                                      child: Icon(
+                                        IconData(
+                                            int.parse(mylist[index].iconCode),
+                                            fontFamily: "Shopping"),
+                                        color: Colors.white,
+                                      )),
+                                  Text(
+                                    mylist[index].name,
+                                    textAlign: TextAlign.center,
+                                    maxLines: 2,
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 14),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+            
+                    
+                  
                 ),
               ),
             );
