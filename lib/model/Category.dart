@@ -11,3 +11,30 @@ class Items {
   }
 }
 
+class Category {
+  int id;
+  String name;
+  String fColor;
+  String lColor;
+  String iconCode;
+  String iconFont;
+
+  Category(
+      {this.id,
+      this.name,
+      this.fColor,
+      this.lColor,
+      this.iconCode,
+      this.iconFont});
+
+  factory Category.fromJson(Map<String, dynamic> json) {
+    return Category(
+      id: json['id'] as int,
+      name: json['name'] as String,
+      fColor: json['f_color'] as String,
+      lColor: json['l_color'] as String,
+      iconCode: json['icon_code'] as String,
+      iconFont: json['icon_font'] as String,
+    );
+  }
+}
