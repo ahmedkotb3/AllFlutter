@@ -1,9 +1,11 @@
 import 'package:big/Providers/ColorsProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_pro/carousel_pro.dart';
-SizedBox silder() {
+
+SizedBox silder(BuildContext context) {
+  
   return SizedBox(
-    width: double.infinity,
+    width:double.infinity,
     child: Center(
       child: Carousel(
         boxFit: BoxFit.fill,
@@ -18,9 +20,9 @@ SizedBox silder() {
         showIndicator: true,
        // indicatorBgPadding: 7.0,
         images: [
-          NetworkImage('https://cdn-images-1.medium.com/max/2000/1*GqdzzfB_BHorv7V2NV7Jgg.jpeg'),
-          NetworkImage('https://cdn-images-1.medium.com/max/2000/1*wnIEgP1gNMrK5gZU7QS0-A.jpeg'),
-          NetworkImage('https://cdn-images-1.medium.com/max/2000/1*GqdzzfB_BHorv7V2NV7Jgg.jpeg'),
+          NetworkImage('https://www.elcorteingles.com/sgfm/SGFM/contentsi18/images/uploads/2019/09/5d6fcb33ab966a6c0e315560.jpg'),
+          NetworkImage('https://cdn-img.instyle.com/sites/default/files/styles/684xflex/public/1508267314/101717-50-best-fashion-advice-21.jpg?itok=Rqz7EhsZ'),
+          NetworkImage('https://cdn.pixabay.com/photo/2017/12/29/14/07/model-3047709_960_720.jpg'),
         ],
       ),
     ),
