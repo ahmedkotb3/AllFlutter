@@ -520,6 +520,7 @@ class CategoriesList extends StatelessWidget {
           future: fetchdata(),
           builder: (context, snapshot) {
             List<Category> mylist = snapshot.data;
+            if(snapshot.hasData){
             return ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: mylist.length,
@@ -556,7 +557,7 @@ class CategoriesList extends StatelessWidget {
                                 width: MediaQuery.of(context).size.width * 0.13,
                                 child: Icon(
                                   IconData(int.parse(mylist[index].iconCode),
-                                      fontFamily: "Shopping"),
+                                      fontFamily:mylist[index].iconFont),
                                   color: Colors.white,
                                 )),
                             Text(
@@ -572,7 +573,9 @@ class CategoriesList extends StatelessWidget {
                       ),
                     ),
                   );
-                }));
+                }));}
+                else{return Text("Loading...");}
+
           }),
     );
   }
