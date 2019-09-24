@@ -426,9 +426,9 @@ class CategoriesList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
-      height: MediaQuery.of(context).size.height * 0.20,
+      return Container(
+        padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
+        height: MediaQuery.of(context).size.height * 0.20,
       child: ListView.builder(
           scrollDirection: Axis.horizontal,
           itemCount: categories.length,
