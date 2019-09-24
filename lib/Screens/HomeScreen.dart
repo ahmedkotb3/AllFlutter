@@ -426,7 +426,23 @@ class CategoriesList extends StatelessWidget {
   // ];
 */
 
+  Future<List<Category>> fetchdata() async {
+    final res = await http.get("http://18.217.190.199/api/categories");
+    List<Category> list;
+    print(res.statusCode.toString());
 
+    if (res.statusCode == 200) {
+      print(res.statusCode.toString());
+
+      var data = json.decode(res.body);
+      var rest = data["data"] as List;
+      print(rest.toString());
+
+      list = rest.map<Category>((json) => Category.fromJson(json)).toList();
+    }
+    print(list.length.toString());
+    return list;
+  }
   @override
   Widget build(BuildContext context) {
       return Container(
