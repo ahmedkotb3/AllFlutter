@@ -11,6 +11,7 @@ import '../Providers/DataProvider.dart';
 import '../componets/slider.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:provider/provider.dart';
+import 'package:big/review/allReviews.dart';
 
 class ProductDetails extends StatefulWidget {
   final product;
@@ -32,23 +33,6 @@ class _ProductDetailsState extends State<ProductDetails> {
   bool isFavorite = false;
   bool isOffer = true;
   Color favoriteColor = Colors.grey;
-@override
-  void initState() {
-  DataProvider().productDetails(1).then((res){
-   var data=json.decode(res);
-   print(data);
-   setState(() {
-
-   });
-  });
-    if(widget.product['isfav']==true ){
-      favoriteColor=Colors.red;
-    }
-    else if(widget.product['isfav']==false ){
-      favoriteColor=Colors.grey;
-    }
-    super.initState();
-  }
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -61,9 +45,9 @@ class _ProductDetailsState extends State<ProductDetails> {
           child: ListView(
             children: <Widget>[
               Container(
-                height: 180,
-                width: double.infinity,
-                child: silder(),
+                height: 240,
+    width:double.infinity,
+                child: silder(context),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -175,19 +159,27 @@ class _ProductDetailsState extends State<ProductDetails> {
                       ),
                     ],
                   ),
-                  SmoothStarRating(
-                      allowHalfRating: false,
-                      onRatingChanged: (v) {
-                        setState(() {
-                          rating = v;
-                        });
-                      },
-                      starCount: 5,
-                      rating: rating,
-                      size: 25.0,
-                      color: Colors.yellow,
-                      borderColor: Colors.grey,
-                      spacing: 0.0),
+                  Row(children:<Widget>[
+                  InkWell(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>AllReviews()));
+                    },
+                    child:Text('(120) Review'),),
+                 
+                    SmoothStarRating(
+                        allowHalfRating: false,
+                        // onRatingChanged: (v) {
+                        //   setState(() {
+                        //     rating = v;
+                        //   });
+                        // },
+                        starCount: 5,
+                        rating: 3,
+                        size: 25.0,
+                        color: Colors.yellow,
+                        borderColor: Colors.grey,
+                        spacing: 0.0),
+                  ]),
                 ],
               ),
               if (isOffer)
