@@ -539,12 +539,12 @@ class CategoriesList extends StatelessWidget {
                     width: MediaQuery.of(context).size.width * 0.25,
                     child: InkWell(
                       onTap: () {
-                        /* Navigator.push(
+                        Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (BuildContext context) => SubCategory(
-                                subtitle: categories[index].name,
-                              ))); */
+                                subtitle: mylist[index].name,
+                              ))); 
                       },
                       child: Container(
                         child: Column(
