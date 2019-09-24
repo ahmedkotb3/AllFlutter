@@ -17,6 +17,9 @@ import 'package:big/Providers/Styles.dart';
 import 'package:big/componets/shopping_icons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:big/model/Category.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'dart:async';
 
 class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
@@ -24,15 +27,17 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  bool isLogin=true;
-  String userName="mohamed";
-  String userEmail="m@m.com";
-  String userImage="https://onlinecoursemasters.com/wp-content/uploads/2019/05/OCM-16-Maximilian-Schwarzmuller.jpg";
+  bool isLogin = true;
+  String userName = "mohamed";
+  String userEmail = "m@m.com";
+  String userImage =
+      "https://onlinecoursemasters.com/wp-content/uploads/2019/05/OCM-16-Maximilian-Schwarzmuller.jpg";
   @override
   void initState() {
-   getData();
+    getData();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -40,9 +45,9 @@ class _HomeScreenState extends State<HomeScreen> {
         home: Scaffold(
             appBar: AppBar(
               leading: IconButton(
-                icon: new Icon(Icons.menu, color: Colors.white),
-                onPressed: () => _scaffoldKey.currentState.openDrawer()),
-            backgroundColor: DataProvider().primary,
+                  icon: new Icon(Icons.menu, color: Colors.white),
+                  onPressed: () => _scaffoldKey.currentState.openDrawer()),
+              backgroundColor: DataProvider().primary,
               elevation: 0,
               titleSpacing: 50,
               title: new Text("My Title"),
@@ -54,22 +59,31 @@ class _HomeScreenState extends State<HomeScreen> {
             drawer: Drawer(
               child: ListView(
                 children: <Widget>[
-                 if(isLogin) UserAccountsDrawerHeader(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                    ),
-                    accountName: Row(
-                      children: <Widget>[
-                         Text(userName,style: TextStyle(color: DataProvider().primary,fontWeight: FontWeight.bold,fontSize: 18.0),),
-                      ],
-                    ),
-                    accountEmail: Row(
-                      children: <Widget>[
-                         Text(userEmail,style: TextStyle(color:DataProvider().primary,fontWeight: FontWeight.bold)
-                        ),
-                      ],
-                    ),
-                    currentAccountPicture: InkWell(
+                  if (isLogin)
+                    UserAccountsDrawerHeader(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                      ),
+                      accountName: Row(
+                        children: <Widget>[
+                          Text(
+                            userName,
+                            style: TextStyle(
+                                color: DataProvider().primary,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18.0),
+                          ),
+                        ],
+                      ),
+                      accountEmail: Row(
+                        children: <Widget>[
+                          Text(userEmail,
+                              style: TextStyle(
+                                  color: DataProvider().primary,
+                                  fontWeight: FontWeight.bold)),
+                        ],
+                      ),
+                      currentAccountPicture: InkWell(
                         child: new CircleAvatar(
                           backgroundImage: NetworkImage(userImage),
                           child: Stack(
@@ -77,61 +91,101 @@ class _HomeScreenState extends State<HomeScreen> {
                               Padding(
                                 padding: EdgeInsets.only(left: 50, bottom: 50),
                                 child: Material(
-                                  child: Icon(Icons.edit, color: DataProvider().primary),
+                                  child: Icon(Icons.edit,
+                                      color: DataProvider().primary),
                                   color: Colors.white,
                                   elevation: 10.1,
-                                  borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(30.0)),
                                 ),
                               )
                             ],
                           ),
                         ),
-                        onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => EditAccount()));},
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => EditAccount()));
+                        },
                       ),
-                  )else UserAccountsDrawerHeader(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                    ),
-                    accountName: Row(
-                      children: <Widget>[
-                        InkWell(child: Text('SIGN IN',style: TextStyle(color: DataProvider().primary,fontWeight: FontWeight.bold,fontSize: 18.0),),
-                          onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));},),
-                      ],
-                    ),
-                    accountEmail: Row(
-                      children: <Widget>[
-                        Text("Don't have an account?",style: TextStyle(color:Colors.black,fontWeight: FontWeight.bold),),
-                        InkWell(child: Text("SIGN UP",style: TextStyle(color:DataProvider().primary,fontWeight: FontWeight.bold)),
-                          onTap: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=>RegisterPage()));
-                          },
-                        ),
-                      ],
-                    ),
-                    currentAccountPicture: InkWell(
-                      child: new CircleAvatar(
-                        backgroundImage: NetworkImage(
-                            "https://cdn0.iconfinder.com/data/icons/avatar-78/128/12-512.png"),
-                        child: Stack(
-                          children: <Widget>[
-                            Padding(
-                              padding: EdgeInsets.only(left: 50, bottom: 50),
-                              child: Material(
-                                child: Icon(
-                                  Icons.edit,
+                    )
+                  else
+                    UserAccountsDrawerHeader(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                      ),
+                      accountName: Row(
+                        children: <Widget>[
+                          InkWell(
+                            child: Text(
+                              'SIGN IN',
+                              style: TextStyle(
                                   color: DataProvider().primary,
-                                ),
-                                color: Colors.white,
-                                elevation: 10.1,
-                                borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                              ),
-                            )
-                          ],
-                        ),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18.0),
+                            ),
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => LoginPage()));
+                            },
+                          ),
+                        ],
                       ),
-                      onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => EditAccount()));},
+                      accountEmail: Row(
+                        children: <Widget>[
+                          Text(
+                            "Don't have an account?",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          InkWell(
+                            child: Text("SIGN UP",
+                                style: TextStyle(
+                                    color: DataProvider().primary,
+                                    fontWeight: FontWeight.bold)),
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => RegisterPage()));
+                            },
+                          ),
+                        ],
+                      ),
+                      currentAccountPicture: InkWell(
+                        child: new CircleAvatar(
+                          backgroundImage: NetworkImage(
+                              "https://cdn0.iconfinder.com/data/icons/avatar-78/128/12-512.png"),
+                          child: Stack(
+                            children: <Widget>[
+                              Padding(
+                                padding: EdgeInsets.only(left: 50, bottom: 50),
+                                child: Material(
+                                  child: Icon(
+                                    Icons.edit,
+                                    color: DataProvider().primary,
+                                  ),
+                                  color: Colors.white,
+                                  elevation: 10.1,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(30.0)),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => EditAccount()));
+                        },
+                      ),
                     ),
-                  ),
                   Divider(),
                   DrawerlistTile(Icons.favorite, 'WishList', () {
                     Navigator.push(context,
@@ -158,7 +212,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         MaterialPageRoute(builder: (context) => ContactUs()));
                   }),
                   if (isLogin)
-                    DrawerlistTile(Icons.exit_to_app, 'Logout', () async{
+                    DrawerlistTile(Icons.exit_to_app, 'Logout', () async {
                       ShowAlertDailog();
                     }),
                 ],
@@ -177,25 +231,30 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             )));
   }
-  Future getData()async{
+
+  Future getData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      if((prefs.containsKey('userName')&&prefs.containsKey('userEmail')&&prefs.containsKey('userImage'))) {
+      if ((prefs.containsKey('userName') &&
+          prefs.containsKey('userEmail') &&
+          prefs.containsKey('userImage'))) {
         userName = prefs.getString('userName');
         userEmail = prefs.getString('userEmail');
-        userImage=prefs.getString('userImage');
-      }else{
-        isLogin=false;
+        userImage = prefs.getString('userImage');
+      } else {
+        isLogin = false;
       }
     });
   }
+
   Future<void> ShowAlertDailog() async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          shape:RoundedRectangleBorder(borderRadius: new BorderRadius.circular(15.0)),
+          shape: RoundedRectangleBorder(
+              borderRadius: new BorderRadius.circular(15.0)),
           title: Text('Are you Sure ?'),
           actions: <Widget>[
             Row(
@@ -203,21 +262,29 @@ class _HomeScreenState extends State<HomeScreen> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: RaisedButton(
-                    child: Text('Logout',style: TextStyle(color: Colors.white),),
+                    child: Text(
+                      'Logout',
+                      style: TextStyle(color: Colors.white),
+                    ),
                     color: DataProvider().primary,
-                    onPressed: ()async {
-                      SharedPreferences prefs = await SharedPreferences.getInstance();
+                    onPressed: () async {
+                      SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
                       setState(() {
-                        isLogin=false;
+                        isLogin = false;
                         prefs.clear();
                         AuthProvider().googleLogout();
                         AuthProvider().logoutFace();
                       });
-                     await Navigator.of(context).pop();
+                      await Navigator.of(context).pop();
                     },
                   ),
-                ), RaisedButton(
-                  child: Text('Cancel',style: TextStyle(color: Colors.white),),
+                ),
+                RaisedButton(
+                  child: Text(
+                    'Cancel',
+                    style: TextStyle(color: Colors.white),
+                  ),
                   color: Colors.red,
                   onPressed: () {
                     Navigator.of(context).pop();
@@ -354,7 +421,7 @@ class HomeScreenTopState extends State<HomeScreenTop> {
 }*/
 
 class CategoriesList extends StatelessWidget {
- /* static List<String> catNames = [
+  /* static List<String> catNames = [
     'Fashion',
     'Electronics',
     'Home & Kitchen',
@@ -443,75 +510,69 @@ class CategoriesList extends StatelessWidget {
     print(list.length.toString());
     return list;
   }
+
   @override
   Widget build(BuildContext context) {
-      return Container(
-        padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
-              height: MediaQuery.of(context).size.height * 0.20,
-              child: FutureBuilder<List<Category>>(
-                  future: fetchdata(),
-                  builder: (context, snapshot) {
-                    List<Category> mylist = snapshot.data;
-                    return ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: mylist.length,
-                      itemBuilder: ((BuildContext context, int index) {
-                        return Container(
-                         decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                                colors: [
-                                  Color(int.parse(mylist[index].fColor)),
-                                  Color(int.parse(mylist[index].lColor))
-                                ]),
-                            borderRadius: BorderRadius.circular(5.0),
-                          ),
-                          margin: EdgeInsets.symmetric(horizontal: 5),
-                          width: MediaQuery.of(context).size.width * 0.25,
-                          child: InkWell(
-                            onTap: () {
-                              /* Navigator.push(
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
+      height: MediaQuery.of(context).size.height * 0.20,
+      child: FutureBuilder<List<Category>>(
+          future: fetchdata(),
+          builder: (context, snapshot) {
+            List<Category> mylist = snapshot.data;
+            return ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: mylist.length,
+                itemBuilder: ((BuildContext context, int index) {
+                  return Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            Color(int.parse(mylist[index].fColor)),
+                            Color(int.parse(mylist[index].lColor))
+                          ]),
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    margin: EdgeInsets.symmetric(horizontal: 5),
+                    width: MediaQuery.of(context).size.width * 0.25,
+                    child: InkWell(
+                      onTap: () {
+                        /* Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (BuildContext context) => SubCategory(
                                 subtitle: categories[index].name,
                               ))); */
-                            },
-                 child: Container(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                //crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  Container(
-                                      padding: EdgeInsets.only(bottom: 7.0),
-                                          width: MediaQuery.of(context).size.width *
-                                          0.13,
-                                      child: Icon(
-                                        IconData(
-                                            int.parse(mylist[index].iconCode),
-                                            fontFamily: "Shopping"),
-                                        color: Colors.white,
-                                      )),
-                                  Text(
-                                    mylist[index].name,
-                                    textAlign: TextAlign.center,
-                                    maxLines: 2,
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 14),
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ],
-                              ),
+                      },
+                      child: Container(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          //crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Container(
+                                padding: EdgeInsets.only(bottom: 7.0),
+                                width: MediaQuery.of(context).size.width * 0.13,
+                                child: Icon(
+                                  IconData(int.parse(mylist[index].iconCode),
+                                      fontFamily: "Shopping"),
+                                  color: Colors.white,
+                                )),
+                            Text(
+                              mylist[index].name,
+                              textAlign: TextAlign.center,
+                              maxLines: 2,
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 14),
+                              overflow: TextOverflow.ellipsis,
                             ),
-                          ),
-                        );
-            
-                    
-                  
-                ),
-              ),
-            );
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                }));
           }),
     );
   }
