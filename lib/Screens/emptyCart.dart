@@ -1,55 +1,23 @@
 import 'package:big/Providers/ColorsProvider.dart';
 import 'package:big/Screens/HomeScreen.dart';
 import 'package:big/componets/horizontal_listview.dart';
+import 'package:big/componets/shopping_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:big/componets/appBar.dart';
 
 class EmptyCart extends StatefulWidget {
+  String pageTitle;
+  EmptyCart(this.pageTitle);
   @override
   _EmptyCartState createState() => _EmptyCartState();
 }
 
 class _EmptyCartState extends State<EmptyCart> {
-  String dropdownValue = 'Delete all Items';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: new Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            IconButton(
-              icon: Icon(Icons.arrow_back),
-              color: ColorProvider().primary,
-              onPressed: () {
 
-              },
-            ),
-            new Text(
-              "Your Bag",
-              style: TextStyle(color: ColorProvider().primary),
-            ),
-            DropdownButton<String>(
-              icon: Icon(Icons.more_vert),
-//              value: dropdownValue,
-              onChanged: (String newValue) {
-                setState(() {
-                  dropdownValue = newValue;
-                });
-              },
-              items:<String>['Delete all Items']
-                  .map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              })
-                  .toList(),
-            )
-
-          ],
-        ),
-        backgroundColor: Colors.white,
-      ),
+      appBar: Mybar("${widget.pageTitle}", false,false,true),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -64,11 +32,11 @@ class _EmptyCartState extends State<EmptyCart> {
                     children: <Widget>[
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text("Your Bag Is Empty",style: TextStyle(fontSize: 20.0,fontWeight: FontWeight.bold),),
+                        child: Text("${widget.pageTitle} Is Empty",style: TextStyle(fontSize: 20.0,fontWeight: FontWeight.bold),),
                       ),
-                      Image.network(
-                          "https://assets.localcoinatm.com/images/wp-content/uploads/2018/10/18160316/100x100-shopping-cart-icon-01.png"
-                      ),
+                      widget.pageTitle == "Your Bag" 
+                      ? (Icon(Shopping.emptybag,size: 60.0,color: Color(0XFF8ba4da),))
+                      :Icon(Shopping.whislistempty,size: 60.0,color: Color(0XFF8ba4da),),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.end,

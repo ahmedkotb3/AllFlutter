@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'dart:io';
-import 'package:device_info/device_info.dart';
 
 class DataProvider with ChangeNotifier {
- Color primary = Colors.blue[900];
+ Color primary = Color (0xff193ca1);
  double paddingApp = 32.0;
  Color pperrywinkle = Color(0XFF7a90d6);
  bool securePassword = true;
@@ -17,6 +15,7 @@ class DataProvider with ChangeNotifier {
       "qty":1,
       "name":
           "Plus Button Back Guipure Lace Sleeve Belted Peplum TopPlus Button Back Guipure Lace Sleeve Belted Peplum TopPlus Button Back Guipure Lace Sleeve Belted Peplum Top",
+      "isfav":true
     }
     ,
     {
@@ -27,7 +26,8 @@ class DataProvider with ChangeNotifier {
       "price": 50,
       "qty":1,
       "name":
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ut aliquet libero, sit amet feugiat eros. Quisque in ante augue. Nullam sed "
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ut aliquet libero, sit amet feugiat eros. Quisque in ante augue. Nullam sed ",
+      "isfave":false
     }
     ,
     {
@@ -37,14 +37,11 @@ class DataProvider with ChangeNotifier {
       "price": 100,
       "qty":1,
       "name":
-          "laoreet enim vel, suscipit enim. Proin porta elit sed justo blandit, eu placerat leo elementum"
+          "laoreet enim vel, suscipit enim. Proin porta elit sed justo blandit, eu placerat leo elementum",
+      "isfav":true
     }
   ];
    int cartItems=productList.length;
-// set cartitemse(int number){
-//   cartItems=number;
-//   notifyListeners();
-// }
   get productes=>productList;
 
  set setPassword(bool check) {
@@ -54,26 +51,5 @@ class DataProvider with ChangeNotifier {
 
  bool get getPassword => securePassword;
 
-//get device token
- Future<List<String>> getDeviceDetails() async {
-  String deviceName;
-  String deviceVersion;
-  String identifier;
-  final DeviceInfoPlugin deviceInfoPlugin = new DeviceInfoPlugin();
-  if (Platform.isAndroid) {
-   var build = await deviceInfoPlugin.androidInfo;
-   deviceName = build.model;
-   deviceVersion = build.version.toString();
-   identifier = build.androidId; //UUID for Android
-   print(identifier);
-  } else if (Platform.isIOS) {
-   var data = await deviceInfoPlugin.iosInfo;
-   deviceName = data.name;
-   deviceVersion = data.systemVersion;
-   identifier = data.identifierForVendor; //UUID for iOS
-   print(identifier);
-  }
-//if (!mounted) return;
-  return [deviceName, deviceVersion, identifier];
- }
+
 }

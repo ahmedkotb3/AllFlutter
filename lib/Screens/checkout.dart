@@ -1,7 +1,16 @@
+import 'package:big/Screens/customProgess.dart';
+import 'package:big/Screens/payment.dart';
 import 'package:big/Screens/submittedPage.dart';
+import 'package:big/componets/appBar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_country_picker/flutter_country_picker.dart';
 
 class Checkout extends StatefulWidget {
+  TextEditingController address;
+  Country country;
+  TextEditingController landmark;
+  TextEditingController zip;
+  Checkout(this.address, this.country, this.landmark, this.zip);
   CheckoutState createState() => CheckoutState();
 }
 
@@ -16,14 +25,13 @@ class CheckoutState extends State<Checkout> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Checkout'),
-      ),
+      appBar: Mybar("Checkout", false),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(10.0),
           child: Column(
             children: <Widget>[
+              CustomProgressBar(3),
               Container(
                 width: MediaQuery.of(context).size.width,
                 child: Card(
@@ -37,7 +45,9 @@ class CheckoutState extends State<Checkout> {
                         Text('johndoe@example.com'),
                         Text('01270089499'),
                         Text(
-                            '236 - xyz st, San Francisco, CA \n Alexandria ,Egypt.')
+                            'Address: ${widget.address.text} ${widget.country.name}'),
+                        Text('Landmark: ${widget.landmark.text}'),
+                        Text('Zip: ${widget.zip.text}')
                       ],
                     ),
                   ),
@@ -52,7 +62,7 @@ class CheckoutState extends State<Checkout> {
               Container(
                 width: MediaQuery.of(context).size.width,
                 child: Card(
-                  child: shipmentFees(),
+                  child: shipmentFees(MainAxisAlignment.end),
                 ),
               ),
               Checkoutbottom(),
@@ -168,8 +178,10 @@ class Checkoutbottom extends StatelessWidget {
                 color: Colors.blue,
                 child: Text('PLACE ORDER'),
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => SubmittedPage()));
-
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) => Payment()));
                 },
               ))
         ],
@@ -178,47 +190,43 @@ class Checkoutbottom extends StatelessWidget {
   }
 }
 
-Widget shipmentFees() => Column(
+Widget shipmentFees(MainAxisAlignment jj) => Column(
       children: <Widget>[
         Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget>[
-            Text('Sum'),
-            SizedBox(
-              width: 20,
-            ),
-            Text('3000 EGP')
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget>[
-            Text('Shipping fees'),
-            SizedBox(
-              width: 20,
-            ),
-            Text('3000 EGP')
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget>[
-            Text('Discount'),
-            SizedBox(
-              width: 20,
-            ),
-            Text('3000 EGP')
-          ],
-        ),
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text('Sum'),
+                  Text('Shipping fees'),
+                  Text('Discount'),
+                ],
+              ), //Spacer(),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: <Widget>[
+                  Text('3000 EGP'),
+                  Text('300000 EGP'),
+                  Text('30000 EGP'),
+                ],
+              ),
+            ]),
         Divider(),
         Row(
-          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Text('TOTAL AMOUNT',style: TextStyle(color: Colors.blue),),
+            Text(
+              'TOTAL AMOUNT',
+              style: TextStyle(color: Colors.blue),
+            ),
             SizedBox(
               width: 20,
             ),
-            Text('3000 EGP',style: TextStyle(color: Colors.red),)
+            Text(
+              '3000 EGP',
+              style: TextStyle(color: Colors.red),
+            )
           ],
         ),
       ],

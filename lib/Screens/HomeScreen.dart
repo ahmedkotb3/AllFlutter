@@ -1,12 +1,13 @@
+import 'package:big/Providers/AuthProvider.dart';
 import 'package:big/Providers/DataProvider.dart';
 import 'package:big/Screens/ContactUs.dart';
 import 'package:big/Screens/FAQ.dart';
 import 'package:big/Screens/Settings.dart';
 import 'package:big/Screens/SubCategory.dart';
 import 'package:big/Screens/Terms.dart';
-import 'package:big/Screens/cart.dart';
 import 'package:big/Screens/editAccount.dart';
 import 'package:big/Screens/login.dart';
+import 'package:big/Screens/register.dart';
 import 'package:big/Screens/whishlist.dart';
 import 'package:big/componets/appBar.dart';
 import 'package:flutter/material.dart';
@@ -14,15 +15,29 @@ import 'package:carousel_pro/carousel_pro.dart';
 import 'package:big/Screens/mall.dart';
 import 'package:big/Providers/Styles.dart';
 import 'package:big/componets/shopping_icons.dart';
-
-
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:big/model/Category.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'dart:async';
 
 class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  bool isLogin=false;
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  bool isLogin = true;
+  String userName = "mohamed";
+  String userEmail = "m@m.com";
+  String userImage =
+      "https://onlinecoursemasters.com/wp-content/uploads/2019/05/OCM-16-Maximilian-Schwarzmuller.jpg";
+  @override
+  void initState() {
+    getData();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -30,90 +45,176 @@ class _HomeScreenState extends State<HomeScreen> {
         home: Scaffold(
             appBar: AppBar(
               leading: IconButton(
-                icon: new Icon(
-                  Icons.menu,
-                  color: Colors.white,
-                ),
-                onPressed: () {
-                  Scaffold.of(context).openDrawer();
-
-                },
-              ),
+                  icon: new Icon(Icons.menu, color: Colors.white),
+                  onPressed: () => _scaffoldKey.currentState.openDrawer()),
+              backgroundColor: DataProvider().primary,
               elevation: 0,
               titleSpacing: 50,
               title: new Text("My Title"),
               actions: <Widget>[
-                // new IconButton(
-                //   icon: new Icon(Shopping.shopping_bag_01),
-                //   onPressed: () {
-                //     Navigator.push(context,MaterialPageRoute(builder: (context) => CartPage()));
-                //   },
-                // ),
-                     SearchCart(DataProvider().cartItems,false,false)
+                SearchCart(DataProvider().cartItems, false, false)
               ],
             ),
+            key: _scaffoldKey,
             drawer: Drawer(
               child: ListView(
                 children: <Widget>[
-
-                  UserAccountsDrawerHeader(
-                    accountName: Text('EsamMax'),
-                    accountEmail: Text('Esam_Mouhamed'),
-                    currentAccountPicture: GestureDetector(
-                      child: InkWell(
+                  if (isLogin)
+                    UserAccountsDrawerHeader(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                      ),
+                      accountName: Row(
+                        children: <Widget>[
+                          Text(
+                            userName,
+                            style: TextStyle(
+                                color: DataProvider().primary,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18.0),
+                          ),
+                        ],
+                      ),
+                      accountEmail: Row(
+                        children: <Widget>[
+                          Text(userEmail,
+                              style: TextStyle(
+                                  color: DataProvider().primary,
+                                  fontWeight: FontWeight.bold)),
+                        ],
+                      ),
+                      currentAccountPicture: InkWell(
                         child: new CircleAvatar(
-                            backgroundImage: NetworkImage(
-                                'https://freedesignfile.com/upload/2017/09/Young-woman-shopping-online-at-home-Stock-Photo-19.jpg'),
-                            child: Stack(children: <Widget>[
+                          backgroundImage: NetworkImage(userImage),
+                          child: Stack(
+                            children: <Widget>[
+                              Padding(
+                                padding: EdgeInsets.only(left: 50, bottom: 50),
+                                child: Material(
+                                  child: Icon(Icons.edit,
+                                      color: DataProvider().primary),
+                                  color: Colors.white,
+                                  elevation: 10.1,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(30.0)),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => EditAccount()));
+                        },
+                      ),
+                    )
+                  else
+                    UserAccountsDrawerHeader(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                      ),
+                      accountName: Row(
+                        children: <Widget>[
+                          InkWell(
+                            child: Text(
+                              'SIGN IN',
+                              style: TextStyle(
+                                  color: DataProvider().primary,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18.0),
+                            ),
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => LoginPage()));
+                            },
+                          ),
+                        ],
+                      ),
+                      accountEmail: Row(
+                        children: <Widget>[
+                          Text(
+                            "Don't have an account?",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          InkWell(
+                            child: Text("SIGN UP",
+                                style: TextStyle(
+                                    color: DataProvider().primary,
+                                    fontWeight: FontWeight.bold)),
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => RegisterPage()));
+                            },
+                          ),
+                        ],
+                      ),
+                      currentAccountPicture: InkWell(
+                        child: new CircleAvatar(
+                          backgroundImage: NetworkImage(
+                              "https://cdn0.iconfinder.com/data/icons/avatar-78/128/12-512.png"),
+                          child: Stack(
+                            children: <Widget>[
                               Padding(
                                 padding: EdgeInsets.only(left: 50, bottom: 50),
                                 child: Material(
                                   child: Icon(
                                     Icons.edit,
-                                    color: Colors.white,
+                                    color: DataProvider().primary,
                                   ),
-                                  color: Colors.blue[100],
-                                  elevation: .1,
+                                  color: Colors.white,
+                                  elevation: 10.1,
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(30.0)),
                                 ),
                               )
-                            ],),),
-                        onTap: (){
-                          Navigator.push(context,MaterialPageRoute(builder: (context) => EditAccount()));
+                            ],
+                          ),
+                        ),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => EditAccount()));
                         },
                       ),
                     ),
-                  ),
                   Divider(),
-                 if(!isLogin) DrawerlistTile(Icons.account_circle, 'Login', () {
-                    Navigator.push(context,MaterialPageRoute(builder: (context) => LoginPage()));
-
-                 }),
                   DrawerlistTile(Icons.favorite, 'WishList', () {
-                    Navigator.push(context,MaterialPageRoute(builder: (context) => Wishlist()));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Wishlist()));
                   }),
                   DrawerlistTile(Icons.settings, 'Settings', () {
-                    Navigator.push(context,MaterialPageRoute(builder: (context) => Settings()));
-
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Settings()));
                   }),
                   DrawerlistTile(Icons.local_offer, 'My Orders', () {}),
-                  DrawerlistTile(Icons.category, 'Categories', () {
-
-                  }),
+                  DrawerlistTile(Icons.category, 'Categories', () {}),
                   DrawerlistTile(Icons.local_shipping,
                       'Delivery & Shipping Istructions', () {}),
                   DrawerlistTile(Icons.local_mall, 'Terms & Conditions', () {
-                    Navigator.push(context,MaterialPageRoute(builder: (context) => Terms()));
-
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Terms()));
                   }),
                   DrawerlistTile(Icons.help, 'FAQ', () {
-                    Navigator.push(context,MaterialPageRoute(builder: (context) => FAQ()));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => FAQ()));
                   }),
                   DrawerlistTile(Icons.phone, 'Contact Us', () {
-                    Navigator.push(context,MaterialPageRoute(builder: (context) => ContactUs()));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => ContactUs()));
                   }),
-                  if (isLogin)  DrawerlistTile(Icons.exit_to_app, 'Logout', () {}),
+                  if (isLogin)
+                    DrawerlistTile(Icons.exit_to_app, 'Logout', () async {
+                      ShowAlertDailog();
+                    }),
                 ],
               ),
             ),
@@ -130,10 +231,73 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             )));
   }
+
+  Future getData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      if ((prefs.containsKey('userName') &&
+          prefs.containsKey('userEmail') &&
+          prefs.containsKey('userImage'))) {
+        userName = prefs.getString('userName');
+        userEmail = prefs.getString('userEmail');
+        userImage = prefs.getString('userImage');
+      } else {
+        isLogin = false;
+      }
+    });
+  }
+
+  Future<void> ShowAlertDailog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: new BorderRadius.circular(15.0)),
+          title: Text('Are you Sure ?'),
+          actions: <Widget>[
+            Row(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: RaisedButton(
+                    child: Text(
+                      'Logout',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    color: DataProvider().primary,
+                    onPressed: () async {
+                      SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                      setState(() {
+                        isLogin = false;
+                        prefs.clear();
+                        AuthProvider().googleLogout();
+                        AuthProvider().logoutFace();
+                      });
+                      await Navigator.of(context).pop();
+                    },
+                  ),
+                ),
+                RaisedButton(
+                  child: Text(
+                    'Cancel',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  color: Colors.red,
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            ),
+          ],
+        );
+      },
+    );
+  }
 }
-
-
-
 
 // DrawerList take 3 parmeters title - icon- onclickfun()
 
@@ -152,13 +316,8 @@ class DrawerlistTile extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            Icon(
-              draweIcon,
-              color: Colors.blue,
-            ),
-            SizedBox(
-              width: 8,
-            ),
+            Icon(draweIcon, color: DataProvider().primary),
+            SizedBox(width: 8),
             Text(drawerItem),
           ],
         ),
@@ -166,9 +325,6 @@ class DrawerlistTile extends StatelessWidget {
     );
   }
 }
-
-
-
 
 //Top Part of the Home page Srarch & Carsoul ---Torres---
 
@@ -188,21 +344,8 @@ class HomeScreenTopState extends State<HomeScreenTop> {
           child: Container(
             height: 160,
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-
-                colors: [
-                  Styles.appFirstColor,
-                  Styles.appSecondColor
-                ]
-              )
-            ),
-
-
-
-
-
-
-
+                gradient: LinearGradient(
+                    colors: [Styles.appFirstColor, Styles.appSecondColor])),
             child: Column(
               children: <Widget>[
                 SizedBox(
@@ -268,128 +411,175 @@ class HomeScreenTopState extends State<HomeScreenTop> {
   }
 }
 
-
-
-
-
 // Categories Part --------Torres
 
-class Category {
- String name;
- LinearGradient colors;
- IconData catIcon;
-Category(this.name,this.colors,this.catIcon);
-}
-
+/*class Category {
+  String name;
+  LinearGradient colors;
+  IconData catIcon;
+  Category(this.name, this.colors, this.catIcon);
+}*/
 
 class CategoriesList extends StatelessWidget {
-
-
+  /* static List<String> catNames = [
+    'Fashion',
+    'Electronics',
+    'Home & Kitchen',
+    'Phones & Tablet',
+    'Beauty & Health'
+  ];
+  static List<IconData> icon = [
+    Shopping.fashion,
+    Shopping.electronics,
+    Shopping.furniture,
+    Shopping.mobile,
+    Shopping.health
+  ];
   static List<LinearGradient> myColors = [
     LinearGradient(
         begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-      colors: [
-  Styles.catOneFirstColor,
-      Styles.catOneSceondColor
-    ]),
+        end: Alignment.bottomRight,
+        colors: [Styles.catOneFirstColor, Styles.catOneSceondColor]),
+    LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [Styles.catTwoFirstColor, Styles.catTwoSceondColor]),
+    LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [Styles.catThreeFirstColor, Styles.catThreeSceondColor]),
+    LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [Styles.catFourFirstColor, Styles.catFourSceondColor]),
+    LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [Styles.catFiveFirstColor, Styles.catFiveSceondColor]),
+    LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [Styles.catSixFirstColor, Styles.catSixSceondColor]),
+    LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [Styles.catSevenFirstColor, Styles.catSevenSceondColor]),
+    LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [Styles.catEightFirstColor, Styles.catEightSceondColor]),
+    LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [Styles.catNineFirstColor, Styles.catNineSceondColor]),
 
-   LinearGradient(
-      begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-     colors: [
-      Styles.catTwoFirstColor,
-      Styles.catTwoSceondColor
-    ]),
-       LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,colors: [
-      Styles.catThreeFirstColor,
-      Styles.catThreeSceondColor
-    ]),
-       LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-         colors: [
-     Styles.catFourFirstColor,
-      Styles.catFourSceondColor
-    ]),
-       LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-         colors: [
-     Styles.catOneFirstColor,
-      Styles.catOneSceondColor
-    ]),
-   /* Colors.teal,
+    /* Colors.teal,
     Colors.orange,
     Colors.blue,  
     Colors.purple,
     Colors.indigo*/
   ];
 
-   final List<Category> categories = [
-    Category('Fashion', myColors[0], Shopping.fashion),
-    Category('Electronics', myColors[1], Shopping.electronics),
-    Category('Furniture', myColors[2], Shopping.furntiure), 
-    Category('Phones and Tablet', myColors[3], Shopping.shopping_bag_01),    
-    Category('Beauty & Health', myColors[4], Shopping.shopping_bag_01),    
+  final List<Category> categories = [
+    for (var i = 0; i < catNames.length; i++)
+      Category(catNames[i], myColors[i], icon[i]),
   ];
+  //  [
+  //   Category('Fashion', myColors[0], Shopping.fashion),
+  //   Category('Electronics', myColors[1], Shopping.electronics),
+  //   Category('Furniture', myColors[2], Shopping.furniture),
+  //   Category('Phones and Tablet', myColors[3], Shopping.mobile),
+  //   Category('Beauty & Health', myColors[4], Shopping.health),
+  // ];
+*/
 
+  Future<List<Category>> fetchdata() async {
+    final res = await http.get("http://18.217.190.199/api/categories");
+    List<Category> list;
+    print(res.statusCode.toString());
 
-   @override
+    if (res.statusCode == 200) {
+      print(res.statusCode.toString());
+
+      var data = json.decode(res.body);
+      var rest = data["data"] as List;
+      print(rest.toString());
+
+      list = rest.map<Category>((json) => Category.fromJson(json)).toList();
+    }
+    print(list.length.toString());
+    return list;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
       height: MediaQuery.of(context).size.height * 0.20,
-      child: ListView.builder(
-         
-          scrollDirection: Axis.horizontal,
-          itemCount: categories.length,
-          itemBuilder: (context, index) {
-            return Container(
-              decoration: BoxDecoration(
-                gradient:myColors[index],
-                borderRadius: BorderRadius.circular(5.0),
-              ),
-              margin: EdgeInsets.symmetric(horizontal: 5),
-              width: MediaQuery.of(context).size.width * 0.25,
-              
-                child:InkWell (onTap: (){
-
-                  Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) => SubCategory(subtitle: categories[index].name,)));
-                },
-                                  child: Container(
-                      child:Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                      
-                        Icon(
-                         categories[index].catIcon,color: Colors.white,
-                        ),
-                        
-                        Text(
-                      categories[index].name,
-                      style: TextStyle(color: Colors.white, fontSize: 14),
-                    )])
-                    
+      child: FutureBuilder<List<Category>>(
+          future: fetchdata(),
+          builder: (context, snapshot) {
+            List<Category> mylist = snapshot.data;
+            if(snapshot.hasData){
+            return ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: mylist.length,
+                itemBuilder: ((BuildContext context, int index) {
+                  return Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            Color(int.parse(mylist[index].fColor)),
+                            Color(int.parse(mylist[index].lColor))
+                          ]),
+                      borderRadius: BorderRadius.circular(5.0),
                     ),
-                  
-                ),
-              
-            );
+                    margin: EdgeInsets.symmetric(horizontal: 5),
+                    width: MediaQuery.of(context).size.width * 0.25,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) => SubCategory(
+                                subtitle: mylist[index].name,
+                              ))); 
+                      },
+                      child: Container(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          //crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Container(
+                                padding: EdgeInsets.only(bottom: 7.0),
+                                width: MediaQuery.of(context).size.width * 0.13,
+                                child: Icon(
+                                  IconData(int.parse(mylist[index].iconCode),
+                                      fontFamily:mylist[index].iconFont),
+                                  color: Colors.white,
+                                )),
+                            Text(
+                              mylist[index].name,
+                              textAlign: TextAlign.center,
+                              maxLines: 2,
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 14),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                }));}
+                else{return Text("Loading...");}
+
           }),
     );
   }
 }
-
-
-
-
-
 
 //offers Part Two Cards ---------Torres
 
@@ -472,10 +662,7 @@ class Offers extends StatelessWidget {
   }
 }
 
-
-
-
-// Banner Part to show banner image 
+// Banner Part to show banner image
 String myImageurl =
     'https://assets.tatacliq.com/medias/sys_master/images/13615969468446.jpg';
 String myImageurl2 =
@@ -497,10 +684,8 @@ class MyBanner extends StatelessWidget {
   }
 }
 
-
-
 // offers like most arraival & best seller
- //take title & bannerimage from banner class and will take List of proucdes 
+//take title & bannerimage from banner class and will take List of proucdes
 
 class HomeOffers extends StatelessWidget {
   final String offerTitle;
@@ -526,34 +711,29 @@ class HomeOffers extends StatelessWidget {
               ],
             ),
             Container(
-              
               padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-             height: MediaQuery.of(context).size.height * 0.42,
+              height: MediaQuery.of(context).size.height * 0.42,
               child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: 5,
                   itemBuilder: (context, index) {
                     return Container(
-
-    
                         width: 165,
                         child: Card(
-                          shape:RoundedRectangleBorder(
+                          shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
-                            
                           ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: <Widget>[
                               Material(
-                                
                                 child: InkWell(
-                                  
                                   child: Image.network(
                                     'https://mobizil.com/wp-content/uploads/2018/09/xs-colors-1.jpg',
                                     fit: BoxFit.cover,
-                                    height: MediaQuery.of(context).size.height *0.2,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.2,
                                   ),
                                 ),
                               ),
@@ -566,8 +746,10 @@ class HomeOffers extends StatelessWidget {
                                 SizedBox(
                                   width: 6,
                                 ),
-                                Text('8000 EGP',
-                                    style: TextStyle(fontSize: 12),),
+                                Text(
+                                  '8000 EGP',
+                                  style: TextStyle(fontSize: 12),
+                                ),
                                 SizedBox(
                                   width: 6,
                                 ),
@@ -576,12 +758,18 @@ class HomeOffers extends StatelessWidget {
                                   size: 18,
                                 ),
                               ]),
-                              Wrap(
-                                  children:<Widget>[ Text(
-                                'Apple Iphone X With Facetime - 64 GB, 4G LTE, Silver, 3 GB Ram, Single Sim ',
-                                style: TextStyle(
-                                    fontSize: 12, fontWeight: FontWeight.bold),
-                                  )]),
+                              Wrap(children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    'Apple Iphone X With FacetimeFacetimeFacetimeFacetimeFacetimeFacetimeFacetimeFacetimeFacetime - 64 GB, 4G LTE, Silver, 3 GB Ram, Single Sim ',
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold),
+                                    maxLines: 4,
+                                  ),
+                                )
+                              ]),
                             ],
                           ),
                         ));
@@ -593,13 +781,3 @@ class HomeOffers extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
-
-
-
-
-

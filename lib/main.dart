@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:big/Screens/payment.dart';
+import 'package:big/Screens/shipping.dart';
 import 'package:big/componets/splashScreen.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
