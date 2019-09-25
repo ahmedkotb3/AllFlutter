@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>644333932307-hdi6uqufh2lss4trp3bltbgssvehknsv.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.644333932307-hdi6uqufh2lss4trp3bltbgssvehknsv</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>644333932307-dde73atghja7nb7jnr9doghlln8o7v3r.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDQNelSkR-AFF1pd5a0n2WtUOSSFRj1UuU</string>
+	<key>GCM_SENDER_ID</key>
+	<string>644333932307</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.essam.big</string>
+	<key>PROJECT_ID</key>
+	<string>allflutter</string>
+	<key>STORAGE_BUCKET</key>
+	<string>allflutter.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:644333932307:ios:09008a8974a9e50ec4d4e6</string>
+	<key>DATABASE_URL</key>
+	<string>https://allflutter.firebaseio.com</string>
+	<key>CFBundleURLTypes</key>
+<array>
+    <dict>
+        <key>CFBundleURLSchemes</key>
+        <array>
+            <!--
+              Replace "000000000000" with your Facebook App ID here.
+              **NOTE**: The scheme needs to start with `fb` and then your ID.
+            -->
+            <string>fb1264280087029562</string>
+        </array>
+    </dict>
+</array>
+
+<key>FacebookAppID</key>
+
+<!-- Replace "000000000000" with your Facebook App ID here. -->
+<string>1264280087029562</string>
+<key>FacebookDisplayName</key>
+
+<!-- Replace "YOUR_APP_NAME" with your Facebook App name. -->
+<string>big</string>
+
+<key>LSApplicationQueriesSchemes</key>
+<array>
+    <string>fbapi</string>
+    <string>fb-messenger-share-api</string>
+    <string>fbauth2</string>
+    <string>fbshareextension</string>
+</array>
+<!-- Put me in the [my_project]/ios/Runner/Info.plist file -->
+<!-- Google Sign-in Section -->
+<key>CFBundleURLTypes</key>
+<array>
+	<dict>
+		<key>CFBundleTypeRole</key>
+		<string>Editor</string>
+		<key>CFBundleURLSchemes</key>
+		<array>
+			<!-- TODO Replace this value: -->
+			<!-- Copied from GoogleService-Info.plist key REVERSED_CLIENT_ID -->
+			<string>com.googleusercontent.apps.861823949799-vc35cprkp249096uujjn0vvnmcvjppkn</string>
+		</array>
+	</dict>
+</array>
+<!-- End of the Google Sign-in Section -->
+
+</dict>
+</plist>
