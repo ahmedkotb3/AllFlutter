@@ -31,14 +31,14 @@ class _LoginPageState extends State<LoginPage> {
             child: Container(
               child: Center(
                 child: Padding(
-                  padding: const EdgeInsets.all(15.0),
+                  padding: const EdgeInsets.all(10.0),
                   child: Column(
                     children: <Widget>[
                       Consumer<DataProvider>(
                         builder: (context, stateManager, _) => emailInput(),
                       ),
                       SizedBox(
-                        height: 25,
+                        height: 20,
                       ),
                       Consumer<DataProvider>(
                         builder: (context, dataProvider, _) => TextFormField(
@@ -145,7 +145,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                       SizedBox(
-                        height: 40,
+                        height: 20,
                       ),
                       Text(
                         'or Sign In with',
