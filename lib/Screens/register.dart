@@ -105,12 +105,16 @@ class _RegisterPageState extends State<RegisterPage> {
                           title: title,
                           navigate: () async{
                             if (_formKey.currentState.validate()) {
+                              String deviceId;
+                              await AuthProvider().getDeviceDetails().then((res){deviceId=res[0];
+                              print( 'device id$deviceId');
+                              });
                             var myuser = Provider.of<User>(context);
                             myuser.setnameuser(nameController.text.trim());
                             myuser.setemailuser(emailController.text.trim());
                             myuser.setpassworduser(passwordController.text.trim());
                             myuser.settypeuser('normal');
-                            myuser.setdeviceIduser('12345678');
+                            myuser.setdeviceIduser(deviceId);
                             SharedPreferences prefs = await SharedPreferences.getInstance();
                             await prefs.setString('userName', nameController.text.trim());
                             await prefs.setString('userEmail', emailController.text.trim());
@@ -143,7 +147,31 @@ class _RegisterPageState extends State<RegisterPage> {
 //                                    onPressed: ()async {
 //                                      AuthProvider().loginWithFB();
 //                                    }
-                                onPressed: (){},
+                                onPressed: ()async{
+                                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                                    AuthProvider().loginWithFB().then((res) async {
+                                    if(prefs.containsKey('userEmail')){
+                                      // call storage to get data has been set before
+                                      var facebookName= prefs.getString('userName');
+                                      var facebookEmail= prefs.getString('userEmail');
+                                      //get device Id
+                                      String deviceId;
+                                      await AuthProvider().getDeviceDetails().then((res){deviceId=res[0];
+                                      print( 'device id$deviceId');
+                                      });
+                                      var myuser = Provider.of<User>(context);
+                                      myuser.setnameuser(facebookName);
+                                      myuser.setemailuser(facebookEmail);
+                                      myuser.settypeuser('facebook');
+                                      myuser.setdeviceIduser(deviceId);
+                                      await Navigator.push(context, MaterialPageRoute(builder: (context) => Verify(newuser: myuser)));
+                                    }else{
+                                      AuthProvider().logoutFace();
+                                      prefs.clear();
+                                    }
+                                  });
+
+                                },
                                     )),
                             SizedBox(width: 30),
                             Container(
@@ -165,22 +193,31 @@ class _RegisterPageState extends State<RegisterPage> {
                                     //}
                                   onPressed: ()async{
                                       //call google model
-                                  await  AuthProvider().googleLogin();
-                                  // call storage to get data has been set before
                                     SharedPreferences prefs = await SharedPreferences.getInstance();
-                                    var googleName= prefs.getString('userName');
-                                    var googleEmail= prefs.getString('userEmail');
-                                    //get device Id
-                                    String deviceId;
-                                    await AuthProvider().getDeviceDetails().then((res){deviceId=res[0];
+                                    AuthProvider().googleLogin().then((res) async {
+                                    if(prefs.containsKey('userEmail')){
+                                      // call storage to get data has been set before
+                                      var googleName= prefs.getString('userName');
+                                      var googleEmail= prefs.getString('userEmail');
+                                      //get device Id
+                                      String deviceId;
+                                      await AuthProvider().getDeviceDetails().then((res){deviceId=res[0];
                                       print( 'device id$deviceId');
-                                    });
-                                    var myuser = Provider.of<User>(context);
-                                    myuser.setnameuser(googleName);
-                                    myuser.setemailuser(googleEmail);
-                                    myuser.settypeuser('google');
-                                    myuser.setdeviceIduser(deviceId);
-                                  await Navigator.push(context, MaterialPageRoute(builder: (context) => Verify(newuser: myuser)));
+                                      });
+                                      var myuser = Provider.of<User>(context);
+                                      myuser.setnameuser(googleName);
+                                      myuser.setemailuser(googleEmail);
+                                      myuser.settypeuser('google');
+                                      myuser.setdeviceIduser(deviceId);
+                                      await Navigator.push(context, MaterialPageRoute(builder: (context) => Verify(newuser: myuser)));
+                                    }
+                                    else {
+                                      AuthProvider().googleLogout();
+                                      prefs.clear();
+                                    }
+
+                                  });
+
                                   },
                                     ),
                             ),
@@ -334,12 +371,12 @@ class Nameinput extends StatelessWidget {
         border: OutlineInputBorder(
           borderRadius: new BorderRadius.circular(5.0),
         ),
-        labelText: 'Name',
+        labelText: 'Full Name',
 //        labelStyle: TextStyle(fontSize: 23),
       ),
       validator: (value) {
-        if (value.isEmpty == true) {
-          return 'Please enter your name ';
+        if (value.length <  5) {
+          return 'Please enter correct name ';
         }
         return null;
       },

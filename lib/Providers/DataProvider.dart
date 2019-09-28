@@ -1,6 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-
+import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
+import 'MainProvider.dart';
+String productApi = "/product/";
+String ProductDetailsUrl = MainProvider().baseUrl + productApi ;
 class DataProvider with ChangeNotifier {
  Color primary = Color (0xff193ca1);
  double paddingApp = 32.0;
@@ -48,8 +54,21 @@ class DataProvider with ChangeNotifier {
   securePassword = check;
   notifyListeners();
  }
-
  bool get getPassword => securePassword;
+/////////////////////////////////////////////////////////////////////////////////////////
+  Future<String> productDetails(int Id) async {
+    Response response = await http.get(ProductDetailsUrl+ Id.toString());
+    int statusCode = response.statusCode;
+    print("statusCode:${statusCode}");
+    var body = json.decode(response.body);
+     // print('body $body');
+    return response.body;
+  }
+
+
+
+
+
 
 
 }
