@@ -9,7 +9,9 @@ import 'package:big/Screens/editAccount.dart';
 import 'package:big/Screens/login.dart';
 import 'package:big/Screens/register.dart';
 import 'package:big/Screens/whishlist.dart';
+import 'package:big/componets/Connection.dart';
 import 'package:big/componets/appBar.dart';
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:big/Screens/mall.dart';
@@ -20,6 +22,7 @@ import 'package:big/model/Category.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
+import 'package:connectivity/connectivity.dart';
 
 class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
@@ -30,17 +33,19 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isLogin = true;
   String userName = "mohamed";
   String userEmail = "m@m.com";
-  String userImage =
-      "https://onlinecoursemasters.com/wp-content/uploads/2019/05/OCM-16-Maximilian-Schwarzmuller.jpg";
+  String userImage = "https://onlinecoursemasters.com/wp-content/uploads/2019/05/OCM-16-Maximilian-Schwarzmuller.jpg";
+  bool connected=false;
   @override
   void initState() {
+    check();
     getData();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    if (connected==false)return FlareConnection();
+    if (connected==true) return MaterialApp(
         title: 'HomeScreen',
         home: Scaffold(
             appBar: AppBar(
@@ -231,7 +236,30 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             )));
   }
+Future check()async{
 
+  var connectivityResult = await (Connectivity().checkConnectivity());
+  if (connectivityResult == ConnectivityResult.none) {
+    print("none");
+    setState(() {
+      connected=false;
+    });
+
+  } else if(connectivityResult == ConnectivityResult.wifi) {
+    setState(() {
+      connected=true;
+    });
+
+    // I am connected to a wifi network.
+  }
+  else if(connectivityResult == ConnectivityResult.mobile) {
+    setState(() {
+      connected=true;
+    });
+
+    // I am connected to a wifi network.
+  }
+}
   Future getData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -586,6 +614,7 @@ class CategoriesList extends StatelessWidget {
 class Offers extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
     return Wrap(spacing: 10, children: <Widget>[
       Card(
         child: Stack(
