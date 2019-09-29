@@ -10,16 +10,22 @@ import '../componets/filter.dart';
 
 class SubCategory extends StatefulWidget {
   final String subtitle; 
-  SubCategory({Key key, @required this.subtitle}) : super(key: key);
+  final int catID;
+
+  
+  SubCategory({Key key, @required this.subtitle,this.catID}) : super(key: key);
   @override
-  _SubCategoryState createState() => _SubCategoryState();
+  _SubCategoryState createState() => _SubCategoryState(catId: catID);
 }
 
 class _SubCategoryState extends State<SubCategory> {
+
+  int catId;
   String modalTitle;
   Filter filter = new Filter();
   Sort sort = new Sort();
 
+_SubCategoryState({this.catId});
   Widget header(modalTitle) => Ink(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -78,7 +84,7 @@ class _SubCategoryState extends State<SubCategory> {
             color: Color(0XFF737373),
             child: Padding(
               padding: const EdgeInsets.all(3.0),
-              child: Material(
+              child: Material( 
                 clipBehavior: Clip.antiAlias,
                 color: Colors.white,
                 shape: RoundedRectangleBorder(
@@ -128,7 +134,7 @@ class _SubCategoryState extends State<SubCategory> {
       appBar: Mybar(widget.subtitle,true),
       body: new Column(
         children: <Widget>[
-          HorizontalList(),
+          HorizontalList(catId),
           //padding widget
           Container(
             color: Color(0XFFf4f4f4),
@@ -186,7 +192,7 @@ class _SubCategoryState extends State<SubCategory> {
             ),
           ),
           //grid view
-          Flexible(child: Products()),
+          Flexible(child:Products(catId:catId ,)),
         ],
       ),
     );
