@@ -36,6 +36,8 @@ dependencies:
   path_provider: ^1.2.0
   flutter_country_picker: ^0.1.4
   toast: ^0.1.5
+  flare_flutter: ^1.5.7
+  connectivity: ^0.4.4
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -64,6 +66,7 @@ flutter:
     - assets/locale/localization_ar.json
     - assets/locale/localization_fr.json
     - lib/assets/images/fullbag.png
+    - lib/assets/flare/NoConnection.flr
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

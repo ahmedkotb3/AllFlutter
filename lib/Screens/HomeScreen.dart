@@ -1,7 +1,6 @@
 import 'package:big/Providers/AuthProvider.dart';
 import 'package:big/Providers/DataProvider.dart';
 import 'package:big/Providers/Translation.dart';
-import 'package:big/Providers/Translation.dart' as prefix0;
 import 'package:big/Screens/ContactUs.dart';
 import 'package:big/Screens/FAQ.dart';
 import 'package:big/Screens/SubCategory.dart';
@@ -10,7 +9,9 @@ import 'package:big/Screens/editAccount.dart';
 import 'package:big/Screens/login.dart';
 import 'package:big/Screens/register.dart';
 import 'package:big/Screens/whishlist.dart';
+import 'package:big/componets/Connection.dart';
 import 'package:big/componets/appBar.dart';
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:big/Screens/mall.dart';
@@ -23,6 +24,11 @@ import 'dart:convert';
 import 'dart:async';
 import '../localization/application.dart';
 import '../localization/app_translation.dart';
+import 'package:big/model/Category.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'dart:async';
+import 'package:connectivity/connectivity.dart';
 
 class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
@@ -32,15 +38,14 @@ class _HomeScreenState extends State<HomeScreen> {
   String dropdownValue = 'English';
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-
   bool isLogin = true;
   String userName = "mohamed";
   String userEmail = "m@m.com";
-  String userImage =
-      "https://onlinecoursemasters.com/wp-content/uploads/2019/05/OCM-16-Maximilian-Schwarzmuller.jpg";
-
+  String userImage = "https://onlinecoursemasters.com/wp-content/uploads/2019/05/OCM-16-Maximilian-Schwarzmuller.jpg";
+  bool connected=false;
   @override
   void initState() {
+    check();
     getData();
     super.initState();
   }
@@ -270,7 +275,30 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ))));
   }
+Future check()async{
 
+  var connectivityResult = await (Connectivity().checkConnectivity());
+  if (connectivityResult == ConnectivityResult.none) {
+    print("none");
+    setState(() {
+      connected=false;
+    });
+
+  } else if(connectivityResult == ConnectivityResult.wifi) {
+    setState(() {
+      connected=true;
+    });
+
+    // I am connected to a wifi network.
+  }
+  else if(connectivityResult == ConnectivityResult.mobile) {
+    setState(() {
+      connected=true;
+    });
+
+    // I am connected to a wifi network.
+  }
+}
   Future getData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -454,6 +482,83 @@ class HomeScreenTopState extends State<HomeScreenTop> {
 
 class CategoriesList extends StatelessWidget {
 
+/*class Category {
+  String name;
+  LinearGradient colors;
+  IconData catIcon;
+  Category(this.name, this.colors, this.catIcon);
+}*/
+
+class CategoriesList extends StatelessWidget {
+  /* static List<String> catNames = [
+    'Fashion',
+    'Electronics',
+    'Home & Kitchen',
+    'Phones & Tablet',
+    'Beauty & Health'
+  ];
+  static List<IconData> icon = [
+    Shopping.fashion,
+    Shopping.electronics,
+    Shopping.furniture,
+    Shopping.mobile,
+    Shopping.health
+  ];
+  static List<LinearGradient> myColors = [
+    LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [Styles.catOneFirstColor, Styles.catOneSceondColor]),
+    LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [Styles.catTwoFirstColor, Styles.catTwoSceondColor]),
+    LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [Styles.catThreeFirstColor, Styles.catThreeSceondColor]),
+    LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [Styles.catFourFirstColor, Styles.catFourSceondColor]),
+    LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [Styles.catFiveFirstColor, Styles.catFiveSceondColor]),
+    LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [Styles.catSixFirstColor, Styles.catSixSceondColor]),
+    LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [Styles.catSevenFirstColor, Styles.catSevenSceondColor]),
+    LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [Styles.catEightFirstColor, Styles.catEightSceondColor]),
+    LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [Styles.catNineFirstColor, Styles.catNineSceondColor]),
+
+      var data = json.decode(res.body);
+      var rest = data["data"] as List;
+      print(rest.toString());
+
+  final List<Category> categories = [
+    for (var i = 0; i < catNames.length; i++)
+      Category(catNames[i], myColors[i], icon[i]),
+  ];
+  //  [
+  //   Category('Fashion', myColors[0], Shopping.fashion),
+  //   Category('Electronics', myColors[1], Shopping.electronics),
+  //   Category('Furniture', myColors[2], Shopping.furniture),
+  //   Category('Phones and Tablet', myColors[3], Shopping.mobile),
+  //   Category('Beauty & Health', myColors[4], Shopping.health),
+  // ];
+*/
+
   Future<List<Category>> fetchdata() async {
     final res = await http.get("http://18.217.190.199/api/categories");
     List<Category> list;
@@ -481,65 +586,62 @@ class CategoriesList extends StatelessWidget {
           future: fetchdata(),
           builder: (context, snapshot) {
             List<Category> mylist = snapshot.data;
-            if (snapshot.hasData) {
-              return ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: mylist.length,
-                  itemBuilder: ((BuildContext context, int index) {
-                    return Container(
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: [
-                              Color(int.parse(mylist[index].fColor)),
-                              Color(int.parse(mylist[index].lColor))
-                            ]),
-                        borderRadius: BorderRadius.circular(5.0),
-                      ),
-                      margin: EdgeInsets.symmetric(horizontal: 5),
-                      width: MediaQuery.of(context).size.width * 0.25,
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      SubCategory(
-                                        subtitle: mylist[index].name,
-                                      )));
-                        },
-                        child: Container(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            //crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Container(
-                                  padding: EdgeInsets.only(bottom: 7.0),
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.13,
-                                  child: Icon(
-                                    IconData(int.parse(mylist[index].iconCode),
-                                        fontFamily: mylist[index].iconFont),
-                                    color: Colors.white,
-                                  )),
-                              Text(
-                                mylist[index].name,
-                                textAlign: TextAlign.center,
-                                maxLines: 2,
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 14),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ],
-                          ),
+            if(snapshot.hasData){
+            return ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: mylist.length,
+                itemBuilder: ((BuildContext context, int index) {
+                  return Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            Color(int.parse(mylist[index].fColor)),
+                            Color(int.parse(mylist[index].lColor))
+                          ]),
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    margin: EdgeInsets.symmetric(horizontal: 5),
+                    width: MediaQuery.of(context).size.width * 0.25,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) => SubCategory(
+                                subtitle: mylist[index].name,
+                              ))); 
+                      },
+                      child: Container(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          //crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Container(
+                                padding: EdgeInsets.only(bottom: 7.0),
+                                width: MediaQuery.of(context).size.width * 0.13,
+                                child: Icon(
+                                  IconData(int.parse(mylist[index].iconCode),
+                                      fontFamily:mylist[index].iconFont),
+                                  color: Colors.white,
+                                )),
+                            Text(
+                              mylist[index].name,
+                              textAlign: TextAlign.center,
+                              maxLines: 2,
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 14),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
                         ),
                       ),
-                    );
-                  }));
-            } else {
-              return Text("Loading...");
-            }
+                    ),
+                  );
+                }));}
+                else{return Text("Loading...");}
+
           }),
     );
   }
@@ -564,6 +666,7 @@ class _OffersState extends State<Offers> {
 
   @override
   Widget build(BuildContext context) {
+
     return Wrap(spacing: 10, children: <Widget>[
           Card(
             child: Stack(

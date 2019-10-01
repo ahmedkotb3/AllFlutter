@@ -18,6 +18,7 @@ class Category {
   String lColor;
   String iconCode;
   String iconFont;
+  String imageCover;
 
   Category(
       {this.id,
@@ -25,7 +26,8 @@ class Category {
       this.fColor,
       this.lColor,
       this.iconCode,
-      this.iconFont});
+      this.iconFont,
+      this.imageCover});
 
   factory Category.fromJson(Map<String, dynamic> json) {
     return Category(
@@ -35,6 +37,7 @@ class Category {
       lColor: json['l_color'] as String,
       iconCode: json['icon_code'] as String,
       iconFont: json['icon_font'] as String,
+      imageCover: json['cover'] as String,
     );
   }
 }
