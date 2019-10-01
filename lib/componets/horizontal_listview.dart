@@ -7,12 +7,24 @@ import 'package:big/model/Category.dart';
 import 'package:big/componets/products.dart';
 
   
-class HorizontalList extends StatelessWidget {
-final int catId;
-HorizontalList(this.catId);
+  
+class HorizontalList extends StatefulWidget {
+  final int catId;
+  Future<List<Category>> fet;
+  HorizontalList({this.catId,this.fet});
+  HorizontalListStat createState() => HorizontalListStat(catid: catId,fet: fet);
+}
+
+class HorizontalListStat extends State<HorizontalList>{
+final int catid;
+  Future<List<Category>> fet;
+
+HorizontalListStat({this.catid,this.fet});
+
+
 
 Future<List<Category>> fetchdata() async {  
-    final res = await http.get("http://18.217.190.199/api/categories/$catId");
+    final res = await http.get("http://18.217.190.199/api/categories/$catid");
     List<Category> list;
 
     if (res.statusCode == 200) {
@@ -34,7 +46,7 @@ Future<List<Category>> fetchdata() async {
           padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 10.0),
           height: MediaQuery.of(context).size.height * 0.18,
           child: FutureBuilder<List<Category>>(
-              future: fetchdata(),
+              future: fet,
               builder: (context, snapshot) {
                 List<Category> mylist = snapshot.data;
                 return ListView.builder(
