@@ -14,15 +14,20 @@ import 'dart:async';
 
 class Products extends StatefulWidget {
 final int catId;
-Products({this.catId});
+final String sortType;
+final  Future <List<Data>> listofProducts;
+Products(this.catId,this.listofProducts,[this.sortType]);
 
   @override
-  _ProductsState createState() => _ProductsState(catID: catId);
+  _ProductsState createState() => _ProductsState(catId,listofProducts,sortType);
 }
 
 class _ProductsState extends State<Products>{
 final int catID;
-_ProductsState({this.catID});
+final String sortType;
+final  Future <List<Data>> listofProducts;
+_ProductsState(this.catID,this.listofProducts,[this.sortType]);
+
 
 Future<List<Data>>fetchPro() async {
       final res = await http.get("http://18.217.190.199/api/categories/$catID");
@@ -38,6 +43,29 @@ Future<List<Data>>fetchPro() async {
 
       return list;
     }
+    
+
+Future<List<Data>> fetchProa(String sorttype) async {
+
+
+  final res = await http.get("http://18.217.190.199/api/categories/4/products?sort=price");
+      List<Data> list = <Data>[];
+
+  if (res.statusCode == 200) {
+    print(res.statusCode.toString()+"Ahmed kotb");
+
+    var data = json.decode(res.body);
+
+    var restdata = data["data"];
+
+    list = restdata.map<Data>((json) => Data.fromJson(json)).toList();
+
+  }
+
+  return list;
+
+}
+
 
   @override
   Widget build(BuildContext context, [bool isFavorite]) {
@@ -48,7 +76,7 @@ Future<List<Data>>fetchPro() async {
     final double itemWidth = size.width / 2;
 
  return FutureBuilder<List<Data>>(
-      future: fetchPro(),
+      future: listofProducts,
       builder: (context, snapshot) {
         List<Data> productList = snapshot.data;
 
@@ -98,6 +126,7 @@ Future<List<Data>>fetchPro() async {
                                   image: new DecorationImage(
                                       fit: BoxFit.contain,
                                       image: NetworkImage(
+                                       
                                           productList[index].cover)),
                                 ),
                               ),
@@ -201,7 +230,7 @@ Future<List<Data>>fetchPro() async {
                                         height:
                                             SizeConfig.safeBlockVertical * 4,
                                         child: Text(
-                                          "${productList[index].description}",
+                                          "${productList[index].name}",
                                           overflow: TextOverflow.ellipsis,
                                           style: new TextStyle(
                                               fontWeight: FontWeight.w300,

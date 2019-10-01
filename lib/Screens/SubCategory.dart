@@ -7,25 +7,89 @@ import '../componets/horizontal_listview.dart';
 import '../componets/products.dart';
 import '../componets/sort.dart';
 import '../componets/filter.dart';
+import 'package:big/model/Productsmodel.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:big/model/Category.dart';
+
 
 class SubCategory extends StatefulWidget {
-  final String subtitle; 
+  final String subtitle;
   final int catID;
+  final List<Data> listOfProducts=[];
 
-  
   SubCategory({Key key, @required this.subtitle,this.catID}) : super(key: key);
   @override
   _SubCategoryState createState() => _SubCategoryState(catId: catID);
 }
 
 class _SubCategoryState extends State<SubCategory> {
-
   int catId;
   String modalTitle;
   Filter filter = new Filter();
   Sort sort = new Sort();
 
-_SubCategoryState({this.catId});
+  _SubCategoryState({this.catId});
+
+
+
+//////////////////////////////////////////// fetch subCategories///////////////////////////
+Future<List<Category>> fetchdata() async {  
+    final res = await http.get("http://18.217.190.199/api/categories/$catId");
+    List<Category> list;
+
+    if (res.statusCode == 200) {
+
+      var data = json.decode(res.body);
+      var rest = data["data"]["children"] as List;
+      list = rest.map<Category>((json) => Category.fromJson(json)).toList();
+    }
+    return list;
+  }
+
+String s="price";
+String o="asc";
+////////////////////////////////////////// fetch Products //////////////////////////////////
+Future<List<Data>> fetchProatest() async {
+
+  final res = await http.get("http://18.217.190.199/api/categories/4/products?sort=s&order=$o");
+      List<Data> list = <Data>[];
+
+  if (res.statusCode == 200) {
+    print(res.statusCode.toString()+"Ahmed kotb");
+
+    var data = json.decode(res.body);
+
+    var restdata = data["data"];
+
+    list = restdata.map<Data>((json) => Data.fromJson(json)).toList();
+  
+
+  }
+
+  return list;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@override
+void initState() { 
+  super.initState();
+}
+
+
   Widget header(modalTitle) => Ink(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -75,6 +139,9 @@ _SubCategoryState({this.catId});
           ),
         ],
       );
+
+
+
   void _mainBottomSheet(BuildContext context, String name, Widget widget,
       [Widget footer]) {
     showModalBottomSheet(
@@ -84,7 +151,7 @@ _SubCategoryState({this.catId});
             color: Color(0XFF737373),
             child: Padding(
               padding: const EdgeInsets.all(3.0),
-              child: Material( 
+              child: Material(
                 clipBehavior: Clip.antiAlias,
                 color: Colors.white,
                 shape: RoundedRectangleBorder(
@@ -127,14 +194,18 @@ _SubCategoryState({this.catId});
         });
   }
 
+
   //MyStatefulWidget expand = new MyStatefulWidget();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: Mybar(widget.subtitle,true),
+      appBar: Mybar(widget.subtitle, true),
       body: new Column(
         children: <Widget>[
-          HorizontalList(catId),
+          HorizontalList(
+            catId: catId,
+            fet:fetchdata() ,
+          ),
           //padding widget
           Container(
             color: Color(0XFFf4f4f4),
@@ -178,7 +249,10 @@ _SubCategoryState({this.catId});
                               children: <Widget>[
                                 Text('Filter'),
                                 IconButton(
-                                  icon: Icon(Shopping.path_263,size: 20.0,),
+                                  icon: Icon(
+                                    Shopping.path_263,
+                                    size: 20.0,
+                                  ),
                                   onPressed: () => _mainBottomSheet(
                                       context, 'Filter', filter, footer()),
                                 ),
@@ -187,14 +261,80 @@ _SubCategoryState({this.catId});
                           ],
                         ),
                       ]),
-                ],
+                ], 
               ),
             ),
           ),
           //grid view
-          Flexible(child:Products(catId:catId ,)),
+          Flexible(
+              child: Products(
+            catId,fetchProatest(),"name"
+
+          )),
         ],
       ),
     );
   }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class Sort extends StatefulWidget {
+  @override
+  _SortState createState() => _SortState();
+}
+
+class _SortState extends State<Sort> {
+  @override
+  Widget build(BuildContext context) {
+    return  Column(
+        children: <Widget>[
+          _createTile(context, 'Top Selling', _action1),
+          _createTile(context, 'Position', _action2),
+          _createTile(context, 'Name', _action3),
+          _createTile(context, 'Price', _action4),
+        ],
+      );
+  }
+}
+
+ListTile _createTile(BuildContext context, String name, Function action) {
+  return ListTile(
+    title: Text(name),
+    onTap: () {
+      Navigator.pop(context);
+      action();
+      
+      //SetState()
+    },
+  );
+}
+
+_action1() {
+  print('action 1');
+  
+}
+
+_action2() {
+  print('action 2');
+}
+
+_action3() {
+  print('action 3');
+}
+
+_action4() {
+  print('action 4');
 }
