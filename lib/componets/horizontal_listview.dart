@@ -1,3 +1,4 @@
+import 'package:big/Providers/DataProvider.dart';
 import 'package:big/Screens/SubCategory.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -81,7 +82,7 @@ Future<List<Category>> fetchdata() async {
                                             mylist[index].name,
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
-                                                color: Colors.teal,
+                                                color: DataProvider().primary,
                                                 fontSize: 13,
                                                 fontWeight: FontWeight.bold),
                                           ),

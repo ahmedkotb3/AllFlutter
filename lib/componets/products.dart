@@ -10,62 +10,55 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 
-
-
 class Products extends StatefulWidget {
-final int catId;
-final String sortType;
-final  Future <List<Data>> listofProducts;
-Products(this.catId,this.listofProducts,[this.sortType]);
+  final int catId;
+  final String sortType;
+  final Future<List<Data>> listofProducts;
+  Products(this.catId, this.listofProducts, [this.sortType]);
 
   @override
-  _ProductsState createState() => _ProductsState(catId,listofProducts,sortType);
+  _ProductsState createState() =>
+      _ProductsState(catId, listofProducts, sortType);
 }
 
-class _ProductsState extends State<Products>{
-final int catID;
-final String sortType;
-final  Future <List<Data>> listofProducts;
-_ProductsState(this.catID,this.listofProducts,[this.sortType]);
+class _ProductsState extends State<Products> {
+  final int catID;
+  final String sortType;
+  final Future<List<Data>> listofProducts;
+  _ProductsState(this.catID, this.listofProducts, [this.sortType]);
 
+  Future<List<Data>> fetchPro() async {
+    final res = await http.get("http://18.217.190.199/api/categories/$catID");
+    List<Data> list = <Data>[];
 
-Future<List<Data>>fetchPro() async {
-      final res = await http.get("http://18.217.190.199/api/categories/$catID");
-      List<Data> list = <Data> [];
+    if (res.statusCode == 200) {
+      var data = json.decode(res.body);
 
-      if (res.statusCode == 200) {
-        var data = json.decode(res.body);
+      var restdata = data["data"]["products"];
 
-        var restdata = data["data"]["products"];
-
-        list = restdata.map<Data>((json) => Data.fromJson(json)).toList();
-      }
-
-      return list;
+      list = restdata.map<Data>((json) => Data.fromJson(json)).toList();
     }
-    
 
-Future<List<Data>> fetchProa(String sorttype) async {
-
-
-  final res = await http.get("http://18.217.190.199/api/categories/4/products?sort=price");
-      List<Data> list = <Data>[];
-
-  if (res.statusCode == 200) {
-    print(res.statusCode.toString()+"Ahmed kotb");
-
-    var data = json.decode(res.body);
-
-    var restdata = data["data"];
-
-    list = restdata.map<Data>((json) => Data.fromJson(json)).toList();
-
+    return list;
   }
 
-  return list;
+  Future<List<Data>> fetchProa(String sorttype) async {
+    final res = await http
+        .get("http://18.217.190.199/api/categories/4/products?sort=price");
+    List<Data> list = <Data>[];
 
-}
+    if (res.statusCode == 200) {
+      print(res.statusCode.toString() + "Ahmed kotb");
 
+      var data = json.decode(res.body);
+
+      var restdata = data["data"];
+
+      list = restdata.map<Data>((json) => Data.fromJson(json)).toList();
+    }
+
+    return list;
+  }
 
   @override
   Widget build(BuildContext context, [bool isFavorite]) {
@@ -75,7 +68,7 @@ Future<List<Data>> fetchProa(String sorttype) async {
     final double itemHeight = ((size.height - kToolbarHeight - 24) * 0.5);
     final double itemWidth = size.width / 2;
 
- return FutureBuilder<List<Data>>(
+    return FutureBuilder<List<Data>>(
       future: listofProducts,
       builder: (context, snapshot) {
         List<Data> productList = snapshot.data;
@@ -126,19 +119,17 @@ Future<List<Data>> fetchProa(String sorttype) async {
                                   image: new DecorationImage(
                                       fit: BoxFit.contain,
                                       image: NetworkImage(
-                                       
                                           productList[index].cover)),
                                 ),
                               ),
                               onTap: () {
                                 print(productList[index].id);
-                              
+
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => ProductDetails(
-                                          productList[index].id
-                                           )));
+                                            productList[index].id)));
                               }),
                           new Padding(
                             padding: EdgeInsets.all(10.0),
@@ -162,36 +153,24 @@ Future<List<Data>> fetchProa(String sorttype) async {
                                                     3.5,
                                                 color: Color(0XFF161a28)),
                                           ),
-                                          new Text(
-                                            "${productList[index].price}\EGY",
-                                            style: TextStyle(
-                                                color: Color(0XFF7f7f7f),
-                                                fontWeight: FontWeight.w100,
-                                                fontSize: SizeConfig
-                                                        .safeBlockHorizontal *
-                                                    2.5,
-                                                decoration:
-                                                    TextDecoration.lineThrough),
-                                          ),
                                         ],
                                       ),
                                     ),
+                                    Container(
+                                      height:
+                                          SizeConfig.safeBlockVertical * 5.0,
+                                      padding: EdgeInsets.all(0.0),
+                                      child: new IconButton(
+                                          iconSize: 20.0,
+                                          padding: const EdgeInsets.all(0.0),
+                                          alignment: Alignment.center,
+                                          icon: Icon(
+                                            Icons.favorite,
+                                            color: Colors.red,
+                                          ),
+                                          onPressed: () {}
 
-                  Container(
-                    height:
-                        SizeConfig.safeBlockVertical * 5.0,
-                    padding: EdgeInsets.all(0.0),
-                    child: new IconButton(
-                        iconSize: 20.0,
-                        padding: const EdgeInsets.all(0.0),
-                        alignment: Alignment.center,
-                        icon: Icon(
-                          Icons.favorite,
-                          color: Colors.red,
-                        ),
-                        onPressed: () {}
-                        
-                        /*async {
+                                          /*async {
                           var db = new DatabaseManager();
                           int insert = await db.saveProduct(
                             new Product(
@@ -216,9 +195,24 @@ Future<List<Data>> fetchProa(String sorttype) async {
                                 'ID: ${product.title} - username: ${product.description} - city: ${product.isFavorite}');
                           }
                         }*/
-                        
-                        ),
-                  ),
+
+                                          ),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: <Widget>[
+                                    new Text(
+                                      "${productList[index].price}\EGY",
+                                      style: TextStyle(
+                                          color: Color(0XFF7f7f7f),
+                                          fontWeight: FontWeight.w100,
+                                          fontSize:
+                                              SizeConfig.safeBlockHorizontal *
+                                                  2.5,
+                                          decoration:
+                                              TextDecoration.lineThrough),
+                                    ),
                                   ],
                                 ),
                                 new Row(
@@ -279,4 +273,3 @@ Future<List<Data>> fetchProa(String sorttype) async {
     );
   }
 }
-
