@@ -5,6 +5,7 @@ import 'package:big/componets/appBar.dart';
 import 'package:big/componets/products.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:toast/toast.dart';
 import '../componets/appBar.dart';
 import '../Providers/DataProvider.dart';
 import '../componets/slider.dart';
@@ -140,10 +141,7 @@ void initState() {
                                       decoration: new BoxDecoration(
                                         borderRadius:
                                             BorderRadius.circular(30.0),
-                                        border:
-                                            new Border.all(color: Colors.grey),
-                                        color: Colors.white,
-                                      ),
+                                        border: new Border.all(color: Colors.grey), color: Colors.white,),
                                       width: 40,
                                       height: 40,
                                       child: new IconButton(
@@ -337,19 +335,9 @@ void initState() {
                               height: 50.0,
                               child: RaisedButton(
                                 color: ColorProvider().primary,
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => CartPage()));
-                                },
-                                child: Text(
-                                  "ADD TO BAG",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18.0),
+                                onPressed:()=> AddToCard(myProduct[0].id,1),
+                                child: Text("ADD TO BAG", textAlign: TextAlign.center,
+                                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18.0),
                                 ),
                               ),
                             ),
@@ -361,6 +349,17 @@ void initState() {
             ),
           )),
     );
+  }
+  AddToCard(int productId,int qty){
+  DataProvider().CartPost(productId, qty).then((res){
+    var data=json.decode(res);
+    if(data['success']==true){
+      Toast.show("success", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
+      Navigator.push(context, MaterialPageRoute(builder: (context) => CartPage()));
+    }
+
+  });
+
   }
   }
 
@@ -381,6 +380,7 @@ void initState() {
         ),
       ],
     );
+
   }
 
 

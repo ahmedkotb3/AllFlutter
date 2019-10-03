@@ -57,16 +57,14 @@ class CodeVerifityState extends State<CodeVerifity> {
                                 style: TextStyle(color: Colors.blue)),
                             Padding(
                               padding: const EdgeInsets.only(top: 20.0),
-                              child: Text(
-                                  'Enter the digits code sent to your Phone'),
+                              child: Text('Enter the digits code sent to your Phone'),
                             ),
                             Padding(
                               padding: const EdgeInsets.all(30.0),
                               child: TextField(
                                 controller: codeController,
                                 decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.fromLTRB(
-                                        20.0, 15.0, 20.0, 15.0),
+                                    contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                                     hintText: "Enter The Code",
                                     border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0))),
                               ),
@@ -81,9 +79,7 @@ class CodeVerifityState extends State<CodeVerifity> {
                                 },
                               ),
                             ),
-                            SizedBox(
-                              height: 30,
-                            ),
+                            SizedBox(height: 30),
                             Container(
                                 width: MediaQuery.of(context).size.width * .8,
                                 height:
@@ -101,6 +97,9 @@ class CodeVerifityState extends State<CodeVerifity> {
                                         print('pppppppppppppp$res');
                                         data=json.decode(res);
                                         if(data["success"]==true){
+                                          SharedPreferences prefs = await SharedPreferences.getInstance();
+                                          prefs.setString('userToken', data["data"]["token"]);
+                                          print("registToken,${data["data"]["token"]}");
                                           Navigator.push(context, MaterialPageRoute(builder: (context) => CodeTrue()),);
                                         }//handling errors
                                         else if(data["success"]==false){
@@ -115,7 +114,11 @@ class CodeVerifityState extends State<CodeVerifity> {
                                     else{
                                       var response = await AuthProvider().register(userdata).then((res) async {
                                         data=json.decode(res);
+                                        print("regist $res");
                                         if(data["success"]==true){
+                                          SharedPreferences prefs = await SharedPreferences.getInstance();
+                                          prefs.setString('userToken', data["data"]["token"]);
+                                          print("registToken,${data["data"]["token"]}");
                                           Navigator.push(context, MaterialPageRoute(builder: (context) => CodeTrue()),);
                                         }//handling errors
                                         else if(data["success"]==false){

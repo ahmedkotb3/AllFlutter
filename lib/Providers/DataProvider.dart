@@ -1,17 +1,22 @@
 import 'dart:convert';
+import 'dart:core';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'MainProvider.dart';
 String productApi = "/product/";
+String cartGetApi="/cart";
 String ProductDetailsUrl = MainProvider().baseUrl + productApi ;
+String CartUrl= MainProvider().baseUrl + cartGetApi;
 class DataProvider with ChangeNotifier {
  Color primary = Color (0xff193ca1);
  double paddingApp = 32.0;
  Color pperrywinkle = Color(0XFF7a90d6);
  bool securePassword = true;
+ var cookie="";
   static List productList = [
     {
       "id": 1,
@@ -64,11 +69,32 @@ class DataProvider with ChangeNotifier {
      // print('body $body');
     return response.body;
   }
-
-
-
-
-
-
+////////////////////////cart///////////////////////////////////////////////////////////////
+  Future<String> CartDetails() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var cookie = await prefs.getString('cookie');
+    print(cookie);
+    final headers = {'Content-Type': 'application/json','Cookie': "$cookie" };
+    Response response = await http.get(CartUrl,headers: headers);
+    int statusCode = response.statusCode;
+    print("statusCode get cart:${statusCode}");
+    var body = json.decode(response.body);
+    print('body get cart $body');
+    return response.body;
+  }
+  Future<String> CartPost(int product,int quantity) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var cookie = await prefs.getString('cookie');
+    print(cookie);
+    final headers = {'Content-Type': 'application/json','Cookie': "$cookie" };
+    Map<String, int> body = {'product': product, 'quantity': quantity};
+    String jsonBody = json.encode(body);
+    Response response = await http.post(CartUrl,body: jsonBody,headers: headers);
+    int statusCode = response.statusCode;
+    print("statusCode POSTtttttttttttttttttttttttt cart:${statusCode}");
+    var s = json.decode(response.body);
+    print('body POST cart $s');
+    return response.body;
+  }
 
 }

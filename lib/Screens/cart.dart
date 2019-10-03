@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:big/Providers/ColorsProvider.dart';
 import 'package:big/Providers/DataProvider.dart';
 import 'package:big/Screens/shipping.dart';
@@ -18,8 +20,14 @@ class _CartPageState extends State<CartPage> {
   Color iconColor = Colors.grey;
   bool isBagFull = true;
   String dropdownValue = 'Delete all Items';
-
+var data;
   initState() {
+    DataProvider().CartDetails().then((res){
+      data=json.decode(res);
+      print("data from cart $data");
+      print("data from cart ${data['data']['cartItems']}");
+
+    });
     for (int i = 0; i < productList.length; i++) {
       totalPrice += productList[i]['price'];
     }
@@ -40,29 +48,17 @@ class _CartPageState extends State<CartPage> {
               children: <Widget>[
                 Row(
                   children: <Widget>[
-                    Text(
-                      "Total Amount ",
-                      style: TextStyle(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.blue),
+                    Text("Total Amount ", style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: Colors.blue),
                     ),
-                    Text(
-                      "$totalPrice EGP",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 18.0),
+                    Text("$totalPrice EGP", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0),
                     ),
                   ],
                 ),
                 RaisedButton(
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (BuildContext context) => Shipping()));
+                    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => Shipping()));
                   },
-                  child: Text(
-                    "CHECKOUT",
+                  child: Text("CHECKOUT",
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -94,30 +90,25 @@ class _CartPageState extends State<CartPage> {
                                 borderRadius: BorderRadius.circular(24.0),
                                 shadowColor: Color(0x802196F3),
                                 child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Container(
                                       width: 150.0,
                                       height: 218.0,
                                       child: ClipRRect(
-                                        borderRadius:
-                                            new BorderRadius.circular(24.0),
+                                        borderRadius: new BorderRadius.circular(24.0),
                                         child: Image(
                                             fit: BoxFit.contain,
                                             alignment: Alignment.topLeft,
-                                            image: NetworkImage(
-                                                productList[index]['picture'])),
+                                            image: NetworkImage(productList[index]['picture'])),
                                       ),
                                     ),
                                     Container(
                                       height: 218.0,
                                       child: Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 16.0),
+                                        padding: const EdgeInsets.only(right: 16.0),
                                         child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: <Widget>[
                                             Padding(
                                               padding: const EdgeInsets.only(
@@ -128,17 +119,8 @@ class _CartPageState extends State<CartPage> {
                                                   Container(
                                                       width: 200.0,
                                                       child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(8.0),
-                                                        child: Text(
-                                                          productList[index]
-                                                              ['name'],
-                                                          maxLines: 4,
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                          style: TextStyle(
-                                                              fontSize: 20.0),
+                                                        padding: const EdgeInsets.all(8.0),
+                                                        child: Text(productList[index]['name'], maxLines: 4, textAlign: TextAlign.center, style: TextStyle(fontSize: 20.0),
                                                         ),
                                                       )),
                                                 ],
@@ -148,10 +130,7 @@ class _CartPageState extends State<CartPage> {
                                                 child: Text(
                                               "${productList[index]['price']}",
                                               style: TextStyle(
-                                                  color:
-                                                      ColorProvider().primary,
-                                                  fontSize: 25.0,
-                                                  fontWeight: FontWeight.bold),
+                                                  color: ColorProvider().primary,fontSize: 25.0, fontWeight: FontWeight.bold),
                                             )),
                                             Container(
                                               child: Row(
@@ -161,16 +140,9 @@ class _CartPageState extends State<CartPage> {
                                                       if (counter > 1) {
                                                         setState(() {
                                                           counter--;
-                                                          itemPrice =
-                                                              productList[index]
-                                                                      [
-                                                                      'price'] *
-                                                                  counter;
-                                                          print(
-                                                              "lluuuuuuuuuuuuul**$totalPrice");
-                                                          totalPrice -=
-                                                              productList[index]
-                                                                  ['price'];
+                                                          itemPrice = productList[index]['price'] * counter;
+                                                          print("lluuuuuuuuuuuuul**$totalPrice");
+                                                          totalPrice -= productList[index]['price'];
                                                         });
                                                       }
                                                     },
@@ -195,16 +167,11 @@ class _CartPageState extends State<CartPage> {
                                                                 counter;
                                                         print(
                                                             "lluuuuuuuuuuuuul**$totalPrice");
-                                                        totalPrice +=
-                                                            productList[index]
-                                                                ['price'];
+                                                        totalPrice += productList[index]['price'];
                                                       });
                                                     },
-                                                    icon:
-                                                        Icon(Icons.add_circle),
-                                                    color:
-                                                        ColorProvider().primary,
-                                                    iconSize: 50.0,
+                                                    icon: Icon(Icons.add_circle),
+                                                    color: ColorProvider().primary, iconSize: 50.0,
                                                   ),
                                                 ],
                                               ),
@@ -232,8 +199,7 @@ class _CartPageState extends State<CartPage> {
                                               setState(() {
                                                 if (iconColor == Colors.grey) {
                                                   iconColor = Colors.red;
-                                                } else if (iconColor ==
-                                                    Colors.red) {
+                                                } else if (iconColor == Colors.red) {
                                                   iconColor = Colors.grey;
                                                 }
                                               });

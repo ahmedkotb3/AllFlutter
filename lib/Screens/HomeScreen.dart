@@ -791,13 +791,8 @@ class HomeOffers extends StatelessWidget {
                               Wrap(children: <Widget>[
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    'Apple Iphone X With FacetimeFacetimeFacetimeFacetimeFacetimeFacetimeFacetimeFacetimeFacetime - 64 GB, 4G LTE, Silver, 3 GB Ram, Single Sim ',
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold),
-                                    maxLines: 4,
-                                  ),
+                                  child: Text('Apple Iphone X With FacetimeFacetimeFacetimeFacetimeFacetimeFacetimeFacetimeFacetimeFacetime - 64 GB, 4G LTE, Silver, 3 GB Ram, Single Sim ',
+                                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold), maxLines: 4,),
                                 )
                               ]),
                             ],

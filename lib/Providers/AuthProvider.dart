@@ -1,7 +1,6 @@
 import 'dart:convert' as JSON;
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:big/Screens/HomeScreen.dart';
 import 'package:big/Screens/login.dart';
 import 'package:big/model/User.dart';
@@ -76,8 +75,7 @@ class AuthProvider with ChangeNotifier {
         break;
       case FacebookLoginStatus.cancelledByUser:
         BuildContext context;
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => LoginPage()));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
         break;
       case FacebookLoginStatus.error:
         break;
@@ -158,18 +156,20 @@ class AuthProvider with ChangeNotifier {
   }
 
   Future<String> login(String type, String email, String password) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     Response response = await http.post(loginUrl, body: {
       'email': email,
       'password': password,
       'type': type,
     });
+   // await prefs.setString('cookie', response.headers["set-cookie"]);
     int statusCode = response.statusCode;
     print("statusCode:${statusCode}");
 //save in local storge for take all data from user
     var body = json.decode(response.body);
 //print('body $body');
 //print('userAuthToken:${body["data"]["token"]}');
-    return body;
+    return response.body;
   }
   Future<String> loginfb(String type, String email) async {
     Response response = await http.post(loginUrl, body: {
