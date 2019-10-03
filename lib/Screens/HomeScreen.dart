@@ -572,6 +572,7 @@ class CategoriesList extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: (BuildContext context) => SubCategory(
+                                catID: mylist[index].id,
                                 subtitle: mylist[index].name,
                               ))); 
                       },

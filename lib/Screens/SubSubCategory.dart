@@ -7,24 +7,33 @@ import '../componets/horizontal_listview.dart';
 import '../componets/products.dart';
 import '../componets/sort.dart';
 import '../componets/filter.dart';
-import 'package:big/Screens/SubSubCategory.dart';
 
-class SubCategory extends StatefulWidget {
+class SubSubCategory extends StatefulWidget {
   final String subtitle;
   final int catID;
+  final String sorttype;
+  final String ordertype;
 
-  SubCategory({Key key, @required this.subtitle, this.catID}) : super(key: key);
+  SubSubCategory({
+    Key key,
+    this.sorttype,
+    this.ordertype,
+    @required this.subtitle,
+    this.catID,
+  }) : super(key: key);
   @override
-  _SubCategoryState createState() => _SubCategoryState(catId: catID);
+  _SubSubCategoryState createState() => _SubSubCategoryState(
+      catId: catID, sorttype: sorttype, ordertype: ordertype);
 }
 
-class _SubCategoryState extends State<SubCategory> {
+class _SubSubCategoryState extends State<SubSubCategory> {
   int catId;
+  final String sorttype;
+  final String ordertype;
   String modalTitle;
   Filter filter = new Filter();
-  //Sort sort = new Sort();
 
-  _SubCategoryState({this.catId});
+  _SubSubCategoryState({this.catId, this.sorttype, this.ordertype});
 
 //////////////////// header of fuckn list //////////////
   Widget header(modalTitle) => Ink(
@@ -50,6 +59,70 @@ class _SubCategoryState extends State<SubCategory> {
           ),
         ),
       );
+//////////////////////////////////////////////////////////
+
+  Widget sortwidget() => Column(
+        children: <Widget>[
+          _createTile(
+              context,
+              'A To Z',
+              () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => SubSubCategory(
+                            catID: catId,
+                            subtitle: "a",
+                            sorttype: "name",
+                            ordertype: "asc",
+                          )))),
+          _createTile(
+              context,
+              'Low price',
+              () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => SubSubCategory(
+                            catID: catId,
+                            subtitle: "a",
+                            sorttype: "price",
+                            ordertype: "asc",
+                          )))),
+          _createTile(
+              context,
+              'Top Price',
+              () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => SubSubCategory(
+                            catID: catId,
+                            subtitle: "a",
+                            sorttype: "price",
+                            ordertype: "desc",
+                          )))),
+          _createTile(
+              context,
+              'Top Rating',
+              () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => SubSubCategory(
+                            catID: catId,
+                            subtitle: "a",
+                            sorttype: "rate",
+                            ordertype: "desc",
+                          )))),
+        ],
+      );
+
+  ListTile _createTile(BuildContext context, String name, Function action) {
+    return ListTile(
+      title: Text(name),
+      onTap: () {
+        Navigator.pop(context);
+        action();
+      },
+    );
+  }
 
 /////////////////////////// fucken footer for filter
 
@@ -132,71 +205,6 @@ class _SubCategoryState extends State<SubCategory> {
         });
   }
 
-/////////////////////////////////////////////////////
-
-  Widget sortwidget() => Column(
-        children: <Widget>[
-          _createTile(
-              context,
-              'A To Z',
-              () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) => SubSubCategory(
-                            catID: catId,
-                            subtitle: "sort by name",
-                            sorttype: "name",
-                            ordertype: "asc",
-                          )))),
-          _createTile(
-              context,
-              'Low price',
-              () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) => SubSubCategory(
-                            catID: catId,
-                            subtitle: "sort by price",
-                            sorttype: "price",
-                            ordertype: "asc",
-                          )))),
-          _createTile(
-              context,
-              'Top Price',
-              () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) => SubSubCategory(
-                            catID: catId,
-                            subtitle: "sort by Top price",
-                            sorttype: "price",
-                            ordertype: "desc",
-                          )))),
-          _createTile(
-              context,
-              'Top Rating',
-              () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) => SubSubCategory(
-                            catID: catId,
-                            subtitle: "sort by top rate",
-                            sorttype: "rate",
-                            ordertype: "desc",
-                          )))),
-        ],
-      );
-
-  ListTile _createTile(BuildContext context, String name, Function action) {
-    return ListTile(
-      title: Text(name),
-      onTap: () {
-        Navigator.pop(context);
-        action();
-      },
-    );
-  }
-
 //////////////////// row of options like sort and filter
   //MyStatefulWidget expand = new MyStatefulWidget();
   @override
@@ -205,7 +213,6 @@ class _SubCategoryState extends State<SubCategory> {
       appBar: Mybar(widget.subtitle, true),
       body: new Column(
         children: <Widget>[
-          HorizontalList(catId),
           //padding widget
           Container(
             color: Color(0XFFf4f4f4),
@@ -269,6 +276,8 @@ class _SubCategoryState extends State<SubCategory> {
           Flexible(
               child: Products(
             catId: catId,
+            sorttype: sorttype,
+            ordertype: ordertype,
           )),
         ],
       ),
