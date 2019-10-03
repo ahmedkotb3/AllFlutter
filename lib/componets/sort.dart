@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:big/componets/products.dart';
 
 class Sort extends StatefulWidget {
+ 
   @override
   _SortState createState() => _SortState();
 }
 
 class _SortState extends State<Sort> {
+
   @override
   Widget build(BuildContext context) {
     return  Column(
@@ -27,7 +29,7 @@ ListTile _createTile(BuildContext context, String name, Function action) {
     onTap: () {
       Navigator.pop(context);
       action();
-      
+
       //SetState()
     },
   );

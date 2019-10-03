@@ -1,0 +1,21 @@
+{
+  "title_home": "Accueil",
+  "return_home": "Retour principal",
+  "submit_order":"Votre commande est soumise" ,
+  "most_popular" : "Les plus populaires ",
+  "new_arrival" : "Nouvelle arrivee",
+  "shop_now": "Achetez maintenant",
+  "search_text":"Que cherchez-vous?",
+  "sign_in" : "SE CONNECTER ",
+  "sign_up":"s'inscrire",
+  "dont_account":"Vous n'avez pas encore de compte?",
+  "wishlist":"Liste de souhaits",
+  "my_order":"Mes commandes",
+  "categories":"Les catégories",
+  "delivery":"Livraison et expédition",
+  "terms" :"termes et conditions",
+  "faq":"questions - réponses",
+  "contact_us":"Contactez-nous",
+  "sort_by":"Trier par",
+  "add_bag":"ajouter au panier"
+}
