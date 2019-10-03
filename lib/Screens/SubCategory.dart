@@ -212,8 +212,7 @@ class _SubCategoryState extends State<SubCategory> {
       body: new Column(
         children: <Widget>[
           HorizontalList(
-            catId: catId,
-            fet:fetchdata() ,
+            catId
           ),
           //padding widget
           Container(
