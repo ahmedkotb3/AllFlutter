@@ -15,6 +15,7 @@ class Shipping extends StatefulWidget {
 
 class _ShippingState extends State<Shipping> {
   Country _selected;
+  //Country selectedCountry = ;
   TextEditingController addressController = new TextEditingController();
   TextEditingController landmarkController = new TextEditingController();
   TextEditingController zipController = new TextEditingController();
@@ -45,8 +46,7 @@ class _ShippingState extends State<Shipping> {
                   child: CountryPicker(
                     dense: false,
                     showFlag: true, //displays flag, true by default
-                    showDialingCode:
-                        false, //displays dialing code, false by default
+                         //displays dialing code, false by default
                     showName: true, //displays country name, true by default
                     onChanged: (Country country) {
                       setState(() {

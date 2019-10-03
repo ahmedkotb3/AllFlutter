@@ -31,9 +31,14 @@ Container buildTextForm(
       ),
       obscureText: secret,
       keyboardType: mytype,
+      validator: (value) {
+        if (value.isEmpty) {
+          return 'Please enter that Field';
+        }
+        return null;
+      },
       maxLines: lines,
-      inputFormatters: [
-        LengthLimitingTextInputFormatter(length)],
+      inputFormatters: [LengthLimitingTextInputFormatter(length)],
       controller: takeInput,
       style: TextStyle(
           fontWeight: FontWeight.bold, color: ColorProvider().primary),

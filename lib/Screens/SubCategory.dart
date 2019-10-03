@@ -7,11 +7,17 @@ import '../componets/horizontal_listview.dart';
 import '../componets/products.dart';
 import '../componets/sort.dart';
 import '../componets/filter.dart';
+import 'package:big/model/Productsmodel.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:big/model/Category.dart';
 import 'package:big/Screens/SubSubCategory.dart';
+
 
 class SubCategory extends StatefulWidget {
   final String subtitle;
   final int catID;
+  final List<Data> listOfProducts=[];
 
   SubCategory({Key key, @required this.subtitle, this.catID}) : super(key: key);
   @override
@@ -205,7 +211,10 @@ class _SubCategoryState extends State<SubCategory> {
       appBar: Mybar(widget.subtitle, true),
       body: new Column(
         children: <Widget>[
-          HorizontalList(catId),
+          HorizontalList(
+            catId: catId,
+            fet:fetchdata() ,
+          ),
           //padding widget
           Container(
             color: Color(0XFFf4f4f4),
@@ -261,7 +270,7 @@ class _SubCategoryState extends State<SubCategory> {
                           ],
                         ),
                       ]),
-                ],
+                ], 
               ),
             ),
           ),
@@ -274,4 +283,66 @@ class _SubCategoryState extends State<SubCategory> {
       ),
     );
   }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class Sort extends StatefulWidget {
+  @override
+  _SortState createState() => _SortState();
+}
+
+class _SortState extends State<Sort> {
+  @override
+  Widget build(BuildContext context) {
+    return  Column(
+        children: <Widget>[
+          _createTile(context, 'Top Selling', _action1),
+          _createTile(context, 'Position', _action2),
+          _createTile(context, 'Name', _action3),
+          _createTile(context, 'Price', _action4),
+        ],
+      );
+  }
+}
+
+ListTile _createTile(BuildContext context, String name, Function action) {
+  return ListTile(
+    title: Text(name),
+    onTap: () {
+      Navigator.pop(context);
+      action();
+      
+      //SetState()
+    },
+  );
+}
+
+_action1() {
+  print('action 1');
+  
+}
+
+_action2() {
+  print('action 2');
+}
+
+_action3() {
+  print('action 3');
+}
+
+_action4() {
+  print('action 4');
 }
