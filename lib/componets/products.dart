@@ -225,7 +225,7 @@ class _ProductsState extends State<Products> {
                                                 SizeConfig.safeBlockVertical *
                                                     4,
                                             child: Text(
-                                              "${productList[index].description}",
+                                              "${productList[index].name}",
                                               overflow: TextOverflow.ellipsis,
                                               style: new TextStyle(
                                                   fontWeight: FontWeight.w300,

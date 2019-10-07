@@ -84,15 +84,15 @@ class DataProvider with ChangeNotifier {
   }
   Future<String> CartPost(int product,int quantity) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    var cookie = await prefs.getString('cookie');
-    print(cookie);
-    final headers = {'Content-Type': 'application/json','Cookie': "$cookie" };
+    final headers = {'Content-Type': 'application/json'};
     Map<String, int> body = {'product': product, 'quantity': quantity};
     String jsonBody = json.encode(body);
     Response response = await http.post(CartUrl,body: jsonBody,headers: headers);
     int statusCode = response.statusCode;
     print("statusCode POSTtttttttttttttttttttttttt cart:${statusCode}");
     var s = json.decode(response.body);
+    var cookie = await prefs.setString('cookie', response.headers["set-cookie"]);
+    print('Cookie$cookie');
     print('body POST cart $s');
     return response.body;
   }

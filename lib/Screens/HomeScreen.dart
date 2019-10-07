@@ -52,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
         builder: (BuildContext context) => Translation(),
-        child: MaterialApp(
+        child: connected==false? FlareConnection():MaterialApp(
             title: AppLocalizations.of(context).translateString('title_home'),
             home: Scaffold(
                 appBar: AppBar(

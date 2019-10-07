@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:big/Providers/ColorsProvider.dart';
 import 'package:big/Screens/cart.dart';
+import 'package:big/Widgets/dataManager.dart';
 import 'package:big/componets/appBar.dart';
 import 'package:big/componets/products.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,7 @@ import 'package:big/review/allReviews.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:big/model/Productsmodel.dart';
-
+import 'package:path/path.dart';
 class ProductDetails extends StatefulWidget {
  final int productID;
   ProductDetails(this.productID);
@@ -78,7 +79,7 @@ List<Images> listImages = new List();
   bool isFavorite = false;
   bool isOffer = true;
   Color favoriteColor = Colors.grey;
-
+  var db = new DatabaseManager();
 
 @override
 void initState() { 
@@ -149,15 +150,15 @@ void initState() {
                                         iconSize: 20.0,
                                         color: favoriteColor,
                                         onPressed: () {
-                                          if (isFavorite == true) {
+                                          if ( favoriteColor == Colors.red) {
                                             setState(() {
                                               favoriteColor = Colors.grey;
-                                              isFavorite = false;
+                                           //   deleteFav(myProduct[0].id);
                                             });
-                                          } else if (isFavorite == false) {
-                                            setState(() {
+                                          } else if ( favoriteColor == Colors.grey) {
+                                            setState(()  {
                                               favoriteColor = Colors.red;
-                                              isFavorite = true;
+                                              addToFav();
                                             });
                                           }
                                         },
@@ -354,13 +355,29 @@ void initState() {
   DataProvider().CartPost(productId, qty).then((res){
     var data=json.decode(res);
     if(data['success']==true){
-      Toast.show("success", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
-      Navigator.push(context, MaterialPageRoute(builder: (context) => CartPage()));
+     // Toast.show("success", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
+      //Navigator.push(context, MaterialPageRoute(builder: (context) => CartPage()));
     }
 
   });
 
   }
+  Future addToFav()async{
+  int ProductSaved = await db.saveProduct(new Product(
+      myProduct[0].name,
+      myProduct[0].description,
+      myProduct[0].cover,
+      2000,
+      100,
+      1,
+      myProduct[0].id));
+  print("saved user : $ProductSaved");
+  print(myProduct[0].price);
+  }
+//  Future deleteFav(int Isfav)async{
+//      int deleteCustmUser =await db.deleteProduct(Isfav);
+//  print('delete user: $deleteCustmUser');
+//  }
   }
 
 

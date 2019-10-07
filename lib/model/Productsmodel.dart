@@ -5,43 +5,43 @@ import 'package:flutter/foundation.dart';
    String title;
    String description;
    String imageUrl;
-   String currency;
+   //String currency;
    int price;
    int offer;
    int isNew;
-  int isFavorite;
+  int productID;
   int id;
   Product(
     this.title,
     this.description,
     this.imageUrl,
-    this.currency,
+    //this.currency,
     this.price,
     this.offer,
     this.isNew,
-    this.isFavorite,
+    this.productID,
   );
 
   Product.map(dynamic obj){
     this.title=obj['title'];
     this.description=obj['description'];
     this.imageUrl=obj['imageUrl'];
-    this.currency=obj['currency'];
+  //  this.currency=obj['currency'];
     this.price=obj['price'];
     this.offer=obj['offer'];
     this.isNew=obj['isNew'];
-    this.isFavorite=obj['isFavorite'];
+    this.productID=obj['productID'];
     this.id=obj['id'];
   }
 
  String get _getTitle => title;
  String get _getDescription => description;
  String get _getImage=>imageUrl;
- String get _getCurrent => currency;
+// String get _getCurrent => currency;
  int get _getPrice => price;
  int get _getOffer=>offer;
  int get _getIsNew=>isNew;
- int get _getISFavorite=>isFavorite;
+ int get _getISFavorite=>productID;
  int get _getId => id;
 
  Map<String,dynamic>toMap(){
@@ -49,7 +49,7 @@ import 'package:flutter/foundation.dart';
   map['title']=_getTitle;
   map['description']=_getDescription;
   map['imageUrl']=_getImage;
-  map['currency']=_getCurrent;
+//  map['currency']=_getCurrent;
   map['price']=_getPrice;
   map['offer']=_getOffer;
   map['isNew']=_getIsNew;
@@ -62,11 +62,11 @@ import 'package:flutter/foundation.dart';
        this.title= map['title'];
        this.description= map['description'];
        this.imageUrl= map['imageUrl'];
-       this.currency= map['currency'];
+   //    this.currency= map['currency'];
        this.price= map['price'];
         this.offer= map['offer'];
        this.isNew= map['IsNew'];
-       this.isFavorite= map['isFavorite'];
+       this.productID= map['productID'];
        this.id= map['id'];
    }
    notifyListeners();
@@ -105,6 +105,7 @@ class Data  {
   String description;
   String price;
   String cover;
+  String offer;
   List<Images> images;
   Brand brand;
 
@@ -114,8 +115,10 @@ class Data  {
     this.description,
     this.price,
     this.cover,
+    this.offer,
     this.images,
     this.brand,
+
   });
 
   Data.fromJson(Map<String, dynamic> json) {
@@ -123,6 +126,7 @@ class Data  {
     name = json['name'];
     description = json['description'];
     price = json['price'];
+    offer=json['sale_price'];
     cover = json['cover'];
     if (json['images'] != null) {
       images = new List<Images>();

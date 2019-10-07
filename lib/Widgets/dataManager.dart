@@ -13,10 +13,9 @@ class DatabaseManager{
   final String columnDescription='description';
   final String columnImageUrl='ImageUrl';
   final String columnPrice='price';
-  final String columnCurrency='currency';
   final String columnOffer='offer';
   final String columnIsNew='isNew';
-  final String columnIsFavorite='isFavorite';
+  final String columnProductID='productID';
 
   Future<Database> get db async{
     if(_db != null){
@@ -28,14 +27,14 @@ class DatabaseManager{
   intDB() async{
     Directory documentDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentDirectory.path , 'mydb.db');
-    var myOwnDB = await openDatabase(path,version: 100,
+    var myOwnDB = await openDatabase(path,version: 1,
         onCreate: _onCreate);
     return myOwnDB;
   }
   void _onCreate(Database db , int newVersion) async{
     var sql = "CREATE TABLE $productTable ($columnId INTEGER PRIMARY KEY,"
         " $columnTitle TEXT, $columnDescription TEXT,  $columnImageUrl TEXT,"
-        " $columnCurrency TEXT,$columnPrice INTEGER, $columnOffer INTEGER,  $columnIsNew INTEGER,$columnIsFavorite INTEGER )";
+        " $columnPrice TEXT, $columnOffer TEXT,  $columnIsNew INTEGER,$columnProductID INTEGER )";
     await db.execute(sql);
   }
   Future<int> saveProduct( Product product) async{
@@ -49,7 +48,19 @@ class DatabaseManager{
     List result = await dbClient.rawQuery(sql);
     return result.toList();
   }
-  void clearAllUsers() async{
+  Future<int> getCount() async{
+    var dbClient = await  db;
+    var sql = "SELECT COUNT(*) FROM $productTable";
+
+    return  Sqflite.firstIntValue(await dbClient.rawQuery(sql)) ;
+  }
+//  Future<int> deleteProduct(int id) async{
+//    var dbClient = await  db;
+//    return  await dbClient.delete(
+//        productTable , where: "$columnIsFavorite = ?" , whereArgs: [id]
+//    );
+//  }
+  void clearAllProduct() async{
     var dbClient = await  db;
     await dbClient.delete(productTable);
   }

@@ -1,6 +1,7 @@
 import 'package:big/Screens/HomeScreen.dart';
 import 'package:big/Screens/cart.dart';
 import 'package:big/Screens/register.dart';
+import 'package:big/Widgets/dataManager.dart';
 import 'package:flutter/material.dart';
 import 'package:big/Providers/DataProvider.dart';
 import 'package:big/componets/shopping_icons.dart';
@@ -149,6 +150,9 @@ class _DropdownState extends State<Dropdown> {
             child: InkWell(
               child: Text(value),
               onTap: () {
+                var db = DatabaseManager();
+                    db.clearAllProduct();
+                    print("data clear");
                 Navigator.of(context).pushReplacement(new MaterialPageRoute(
                     builder: (context) => new EmptyCart(widget.pagetitle)));
               },
