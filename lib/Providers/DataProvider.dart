@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:core';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
@@ -16,7 +15,6 @@ class DataProvider with ChangeNotifier {
  double paddingApp = 32.0;
  Color pperrywinkle = Color(0XFF7a90d6);
  bool securePassword = true;
- var cookie="";
   static List productList = [
     {
       "id": 1,
@@ -72,29 +70,55 @@ class DataProvider with ChangeNotifier {
 ////////////////////////cart///////////////////////////////////////////////////////////////
   Future<String> CartDetails() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    var cookie = await prefs.getString('cookie');
-    print(cookie);
-    final headers = {'Content-Type': 'application/json','Cookie': "$cookie" };
+    var UserToken = await prefs.getString('userToken');
+    //print(UserToken);
+    final headers = {'Content-Type': 'application/json','Authorization': "Bearer $UserToken" };
     Response response = await http.get(CartUrl,headers: headers);
     int statusCode = response.statusCode;
-    print("statusCode get cart:${statusCode}");
+    //print("statusCode get cart:${statusCode}");
     var body = json.decode(response.body);
-    print('body get cart $body');
+    //print('body get cart $body');
     return response.body;
   }
   Future<String> CartPost(int product,int quantity) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    final headers = {'Content-Type': 'application/json'};
+    var UserToken = await prefs.getString('userToken');
+    print(UserToken);
+    final headers = {'Content-Type': 'application/json','Authorization':"Bearer $UserToken"};
     Map<String, int> body = {'product': product, 'quantity': quantity};
     String jsonBody = json.encode(body);
     Response response = await http.post(CartUrl,body: jsonBody,headers: headers);
     int statusCode = response.statusCode;
     print("statusCode POSTtttttttttttttttttttttttt cart:${statusCode}");
     var s = json.decode(response.body);
-    var cookie = await prefs.setString('cookie', response.headers["set-cookie"]);
-    print('Cookie$cookie');
-    print('body POST cart $s');
+    //print('body POST cart $s');
     return response.body;
   }
 
+  Future<String> CartDelete(dynamic rowID) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var UserToken = await prefs.getString('userToken');
+    final headers = {'Content-Type': 'application/json','Authorization':"Bearer $UserToken"};
+    Response response = await http.delete(CartUrl + '/$rowID',headers: headers);
+    print(CartUrl);
+    int statusCode = response.statusCode;
+    print("statusCode Delete cart:${statusCode}");
+    var s = json.decode(response.body);
+    print('body delete cart $s');
+    return response.body;
+  }
+  Future<String> CartEdite(dynamic rowId,int quantity) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var UserToken = await prefs.getString('userToken');
+    final headers = {'Content-Type': 'application/json','Authorization':"Bearer $UserToken"};
+    Map<String, int> body = { 'quantity': quantity};
+    String jsonBody = json.encode(body);
+    Response response = await http.put(CartUrl+'/$rowId'+'?quantity=$quantity',headers: headers);
+    print(CartUrl+'/$rowId'+'?quantity=$quantity');
+    int statusCode = response.statusCode;
+    print("statusCode put cart:${statusCode}");
+    var s = json.decode(response.body);
+    print('body put cart $s');
+    return response.body;
+  }
 }

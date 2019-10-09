@@ -19,6 +19,7 @@ String customerAuth = "/auth/customer/";
 String registerUrl = MainProvider().baseUrl + customerAuth + "register";
 String phoneVerifyUrl = MainProvider().baseUrl + customerAuth + "message";
 String loginUrl = MainProvider().baseUrl + customerAuth + "login";
+String changePasswordUrl=MainProvider().baseUrl+customerAuth+"change_password";
 
 class AuthProvider with ChangeNotifier {
   BuildContext context;
@@ -182,6 +183,18 @@ class AuthProvider with ChangeNotifier {
     var body = json.decode(response.body);
 //print('body $body');
 //print('userAuthTokenfb:${body["data"]["token"]}');
+    return response.body;
+  }
+  //////////////////////////////edit Profile/////////////////////////////////////////
+  Future<String> changePassword(String currentPassword,String newPassword) async {
+    final headers = {'Content-Type': 'application/json'};
+    Map<String, String> body = {'current_password': currentPassword, 'new_password': newPassword};
+    String jsonBody = json.encode(body);
+    Response response = await http.post(changePasswordUrl,body: jsonBody,headers: headers);
+    int statusCode = response.statusCode;
+    print("change password method:${statusCode}");
+    var s = json.decode(response.body);
+    print('changepassword response: $s');
     return response.body;
   }
 }

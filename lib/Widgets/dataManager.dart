@@ -26,8 +26,8 @@ class DatabaseManager{
   }
   intDB() async{
     Directory documentDirectory = await getApplicationDocumentsDirectory();
-    String path = join(documentDirectory.path , 'mydb.db');
-    var myOwnDB = await openDatabase(path,version: 1,
+    String path = join(documentDirectory.path , 'mydb3.db');
+    var myOwnDB = await openDatabase(path,version: 3,
         onCreate: _onCreate);
     return myOwnDB;
   }
@@ -54,12 +54,12 @@ class DatabaseManager{
 
     return  Sqflite.firstIntValue(await dbClient.rawQuery(sql)) ;
   }
-//  Future<int> deleteProduct(int id) async{
-//    var dbClient = await  db;
-//    return  await dbClient.delete(
-//        productTable , where: "$columnIsFavorite = ?" , whereArgs: [id]
-//    );
-//  }
+  Future<int> deleteProduct(int id) async{
+    var dbClient = await  db;
+    return  await dbClient.delete(
+        productTable , where: "$columnProductID = ?" , whereArgs: [id]
+    );
+  }
   void clearAllProduct() async{
     var dbClient = await  db;
     await dbClient.delete(productTable);

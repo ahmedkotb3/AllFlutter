@@ -16,7 +16,6 @@ import 'package:big/review/allReviews.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:big/model/Productsmodel.dart';
-import 'package:path/path.dart';
 class ProductDetails extends StatefulWidget {
  final int productID;
   ProductDetails(this.productID);
@@ -153,7 +152,7 @@ void initState() {
                                           if ( favoriteColor == Colors.red) {
                                             setState(() {
                                               favoriteColor = Colors.grey;
-                                           //   deleteFav(myProduct[0].id);
+                                             deleteFav(myProduct[0].id);
                                             });
                                           } else if ( favoriteColor == Colors.grey) {
                                             setState(()  {
@@ -355,8 +354,8 @@ void initState() {
   DataProvider().CartPost(productId, qty).then((res){
     var data=json.decode(res);
     if(data['success']==true){
-     // Toast.show("success", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
-      //Navigator.push(context, MaterialPageRoute(builder: (context) => CartPage()));
+      Toast.show("success", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
+      Navigator.push(context, MaterialPageRoute(builder: (context) => CartPage()));
     }
 
   });
@@ -367,17 +366,17 @@ void initState() {
       myProduct[0].name,
       myProduct[0].description,
       myProduct[0].cover,
-      2000,
-      100,
+      myProduct[0].price,
+      myProduct[0].offer,
       1,
       myProduct[0].id));
   print("saved user : $ProductSaved");
   print(myProduct[0].price);
   }
-//  Future deleteFav(int Isfav)async{
-//      int deleteCustmUser =await db.deleteProduct(Isfav);
-//  print('delete user: $deleteCustmUser');
-//  }
+  Future deleteFav(int Isfav)async{
+      int deleteCustmProduct =await db.deleteProduct(Isfav);
+  print('delete Product: $deleteCustmProduct');
+  }
   }
 
 

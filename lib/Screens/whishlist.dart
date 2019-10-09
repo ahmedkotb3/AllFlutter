@@ -62,25 +62,25 @@ class _WishlistState extends State<Wishlist> {
                                         crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                         children: <Widget>[
-//                                    Stack(
-//                                      children: <Widget>[
-//                                        Transform.translate(
-//                                          offset: Offset(-10.0, -10.0),
-//                                          child: Container(
-//                                            width: 45.0,
-//                                            height: 20.0,
-//                                            color: Color(0XFFff2b2b),
-//                                            child: Text(
-//                                              "New",
-//                                              textAlign: TextAlign.center,
-//                                              style: TextStyle(
-//                                                color: Colors.white,
-//                                              ),
-//                                            ),
-//                                          ),
-//                                        ),
-//                                      ],
-//                                    ),
+                                          if(product.isNew==1) Stack(
+                                      children: <Widget>[
+                                        Transform.translate(
+                                          offset: Offset(-10.0, -10.0),
+                                          child: Container(
+                                            width: 45.0,
+                                            height: 20.0,
+                                            color: Color(0XFFff2b2b),
+                                            child: Text(
+                                              "New",
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                         ],
                                       ),
                                       height: SizeConfig.safeBlockVertical * 25,
@@ -137,7 +137,7 @@ class _WishlistState extends State<Wishlist> {
                                                 ),
                                                 onPressed: () {
                                                   setState(() {
-
+                                                    deleteFav(product.productID);
                                                   });
                                                 }
                                             ),
@@ -187,8 +187,8 @@ class _WishlistState extends State<Wishlist> {
       print('-----------------------------');
     }
   }
-//  Future deleteFav(int Isfav)async{
-//    int deleteCustmUser =await db.deleteProduct(Isfav);
-//    print('delete user: $deleteCustmUser');
-//  }
+  Future deleteFav(int id)async{
+    int deleteCustmProduct =await db.deleteProduct(id);
+    print('delete user: $deleteCustmProduct');
+  }
 }

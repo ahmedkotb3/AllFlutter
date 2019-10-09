@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:big/Providers/AuthProvider.dart';
 import 'package:big/Providers/ColorsProvider.dart';
 import 'package:big/Screens/HomeScreen.dart';
 import 'package:big/componets/appBar.dart';
@@ -46,7 +49,12 @@ class _ChangePasswordState extends State<ChangePassword> {
                     if(confirmPasswordController.text==newPasswordController.text)
                     {
                       print("right password");
-                        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => HomeScreen()));
+                      print("old password${oldPasswordController.text} and new ${confirmPasswordController.text}");
+                      AuthProvider().changePassword(oldPasswordController.text, confirmPasswordController.text).then((res){
+                        var data=json.decode(res);
+                        print("respnsePage ${data}");
+                      });
+                        //Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => HomeScreen()));
                     }
                     else{
                       print("try");
