@@ -20,9 +20,7 @@ class _CartPageState extends State<CartPage> {
   bool isBagFull = true;
   String dropdownValue = 'Delete all Items';
   var key;
-  List keys;
   var data;
-
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -34,12 +32,11 @@ class _CartPageState extends State<CartPage> {
                 future: DataProvider().CartDetails().then((res){
                   data=json.decode(res);}),
                 builder: (context,snapshot){
-                  for( key in data['data']['cartItems'].keys)
-                  {
-                    print(key);
-                    print("kkkkkkkkkkk$keys");
-                  }
-                  if(snapshot.connectionState==ConnectionState.done){
+                  if((snapshot.connectionState==ConnectionState.done)&&(data['data']['cartItems'].length>0)){
+                    for( key in data['data']['cartItems'].keys)
+                    {
+                      print(key);
+                    }
                     return ListView.builder(
                       scrollDirection: Axis.vertical,
                       itemCount: data['data']['cartItems'].keys.length,
@@ -99,9 +96,12 @@ class _CartPageState extends State<CartPage> {
                                                       children: <Widget>[
                                                         IconButton(
                                                           onPressed: () {
-                                                            if (data['data']['cartItems']['$key']['qty'] > 1) {
-                                                              DataProvider().CartEdite(key,data['data']['cartItems']['$key']['qty'] - 1);
-                                                            }
+                                                            setState(() {
+                                                              if (data['data']['cartItems']['$key']['qty'] > 1) {
+                                                                DataProvider().CartEdite(key,data['data']['cartItems']['$key']['qty'] - 1);
+                                                              }
+                                                            });
+
                                                           },
                                                           icon: Icon(Icons.remove_circle), color: ColorProvider().primary, iconSize: 50.0,
                                                         ),
@@ -109,7 +109,10 @@ class _CartPageState extends State<CartPage> {
                                                           "${data['data']['cartItems']['$key']['qty']}", style: TextStyle(fontSize: 30.0),),
                                                         IconButton(
                                                           onPressed: () {
-                                                                DataProvider().CartEdite(key,data['data']['cartItems']['$key']['qty'] + 1);
+                                                            setState(() {
+                                                              DataProvider().CartEdite(key,data['data']['cartItems']['$key']['qty'] + 1);
+                                                            });
+
                                                           },
                                                           icon: Icon(Icons.add_circle),
                                                           color: ColorProvider().primary, iconSize: 50.0,
@@ -129,7 +132,9 @@ class _CartPageState extends State<CartPage> {
                                                   icon: Icon(Icons.close),
                                                   iconSize: 40.0,
                                                   onPressed: () {
-                                                    DataProvider().CartDelete(key);
+                                                    setState(() {
+                                                      DataProvider().CartDelete(key);
+                                                    });
                                                   },
                                                 ),
 //                                                IconButton(
@@ -180,7 +185,17 @@ class _CartPageState extends State<CartPage> {
                     );
                   }
                   else{
-                    return CircularProgressIndicator();
+                    return Container(
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Text("your Cart Is Empty",style: TextStyle(fontSize: 20.0,fontWeight: FontWeight.bold,color: Colors.blue[900]),),
+                          ],
+                        ),
+                      ),
+                    );
                   }
                 },
 
@@ -191,14 +206,4 @@ class _CartPageState extends State<CartPage> {
       ),
     );
   }
-//  Future getData(){
-//    DataProvider().CartDetails().then((res){
-//      data=json.decode(res);
-//      print(data['data']['cartItems'].keys.length);
-//      for(var key in data['data']['cartItems'].keys)
-//      {
-//        print("${data['data']['cartItems']['$key']['name']}");
-//      }
-//    });
-//  }
 }
