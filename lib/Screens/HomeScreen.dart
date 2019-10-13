@@ -26,6 +26,8 @@ import '../localization/application.dart';
 import '../localization/app_translation.dart';
 import 'package:big/model/Category.dart';
 import 'package:connectivity/connectivity.dart';
+import 'package:big/model/Productsmodel.dart';
+import 'package:big/Screens/details.dart';
 
 class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
@@ -52,270 +54,283 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
         builder: (BuildContext context) => Translation(),
-        child: connected==false? FlareConnection():MaterialApp(
-            title: AppLocalizations.of(context).translateString('title_home'),
-            home: Scaffold(
-                appBar: AppBar(
-                  leading: IconButton(
-                      icon: new Icon(Icons.menu, color: Colors.white),
-                      onPressed: () => _scaffoldKey.currentState.openDrawer()),
-                  backgroundColor: DataProvider().primary,
-                  elevation: 0,
-                  titleSpacing: 50,
-                  title: new Text(
+        child: connected == false
+            ? FlareConnection()
+            : MaterialApp(
+                title:
                     AppLocalizations.of(context).translateString('title_home'),
-                  ),
-                  actions: <Widget>[
-                    SearchCart(DataProvider().cartItems, false, false)
-                  ],
-                ),
-                key: _scaffoldKey,
-                drawer: Drawer(
-                  child: ListView(
-                    children: <Widget>[
-                      if (isLogin)
-                        UserAccountsDrawerHeader(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                          ),
-                          accountName: Row(
-                            children: <Widget>[
-                              Text(
-                                userName,
-                                style: TextStyle(
-                                    color: DataProvider().primary,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18.0),
+                home: Scaffold(
+                    appBar: AppBar(
+                      leading: IconButton(
+                          icon: new Icon(Icons.menu, color: Colors.white),
+                          onPressed: () =>
+                              _scaffoldKey.currentState.openDrawer()),
+                      backgroundColor: DataProvider().primary,
+                      elevation: 0,
+                      titleSpacing: 50,
+                      title: new Text(
+                        AppLocalizations.of(context)
+                            .translateString('title_home'),
+                      ),
+                      actions: <Widget>[
+                        SearchCart(DataProvider().cartItems, false, false)
+                      ],
+                    ),
+                    key: _scaffoldKey,
+                    drawer: Drawer(
+                      child: ListView(
+                        children: <Widget>[
+                          if (isLogin)
+                            UserAccountsDrawerHeader(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
                               ),
-                            ],
-                          ),
-                          accountEmail: Row(
-                            children: <Widget>[
-                              Text(userEmail,
-                                  style: TextStyle(
-                                      color: DataProvider().primary,
-                                      fontWeight: FontWeight.bold)),
-                            ],
-                          ),
-                          currentAccountPicture: InkWell(
-                            child: new CircleAvatar(
-                              backgroundImage: NetworkImage(userImage),
-                              child: Stack(
+                              accountName: Row(
                                 children: <Widget>[
-                                  Padding(
-                                    padding:
-                                        EdgeInsets.only(left: 50, bottom: 50),
-                                    child: Material(
-                                      child: Icon(Icons.edit,
-                                          color: DataProvider().primary),
-                                      color: Colors.white,
-                                      elevation: 10.1,
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(30.0)),
-                                    ),
-                                  )
+                                  Text(
+                                    userName,
+                                    style: TextStyle(
+                                        color: DataProvider().primary,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18.0),
+                                  ),
                                 ],
                               ),
-                            ),
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => EditAccount()));
-                            },
-                          ),
-                        )
-                      else
-                        UserAccountsDrawerHeader(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                          ),
-                          accountName: Row(
-                            children: <Widget>[
-                              InkWell(
-                                child: Text(
-                                  AppLocalizations.of(context)
-                                      .translateString("sign_in"),
-                                  style: TextStyle(
-                                      color: DataProvider().primary,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18.0),
+                              accountEmail: Row(
+                                children: <Widget>[
+                                  Text(userEmail,
+                                      style: TextStyle(
+                                          color: DataProvider().primary,
+                                          fontWeight: FontWeight.bold)),
+                                ],
+                              ),
+                              currentAccountPicture: InkWell(
+                                child: new CircleAvatar(
+                                  backgroundImage: NetworkImage(userImage),
+                                  child: Stack(
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            left: 50, bottom: 50),
+                                        child: Material(
+                                          child: Icon(Icons.edit,
+                                              color: DataProvider().primary),
+                                          color: Colors.white,
+                                          elevation: 10.1,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(30.0)),
+                                        ),
+                                      )
+                                    ],
+                                  ),
                                 ),
                                 onTap: () {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => LoginPage()));
+                                          builder: (context) => EditAccount()));
                                 },
                               ),
-                            ],
-                          ),
-                          accountEmail: Row(
-                            children: <Widget>[
-                              Text(
-                                AppLocalizations.of(context)
-                                    .translateString("dont_account"),
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold),
+                            )
+                          else
+                            UserAccountsDrawerHeader(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
                               ),
-                              InkWell(
-                                child: Text(
+                              accountName: Row(
+                                children: <Widget>[
+                                  InkWell(
+                                    child: Text(
+                                      AppLocalizations.of(context)
+                                          .translateString("sign_in"),
+                                      style: TextStyle(
+                                          color: DataProvider().primary,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18.0),
+                                    ),
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  LoginPage()));
+                                    },
+                                  ),
+                                ],
+                              ),
+                              accountEmail: Row(
+                                children: <Widget>[
+                                  Text(
                                     AppLocalizations.of(context)
-                                        .translateString("sign_up"),
+                                        .translateString("dont_account"),
                                     style: TextStyle(
-                                        color: DataProvider().primary,
-                                        fontWeight: FontWeight.bold)),
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  InkWell(
+                                    child: Text(
+                                        AppLocalizations.of(context)
+                                            .translateString("sign_up"),
+                                        style: TextStyle(
+                                            color: DataProvider().primary,
+                                            fontWeight: FontWeight.bold)),
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  RegisterPage()));
+                                    },
+                                  ),
+                                ],
+                              ),
+                              currentAccountPicture: InkWell(
+                                child: new CircleAvatar(
+                                  backgroundImage: NetworkImage(
+                                      "https://cdn0.iconfinder.com/data/icons/avatar-78/128/12-512.png"),
+                                  child: Stack(
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            left: 50, bottom: 50),
+                                        child: Material(
+                                          child: Icon(
+                                            Icons.edit,
+                                            color: DataProvider().primary,
+                                          ),
+                                          color: Colors.white,
+                                          elevation: 10.1,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(30.0)),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
                                 onTap: () {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) =>
-                                              RegisterPage()));
+                                          builder: (context) => EditAccount()));
                                 },
                               ),
-                            ],
-                          ),
-                          currentAccountPicture: InkWell(
-                            child: new CircleAvatar(
-                              backgroundImage: NetworkImage(
-                                  "https://cdn0.iconfinder.com/data/icons/avatar-78/128/12-512.png"),
-                              child: Stack(
-                                children: <Widget>[
-                                  Padding(
-                                    padding:
-                                        EdgeInsets.only(left: 50, bottom: 50),
-                                    child: Material(
-                                      child: Icon(
-                                        Icons.edit,
-                                        color: DataProvider().primary,
-                                      ),
-                                      color: Colors.white,
-                                      elevation: 10.1,
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(30.0)),
-                                    ),
-                                  )
-                                ],
-                              ),
                             ),
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => EditAccount()));
-                            },
-                          ),
-                        ),
-                      Row(children: <Widget>[
-                        Icon(Icons.language),
-                        DropdownButton<String>(
-                          value: dropdownValue,
-                          onChanged: (String language) {
-                            setState(() {
-                              dropdownValue = language;
-                              Translation().setlang = language;
-                            });
-                          },
-                          items: <String>[
-                            'English',
-                            'Arabic',
-                            'French',
-                          ].map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                        ),
-                      ]),
-                      Divider(),
-                      DrawerlistTile(
-                          Icons.favorite,
-                          AppLocalizations.of(context)
-                              .translateString("wishlist"), () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Wishlist()));
-                      }),
-                      DrawerlistTile(
-                          Icons.local_offer,
-                          AppLocalizations.of(context)
-                              .translateString("my_order"),
-                          () {}),
-                      DrawerlistTile(
-                          Icons.category,
-                          AppLocalizations.of(context)
-                              .translateString("categories"),
-                          () {}),
-                      DrawerlistTile(
-                          Icons.local_shipping,
-                          AppLocalizations.of(context)
-                              .translateString("delivery"),
-                          () {}),
-                      DrawerlistTile(Icons.local_mall,
-                          AppLocalizations.of(context).translateString("terms"),
-                          () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => Terms()));
-                      }),
-                      DrawerlistTile(Icons.help,
-                          AppLocalizations.of(context).translateString("faq"),
-                          () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => FAQ()));
-                      }),
-                      DrawerlistTile(
-                          Icons.phone,
-                          AppLocalizations.of(context)
-                              .translateString("contact_us"), () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ContactUs()));
-                      }),
-                      if (isLogin)
-                        DrawerlistTile(Icons.exit_to_app, 'Logout', () async {
-                          ShowAlertDailog();
-                        }),
-                    ],
-                  ),
-                ),
-                body: SingleChildScrollView(
-                  child: Column(
-                    children: <Widget>[
-                      HomeScreenTop(AppLocalizations.of(context)
-                          .translateString("search_text")),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
+                          Row(children: <Widget>[
+                            Icon(Icons.language),
+                            DropdownButton<String>(
+                              value: dropdownValue,
+                              onChanged: (String language) {
+                                setState(() {
+                                  dropdownValue = language;
+                                  Translation().setlang = language;
+                                });
+                              },
+                              items: <String>[
+                                'English',
+                                'Arabic',
+                                'French',
+                              ].map<DropdownMenuItem<String>>((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
+                            ),
+                          ]),
+                          Divider(),
+                          DrawerlistTile(
+                              Icons.favorite,
+                              AppLocalizations.of(context)
+                                  .translateString("wishlist"), () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Wishlist()));
+                          }),
+                          DrawerlistTile(
+                              Icons.local_offer,
+                              AppLocalizations.of(context)
+                                  .translateString("my_order"),
+                              () {}),
+                          DrawerlistTile(
+                              Icons.category,
                               AppLocalizations.of(context)
                                   .translateString("categories"),
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          )
+                              () {}),
+                          DrawerlistTile(
+                              Icons.local_shipping,
+                              AppLocalizations.of(context)
+                                  .translateString("delivery"),
+                              () {}),
+                          DrawerlistTile(
+                              Icons.local_mall,
+                              AppLocalizations.of(context)
+                                  .translateString("terms"), () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Terms()));
+                          }),
+                          DrawerlistTile(
+                              Icons.help,
+                              AppLocalizations.of(context)
+                                  .translateString("faq"), () {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) => FAQ()));
+                          }),
+                          DrawerlistTile(
+                              Icons.phone,
+                              AppLocalizations.of(context)
+                                  .translateString("contact_us"), () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ContactUs()));
+                          }),
+                          if (isLogin)
+                            DrawerlistTile(Icons.exit_to_app, 'Logout',
+                                () async {
+                              ShowAlertDailog();
+                            }),
                         ],
                       ),
+                    ),
+                    body: SingleChildScrollView(
+                      child: Column(
+                        children: <Widget>[
+                          HomeScreenTop(AppLocalizations.of(context)
+                              .translateString("search_text")),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  AppLocalizations.of(context)
+                                      .translateString("categories"),
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                              )
+                            ],
+                          ),
 
-                      CategoriesList(),
-                      Offers(AppLocalizations.of(context)
-                          .translateString("shop_now")),
-                      //Mygrid(),
-                      HomeOffers(
-                          AppLocalizations.of(context)
-                              .translateString("most_popular"),
-                          MyBanner(myImageurl)),
-                      HomeOffers(
-                          AppLocalizations.of(context)
-                              .translateString("new_arrival"),
-                          MyBanner(myImageurl2)),
-                    ],
-                  ),
-                ))));
+                          CategoriesList(),
+                          Offers(AppLocalizations.of(context)
+                              .translateString("shop_now")),
+                          //Mygrid(),
+                          HomeOffers(
+                              AppLocalizations.of(context)
+                                  .translateString("most_popular"),
+                              "popular",
+                              MyBanner(myImageurl)),
+                          HomeOffers(
+                              AppLocalizations.of(context)
+                                  .translateString("new_arrival"),
+                              "new",
+                              MyBanner(myImageurl2)),
+                        ],
+                      ),
+                    ))));
   }
 
   Future check() async {
@@ -618,59 +633,62 @@ class CategoriesList extends StatelessWidget {
           future: fetchdata(),
           builder: (context, snapshot) {
             List<Category> mylist = snapshot.data;
-            if(snapshot.hasData){
-            return ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: mylist.length,
-                itemBuilder: ((BuildContext context, int index) {
-                  return Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: [
-                            Color(int.parse(mylist[index].fColor)),
-                            Color(int.parse(mylist[index].lColor))
-                          ]),
-                      borderRadius: BorderRadius.circular(5.0),
-                    ),
-                    margin: EdgeInsets.symmetric(horizontal: 5),
-                    width: MediaQuery.of(context).size.width * 0.25,
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) => SubCategory(
-                                catID: mylist[index].id,
-                                subtitle: mylist[index].name,
-                              ))); 
-                      },
-                      child: Container(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          //crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Container(
-                                padding: EdgeInsets.only(bottom: 7.0),
-                                width: MediaQuery.of(context).size.width * 0.13,
-                                child: Icon(
-                                  IconData(int.parse(mylist[index].iconCode),
-                                      fontFamily:mylist[index].iconFont),
-                                  color: Colors.white,
-                                )),
-                            Text(
-                              mylist[index].name,
-                              textAlign: TextAlign.center,
-                              maxLines: 2,
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 14),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ],
+            if (snapshot.hasData) {
+              return ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: mylist.length,
+                  itemBuilder: ((BuildContext context, int index) {
+                    return Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: [
+                                Color(int.parse(mylist[index].fColor)),
+                                Color(int.parse(mylist[index].lColor))
+                              ]),
+                          borderRadius: BorderRadius.circular(5.0),
                         ),
-                      ),
-                    ));
+                        margin: EdgeInsets.symmetric(horizontal: 5),
+                        width: MediaQuery.of(context).size.width * 0.25,
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        SubCategory(
+                                          catID: mylist[index].id,
+                                          subtitle: mylist[index].name,
+                                        )));
+                          },
+                          child: Container(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              //crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Container(
+                                    padding: EdgeInsets.only(bottom: 7.0),
+                                    width: MediaQuery.of(context).size.width *
+                                        0.13,
+                                    child: Icon(
+                                      IconData(
+                                          int.parse(mylist[index].iconCode),
+                                          fontFamily: mylist[index].iconFont),
+                                      color: Colors.white,
+                                    )),
+                                Text(
+                                  mylist[index].name,
+                                  textAlign: TextAlign.center,
+                                  maxLines: 2,
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 14),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ));
                   }));
             } else {
               return Text("Loading...");
@@ -804,8 +822,20 @@ class MyBanner extends StatelessWidget {
 class HomeOffers extends StatelessWidget {
   final String offerTitle;
   final MyBanner banner;
+  final String state;
 
-  HomeOffers(this.offerTitle, [this.banner]);
+  Future<List<Data>> fetchdata() async {
+    final res = await http.get("http://18.217.190.199/api/products/$state");
+    List<Data> list;
+
+    if (res.statusCode == 200) {
+      var data = json.decode(res.body);
+      list = data.map<Data>((json) => Data.fromJson(json)).toList();
+    }
+    return list;
+  }
+
+  HomeOffers(this.offerTitle, this.state, [this.banner]);
 
   @override
   Widget build(BuildContext context) {
@@ -830,63 +860,86 @@ class HomeOffers extends StatelessWidget {
             Container(
               padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
               height: MediaQuery.of(context).size.height * 0.42,
-              child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: 5,
-                  itemBuilder: (context, index) {
-                    return Container(
-                        width: 165,
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              Material(
-                                child: InkWell(
-                                  child: Image.network(
-                                    'https://mobizil.com/wp-content/uploads/2018/09/xs-colors-1.jpg',
-                                    fit: BoxFit.cover,
-                                    height: MediaQuery.of(context).size.height *
-                                        0.2,
+              child: FutureBuilder<List<Data>>(
+                  future: fetchdata(),
+                  builder: (context, snapshot) {
+                    List<Data> mylist = snapshot.data;
+                    return ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: mylist.length,
+                        itemBuilder: (context, index) {
+                          return InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          ProductDetails(mylist[index].id)));
+                            },
+                            child: Container(
+                                width: 165,
+                                child: Card(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
                                   ),
-                                ),
-                              ),
-                              Divider(),
-                              Wrap(children: <Widget>[
-                                Text(
-                                  '5000 EGP',
-                                  style: TextStyle(fontSize: 12),
-                                ),
-                                SizedBox(
-                                  width: 6,
-                                ),
-                                Text(
-                                  '8000 EGP',
-                                  style: TextStyle(fontSize: 12),
-                                ),
-                                SizedBox(
-                                  width: 6,
-                                ),
-                                Icon(
-                                  Icons.favorite_border,
-                                  size: 18,
-                                ),
-                              ]),
-                              Wrap(children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text('Apple Iphone X With FacetimeFacetimeFacetimeFacetimeFacetimeFacetimeFacetimeFacetimeFacetime - 64 GB, 4G LTE, Silver, 3 GB Ram, Single Sim ',
-                                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold), maxLines: 4,),
-                                )
-                              ]),
-                            ],
-                          ),
-                        ));
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: <Widget>[
+                                      Material(
+                                        child: InkWell(
+                                          child: Image.network(
+                                            mylist[index].cover,
+                                            fit: BoxFit.cover,
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.2,
+                                          ),
+                                        ),
+                                      ),
+                                      Divider(),
+                                      Wrap(children: <Widget>[
+                                        Text(
+                                          '5000 EGP',
+                                          style: TextStyle(fontSize: 12),
+                                        ),
+                                        SizedBox(
+                                          width: 6,
+                                        ),
+                                        Text(
+                                          mylist[index].price,
+                                          style: TextStyle(fontSize: 12),
+                                        ),
+                                        SizedBox(
+                                          width: 6,
+                                        ),
+                                        Icon(
+                                          Icons.favorite_border,
+                                          size: 18,
+                                        ),
+                                      ]),
+                                      Wrap(children: <Widget>[
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            mylist[index].description,
+                                            style: TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.bold),
+                                            maxLines: 4,
+                                          ),
+                                        )
+                                      ]),
+                                    ],
+                                  ),
+                                )),
+                          );
+                        });
                   }),
-            ),
+            )
           ],
         ),
       ),
