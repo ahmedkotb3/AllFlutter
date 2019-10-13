@@ -16,6 +16,7 @@ import 'package:big/review/allReviews.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:big/model/Productsmodel.dart';
+
 class ProductDetails extends StatefulWidget {
  final int productID;
   ProductDetails(this.productID);
@@ -96,7 +97,7 @@ void initState() {
           body: SafeArea(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: 
+              child: myProduct !=null?
                    ListView(
                       children: <Widget>[
                         Container(
@@ -220,7 +221,7 @@ void initState() {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => AllReviews()));
+                                          builder: (context) => AllReviews(myProduct[0].id)));
                                 },
                                 child: Text('(120) Review',style: TextStyle(fontSize: 14),),
                               ),
@@ -344,9 +345,15 @@ void initState() {
                           ],
                         ),
                       ],
-                    )
+                    ):Container(child:Center(
+                          child: Column(children: <Widget>[
+                  Text('Loading....'),
+                  SizedBox(height: 20,),
+                  CircularProgressIndicator()
+              ],),
+            ) )
                   
-            ),
+            )
           )),
     );
   }
