@@ -28,7 +28,7 @@ class _ProductsState extends State<Products> {
   final int catID;
   _ProductsState({this.catID, this.sorttype, this.ordertype});
 
-  Future <List<Data>> fetchProatest() async {
+  Future<List<Data>> fetchProatest() async {
     final res = await http.get(
         "http://18.217.190.199/api/categories/$catID/products?sort=$sorttype&order=$ordertype");
     List<Data> list = <Data>[];
@@ -155,17 +155,6 @@ class _ProductsState extends State<Products> {
                                                         3.5,
                                                     color: Color(0XFF161a28)),
                                               ),
-                                              new Text(
-                                                "${productList[index].price}\EGY",
-                                                style: TextStyle(
-                                                    color: Color(0XFF7f7f7f),
-                                                    fontWeight: FontWeight.w100,
-                                                    fontSize: SizeConfig
-                                                            .safeBlockHorizontal *
-                                                        2.5,
-                                                    decoration: TextDecoration
-                                                        .lineThrough),
-                                              ),
                                             ],
                                           ),
                                         ),
@@ -214,6 +203,21 @@ class _ProductsState extends State<Products> {
                                         ),
                                       ],
                                     ),
+                                    new Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                    children :<Widget>[ Text(
+                                      "${productList[index].price}\EGY",
+                                      style: TextStyle(
+                                          color: Color(0XFF7f7f7f),
+                                          fontWeight: FontWeight.w100,
+                                          fontSize:
+                                              SizeConfig.safeBlockHorizontal *
+                                                  2.5,
+                                          decoration:
+                                              TextDecoration.lineThrough),
+                                    ),
+                                    ]),
                                     new Row(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
