@@ -82,7 +82,7 @@ List<Images> listImages = new List();
   var db = new DatabaseManager();
 
 @override
-void initState() { 
+void initState() {
   super.initState();
   this.fetchPro();
 }
@@ -357,6 +357,20 @@ void initState() {
           )),
     );
   }
+  Future getDataBase(int id) async {
+    Product mohamed = await db.getCustomProduct(id);
+    setState(() {
+      if(mohamed.productID==id){
+        print("data found");
+        favoriteColor=Colors.red;
+      }
+      else if(mohamed.productID!=id){
+        print("data not found");
+        favoriteColor=Colors.grey;
+      }
+    });
+    print('mohamed data: ${mohamed.productID} ${mohamed.title}');
+  }
   AddToCard(int productId,int qty){
   DataProvider().CartPost(productId, qty).then((res){
     var data=json.decode(res);
@@ -378,7 +392,7 @@ void initState() {
       1,
       myProduct[0].id));
   print("saved user : $ProductSaved");
-  print(myProduct[0].price);
+  print(myProduct[0].cover);
   }
   Future deleteFav(int Isfav)async{
       int deleteCustmProduct =await db.deleteProduct(Isfav);
@@ -403,7 +417,6 @@ void initState() {
         ),
       ],
     );
-
   }
 
 

@@ -48,6 +48,14 @@ class DatabaseManager{
     List result = await dbClient.rawQuery(sql);
     return result.toList();
   }
+  //get custom product by id
+  Future<Product> getCustomProduct(int id) async{
+    var dbClient = await  db;
+    var sql = "SELECT * FROM $productTable WHERE $columnProductID = $id";
+    var result = await dbClient.rawQuery(sql);
+    if(result.length == 0) return null;
+    return  new Product.fromMap(result.first) ;
+  }
   Future<int> getCount() async{
     var dbClient = await  db;
     var sql = "SELECT COUNT(*) FROM $productTable";

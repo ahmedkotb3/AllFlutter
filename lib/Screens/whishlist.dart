@@ -87,7 +87,7 @@ class _WishlistState extends State<Wishlist> {
                                       decoration: new BoxDecoration(
                                         image: new DecorationImage(
                                             fit: BoxFit.contain,
-                                            image: NetworkImage("https://www.logaster.com/blog/wp-content/uploads/2013/06/jpg.png")),
+                                            image: NetworkImage("${product.imageUrl}")),
                                       ),
                                     ),
                                     onTap: () {}),
@@ -183,7 +183,7 @@ class _WishlistState extends State<Wishlist> {
       ProductDb = await db.getAllUsers();
     for (int i = 0; i < ProductDb.length; i++) {
       Product product = Product.map(ProductDb[i]);
-      print('user id=${product.id} username:${product.description}');
+      print('user id=${product.id} username:${product.imageUrl} username:${product.description}');
       print('-----------------------------');
     }
   }
