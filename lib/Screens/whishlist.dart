@@ -1,5 +1,6 @@
 import 'package:big/Providers/ColorsProvider.dart';
 import 'package:big/Providers/DataProvider.dart';
+import 'package:big/Screens/details.dart';
 import 'package:big/Widgets/dataManager.dart';
 import 'package:big/componets/appBar.dart';
 import 'package:big/componets/products.dart';
@@ -90,7 +91,12 @@ class _WishlistState extends State<Wishlist> {
                                             image: NetworkImage("${product.imageUrl}")),
                                       ),
                                     ),
-                                    onTap: () {}),
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => ProductDetails(product.productID)));
+                                    }),
                                 new Padding(
                                   padding: EdgeInsets.all(10.0),
                                   child: Column(

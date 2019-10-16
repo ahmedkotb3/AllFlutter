@@ -5,7 +5,6 @@ import 'package:flutter/foundation.dart';
    String title;
    String description;
    String imageUrl;
-   //String currency;
    String price;
    String offer;
    int isNew;
@@ -15,7 +14,6 @@ import 'package:flutter/foundation.dart';
     this.title,
     this.description,
     this.imageUrl,
-    //this.currency,
     this.price,
     this.offer,
     this.isNew,
@@ -26,7 +24,6 @@ import 'package:flutter/foundation.dart';
     this.title=obj['title'];
     this.description=obj['description'];
     this.imageUrl=obj['imageUrl'];
-  //  this.currency=obj['currency'];
     this.price=obj['price'];
     this.offer=obj['offer'];
     this.isNew=obj['isNew'];
@@ -37,7 +34,6 @@ import 'package:flutter/foundation.dart';
  String get _getTitle => title;
  String get _getDescription => description;
  String get _getImage=>imageUrl;
-// String get _getCurrent => currency;
  String get _getPrice => price;
  String get _getOffer=>offer;
  int get _getIsNew=>isNew;
@@ -49,7 +45,6 @@ import 'package:flutter/foundation.dart';
   map['title']=_getTitle;
   map['description']=_getDescription;
   map['imageUrl']=_getImage;
-//  map['currency']=_getCurrent;
   map['price']=_getPrice;
   map['offer']=_getOffer;
   map['isNew']=_getIsNew;
@@ -62,7 +57,6 @@ import 'package:flutter/foundation.dart';
        this.title= map['title'];
        this.description= map['description'];
        this.imageUrl= map['imageUrl'];
-   //    this.currency= map['currency'];
        this.price= map['price'];
         this.offer= map['offer'];
        this.isNew= map['IsNew'];

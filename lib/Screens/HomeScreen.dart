@@ -215,28 +215,36 @@ class _HomeScreenState extends State<HomeScreen> {
                                 },
                               ),
                             ),
-                          Row(children: <Widget>[
-                            Icon(Icons.language),
-                            DropdownButton<String>(
-                              value: dropdownValue,
-                              onChanged: (String language) {
-                                setState(() {
-                                  dropdownValue = language;
-                                  Translation().setlang = language;
-                                });
-                              },
-                              items: <String>[
-                                'English',
-                                'Arabic',
-                                'French',
-                              ].map<DropdownMenuItem<String>>((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(value),
-                                );
-                              }).toList(),
-                            ),
-                          ]),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Icon(Icons.language,color: DataProvider().primary,),
+                              ),
+                              DropdownButtonHideUnderline(
+                                child: DropdownButton<String>(
+                                  value: dropdownValue,
+                                  onChanged: (String language) {
+                                    setState(() {
+                                      dropdownValue = language;
+                                      Translation().setlang = language;
+                                    });
+                                  },
+                                  items: <String>[
+                                    'English',
+                                    'Arabic',
+                                    'French',
+                                  ].map<DropdownMenuItem<String>>((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
+                            ]),
+                          ),
                           Divider(),
                           DrawerlistTile(
                               Icons.favorite,
@@ -798,8 +806,7 @@ class _OffersState extends State<Offers> {
 String myImageurl =
     'https://assets.tatacliq.com/medias/sys_master/images/13615969468446.jpg';
 String myImageurl2 =
-    'https://incipio.com/pub/media/catalog/category/iphone-x-category-banner.jpg';
-
+    'https://assets.tatacliq.com/medias/sys_master/images/13615969468446.jpg';
 class MyBanner extends StatelessWidget {
   String imageurl;
   MyBanner(this.imageurl);

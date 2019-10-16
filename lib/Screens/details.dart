@@ -24,14 +24,9 @@ class ProductDetails extends StatefulWidget {
   _ProductDetailsState createState() =>
       _ProductDetailsState(productid: productID);
 }
-
-
-
 class _ProductDetailsState extends State<ProductDetails> {
   int productid;
   _ProductDetailsState({this.productid});
-
-
 List<Data> myProduct;
 List<Images> listImages = new List();
   List mydata;
@@ -39,9 +34,7 @@ List<Images> listImages = new List();
 
     Future<dynamic> fetchPro() async {
     final res = await http.get("http://18.217.190.199/api/product/$productid");
-
         var data = json.decode(res.body);
-
           List<dynamic> images = data['data'][0]['images'];
         for (dynamic item in images) {
           listImages.add(Images.fromJson(item));
@@ -59,11 +52,7 @@ List<Images> listImages = new List();
       });
     }
      print('nnmnnnnnnnnnnnnnnnnnnnnnn'+data);
-
-      
      // p = restdata.map<Product>((json) => Product.fromJson(json)).toList();
-
-  
   }
 
   String dropdownValue = 'Black';

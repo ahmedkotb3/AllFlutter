@@ -11,7 +11,7 @@ class DatabaseManager{
   final String columnId='id';
   final String columnTitle='title';
   final String columnDescription='description';
-  final String columnImageUrl='ImageUrl';
+  final String columnImageUrl='imageUrl';
   final String columnPrice='price';
   final String columnOffer='offer';
   final String columnIsNew='isNew';
@@ -26,7 +26,7 @@ class DatabaseManager{
   }
   intDB() async{
     Directory documentDirectory = await getApplicationDocumentsDirectory();
-    String path = join(documentDirectory.path , 'mydb3.db');
+    String path = join(documentDirectory.path , 'mydb4.db');
     var myOwnDB = await openDatabase(path,version: 3,
         onCreate: _onCreate);
     return myOwnDB;
