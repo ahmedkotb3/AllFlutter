@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:big/localization/all_translations.dart';
 import 'package:toast/toast.dart';
 import 'package:big/Providers/AuthProvider.dart';
 import 'package:big/Providers/Styles.dart';
@@ -132,7 +133,7 @@ class _LoginPageState extends State<LoginPage> {
                                     });
                                   }
                                 },
-                                child: Text("Sign In", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+                                child: Text(allTranslations.text("sign_in"), style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
                                 ),
                                 color: Colors.transparent),
                           ),

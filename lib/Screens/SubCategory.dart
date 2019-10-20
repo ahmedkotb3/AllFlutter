@@ -1,4 +1,5 @@
 import 'package:big/componets/shopping_icons.dart';
+import 'package:big/localization/all_translations.dart';
 import 'package:flutter/material.dart';
 import 'package:big/Providers/DataProvider.dart';
 import '../componets/appBar.dart';
@@ -233,7 +234,7 @@ class _SubCategoryState extends State<SubCategory> {
                           children: <Widget>[
                             Row(
                               children: <Widget>[
-                                Text('Sort By'),
+                                Text(allTranslations.text("sort_by")),
                                 Padding(
                                   padding: EdgeInsets.only(right: 10.0),
                                   child: Container(

@@ -1,7 +1,6 @@
 import 'package:big/Providers/ColorsProvider.dart';
-import 'package:big/localization/app_translation.dart';
 import 'package:flutter/material.dart';
-
+import 'package:big/localization/all_translations.dart';
 import 'HomeScreen.dart';
 
 class SubmittedPage extends StatelessWidget {
@@ -16,7 +15,7 @@ class SubmittedPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               new Text(
-                AppLocalizations.of(context).translateString("submit_order"),
+               ("submit_order"),
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
               ),
               Container(
@@ -29,7 +28,7 @@ class SubmittedPage extends StatelessWidget {
                 height: 50,
                 child: RaisedButton(
                   child: Text(
-                    AppLocalizations.of(context).translateString("return_home"),
+                    allTranslations.text("return_home"),
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 17.0,

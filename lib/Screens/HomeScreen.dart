@@ -1,6 +1,5 @@
 import 'package:big/Providers/AuthProvider.dart';
 import 'package:big/Providers/DataProvider.dart';
-import 'package:big/Providers/Translation.dart';
 import 'package:big/Screens/ContactUs.dart';
 import 'package:big/Screens/FAQ.dart';
 import 'package:big/Screens/SubCategory.dart';
@@ -22,8 +21,7 @@ import 'package:big/model/Category.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
-import '../localization/application.dart';
-import '../localization/app_translation.dart';
+import '../localization/all_translations.dart';
 import 'package:big/model/Category.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:big/model/Productsmodel.dart';
@@ -52,293 +50,268 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-        builder: (BuildContext context) => Translation(),
-        child: connected == false
-            ? FlareConnection()
-            : MaterialApp(
-                title:
-                    AppLocalizations.of(context).translateString('title_home'),
-                home: Scaffold(
-                    appBar: AppBar(
-                      leading: IconButton(
-                          icon: new Icon(Icons.menu, color: Colors.white),
-                          onPressed: () =>
-                              _scaffoldKey.currentState.openDrawer()),
-                      backgroundColor: DataProvider().primary,
-                      elevation: 0,
-                      titleSpacing: 50,
-                      title: new Text(
-                        AppLocalizations.of(context)
-                            .translateString('title_home'),
-                      ),
-                      actions: <Widget>[
-                        SearchCart(DataProvider().cartItems, false, false)
-                      ],
-                    ),
-                    key: _scaffoldKey,
-                    drawer: Drawer(
-                      child: ListView(
-                        children: <Widget>[
-                          if (isLogin)
-                            UserAccountsDrawerHeader(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                              ),
-                              accountName: Row(
-                                children: <Widget>[
-                                  Text(
-                                    userName,
-                                    style: TextStyle(
-                                        color: DataProvider().primary,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 18.0),
-                                  ),
-                                ],
-                              ),
-                              accountEmail: Row(
-                                children: <Widget>[
-                                  Text(userEmail,
-                                      style: TextStyle(
-                                          color: DataProvider().primary,
-                                          fontWeight: FontWeight.bold)),
-                                ],
-                              ),
-                              currentAccountPicture: InkWell(
-                                child: new CircleAvatar(
-                                  backgroundImage: NetworkImage(userImage),
-                                  child: Stack(
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                            left: 50, bottom: 50),
-                                        child: Material(
-                                          child: Icon(Icons.edit,
-                                              color: DataProvider().primary),
-                                          color: Colors.white,
-                                          elevation: 10.1,
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(30.0)),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => EditAccount()));
-                                },
-                              ),
-                            )
-                          else
-                            UserAccountsDrawerHeader(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                              ),
-                              accountName: Row(
-                                children: <Widget>[
-                                  InkWell(
-                                    child: Text(
-                                      AppLocalizations.of(context)
-                                          .translateString("sign_in"),
-                                      style: TextStyle(
-                                          color: DataProvider().primary,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 18.0),
-                                    ),
-                                    onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  LoginPage()));
-                                    },
-                                  ),
-                                ],
-                              ),
-                              accountEmail: Row(
-                                children: <Widget>[
-                                  Text(
-                                    AppLocalizations.of(context)
-                                        .translateString("dont_account"),
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  InkWell(
-                                    child: Text(
-                                        AppLocalizations.of(context)
-                                            .translateString("sign_up"),
-                                        style: TextStyle(
-                                            color: DataProvider().primary,
-                                            fontWeight: FontWeight.bold)),
-                                    onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  RegisterPage()));
-                                    },
-                                  ),
-                                ],
-                              ),
-                              currentAccountPicture: InkWell(
-                                child: new CircleAvatar(
-                                  backgroundImage: NetworkImage(
-                                      "https://cdn0.iconfinder.com/data/icons/avatar-78/128/12-512.png"),
-                                  child: Stack(
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                            left: 50, bottom: 50),
-                                        child: Material(
-                                          child: Icon(
-                                            Icons.edit,
-                                            color: DataProvider().primary,
-                                          ),
-                                          color: Colors.white,
-                                          elevation: 10.1,
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(30.0)),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => EditAccount()));
-                                },
-                              ),
-                            ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Icon(Icons.language,color: DataProvider().primary,),
-                              ),
-                              DropdownButtonHideUnderline(
-                                child: DropdownButton<String>(
-                                  value: dropdownValue,
-                                  onChanged: (String language) {
-                                    setState(() {
-                                      dropdownValue = language;
-                                      Translation().setlang = language;
-                                    });
-                                  },
-                                  items: <String>[
-                                    'English',
-                                    'Arabic',
-                                    'French',
-                                  ].map<DropdownMenuItem<String>>((String value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Text(value),
-                                    );
-                                  }).toList(),
-                                ),
-                              ),
-                            ]),
+    return connected == false
+        ? FlareConnection()
+        : MaterialApp(
+            title: allTranslations.text('title_home'),
+            home: Scaffold(
+                appBar: AppBar(
+                  leading: IconButton(
+                      icon: new Icon(Icons.menu, color: Colors.white),
+                      onPressed: () => _scaffoldKey.currentState.openDrawer()),
+                  backgroundColor: DataProvider().primary,
+                  elevation: 0,
+                  titleSpacing: 50,
+                  title: new Text(
+                    allTranslations.text('title_home'),
+                  ),
+                  actions: <Widget>[
+                    SearchCart(DataProvider().cartItems, false, false)
+                  ],
+                ),
+                key: _scaffoldKey,
+                drawer: Drawer(
+                  child: ListView(
+                    children: <Widget>[
+                      if (isLogin)
+                        UserAccountsDrawerHeader(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
                           ),
-                          Divider(),
-                          DrawerlistTile(
-                              Icons.favorite,
-                              AppLocalizations.of(context)
-                                  .translateString("wishlist"), () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Wishlist()));
-                          }),
-                          DrawerlistTile(
-                              Icons.local_offer,
-                              AppLocalizations.of(context)
-                                  .translateString("my_order"),
-                              () {}),
-                          DrawerlistTile(
-                              Icons.category,
-                              AppLocalizations.of(context)
-                                  .translateString("categories"),
-                              () {}),
-                          DrawerlistTile(
-                              Icons.local_shipping,
-                              AppLocalizations.of(context)
-                                  .translateString("delivery"),
-                              () {}),
-                          DrawerlistTile(
-                              Icons.local_mall,
-                              AppLocalizations.of(context)
-                                  .translateString("terms"), () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Terms()));
-                          }),
-                          DrawerlistTile(
-                              Icons.help,
-                              AppLocalizations.of(context)
-                                  .translateString("faq"), () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) => FAQ()));
-                          }),
-                          DrawerlistTile(
-                              Icons.phone,
-                              AppLocalizations.of(context)
-                                  .translateString("contact_us"), () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ContactUs()));
-                          }),
-                          if (isLogin)
-                            DrawerlistTile(Icons.exit_to_app, 'Logout',
-                                () async {
-                              ShowAlertDailog();
-                            }),
-                        ],
-                      ),
-                    ),
-                    body: SingleChildScrollView(
-                      child: Column(
-                        children: <Widget>[
-                          HomeScreenTop(AppLocalizations.of(context)
-                              .translateString("search_text")),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
+                          accountName: Row(
                             children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  AppLocalizations.of(context)
-                                      .translateString("categories"),
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                              )
+                              Text(
+                                userName,
+                                style: TextStyle(
+                                    color: DataProvider().primary,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18.0),
+                              ),
                             ],
                           ),
+                          accountEmail: Row(
+                            children: <Widget>[
+                              Text(userEmail,
+                                  style: TextStyle(
+                                      color: DataProvider().primary,
+                                      fontWeight: FontWeight.bold)),
+                            ],
+                          ),
+                          currentAccountPicture: InkWell(
+                            child: new CircleAvatar(
+                              backgroundImage: NetworkImage(userImage),
+                              child: Stack(
+                                children: <Widget>[
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.only(left: 50, bottom: 50),
+                                    child: Material(
+                                      child: Icon(Icons.edit,
+                                          color: DataProvider().primary),
+                                      color: Colors.white,
+                                      elevation: 10.1,
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(30.0)),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => EditAccount()));
+                            },
+                          ),
+                        )
+                      else
+                        UserAccountsDrawerHeader(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                          ),
+                          accountName: Row(
+                            children: <Widget>[
+                              InkWell(
+                                child: Text(
+                                  allTranslations.text("sign_in"),
+                                  style: TextStyle(
+                                      color: DataProvider().primary,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18.0),
+                                ),
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => LoginPage()));
+                                },
+                              ),
+                            ],
+                          ),
+                          accountEmail: Row(
+                            children: <Widget>[
+                              Text(
+                                allTranslations.text("dont_account"),
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              InkWell(
+                                child: Text(allTranslations.text("sign_up"),
+                                    style: TextStyle(
+                                        color: DataProvider().primary,
+                                        fontWeight: FontWeight.bold)),
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              RegisterPage()));
+                                },
+                              ),
+                            ],
+                          ),
+                          currentAccountPicture: InkWell(
+                            child: new CircleAvatar(
+                              backgroundImage: NetworkImage(
+                                  "https://cdn0.iconfinder.com/data/icons/avatar-78/128/12-512.png"),
+                              child: Stack(
+                                children: <Widget>[
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.only(left: 50, bottom: 50),
+                                    child: Material(
+                                      child: Icon(
+                                        Icons.edit,
+                                        color: DataProvider().primary,
+                                      ),
+                                      color: Colors.white,
+                                      elevation: 10.1,
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(30.0)),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => EditAccount()));
+                            },
+                          ),
+                        ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Icon(
+                              Icons.language,
+                              color: DataProvider().primary,
+                            ),
+                          ),
+                          DropdownButtonHideUnderline(
+                            child: DropdownButton<String>(
+                              value: dropdownValue,
+                              onChanged: (String language) async {
+                                if(language=='Arabic'){
+                                await allTranslations.setNewLanguage(
+                                    "ar");}
+                                    else if(language=='French'){
+                                await allTranslations.setNewLanguage(
+                                    "fr");}
+                                    
+                                    else{
+                                      await allTranslations.setNewLanguage(
+                                    "en");}
+                                    
 
-                          CategoriesList(),
-                          Offers(AppLocalizations.of(context)
-                              .translateString("shop_now")),
-                          //Mygrid(),
-                          HomeOffers(
-                              AppLocalizations.of(context)
-                                  .translateString("most_popular"),
-                              "popular",
-                              MyBanner(myImageurl)),
-                          HomeOffers(
-                              AppLocalizations.of(context)
-                                  .translateString("new_arrival"),
-                              "new",
-                              MyBanner(myImageurl2)),
+                                setState(() {
+                                  dropdownValue = language;
+                                });
+                              },
+                              items: <String>[
+                                'English',
+                                'Arabic',
+                                'French',
+                              ].map<DropdownMenuItem<String>>((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                        ]),
+                      ),
+                      Divider(),
+                      DrawerlistTile(
+                          Icons.favorite, allTranslations.text("wishlist"), () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Wishlist()));
+                      }),
+                      DrawerlistTile(Icons.local_offer,
+                          allTranslations.text("my_order"), () {}),
+                      DrawerlistTile(Icons.category,
+                          allTranslations.text("categories"), () {}),
+                      DrawerlistTile(Icons.local_shipping,
+                          allTranslations.text("delivery"), () {}),
+                      DrawerlistTile(
+                          Icons.local_mall, allTranslations.text("terms"), () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => Terms()));
+                      }),
+                      DrawerlistTile(Icons.help, allTranslations.text("faq"),
+                          () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => FAQ()));
+                      }),
+                      DrawerlistTile(
+                          Icons.phone, allTranslations.text("contact_us"), () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ContactUs()));
+                      }),
+                      if (isLogin)
+                        DrawerlistTile(Icons.exit_to_app, 'Logout', () async {
+                          ShowAlertDailog();
+                        }),
+                    ],
+                  ),
+                ),
+                body: SingleChildScrollView(
+                  child: Column(
+                    children: <Widget>[
+                      HomeScreenTop(allTranslations.text("search_text")),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              allTranslations.text("categories"),
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          )
                         ],
                       ),
-                    ))));
+
+                      CategoriesList(),
+                      Offers(allTranslations.text("shop_now")),
+                      //Mygrid(),
+                      HomeOffers(allTranslations.text("most_popular"),
+                          "popular", MyBanner(myImageurl)),
+                      HomeOffers(allTranslations.text("new_arrival"), "new",
+                          MyBanner(myImageurl2)),
+                    ],
+                  ),
+                )));
   }
 
   Future check() async {
@@ -749,7 +722,7 @@ class _OffersState extends State<Offers> {
                 child: RaisedButton(
                   child: Text(
                     widget.shop_now,
-                    //AppLocalizations.of(context).translateString('title_home'),
+                    //allTranslations.of(context).text('title_home'),
                     style: TextStyle(color: Colors.white, fontSize: 10),
                   ),
                   onPressed: () {
@@ -807,6 +780,7 @@ String myImageurl =
     'https://assets.tatacliq.com/medias/sys_master/images/13615969468446.jpg';
 String myImageurl2 =
     'https://assets.tatacliq.com/medias/sys_master/images/13615969468446.jpg';
+
 class MyBanner extends StatelessWidget {
   String imageurl;
   MyBanner(this.imageurl);
