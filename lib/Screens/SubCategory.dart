@@ -20,6 +20,8 @@ class SubCategory extends StatefulWidget {
   final int catID;
   final List<Data> listOfProducts=[];
 
+
+
   SubCategory({Key key, @required this.subtitle, this.catID}) : super(key: key);
   @override
   _SubCategoryState createState() => _SubCategoryState(catId: catID);
@@ -32,6 +34,13 @@ class _SubCategoryState extends State<SubCategory> {
   //Sort sort = new Sort();
 
   _SubCategoryState({this.catId});
+
+  
+  @override
+  void initState() { 
+    super.initState();
+
+  }
 
 //////////////////// header of fuckn list //////////////
   Widget header(modalTitle) => Ink(
@@ -51,6 +60,7 @@ class _SubCategoryState extends State<SubCategory> {
                 ),
                 onPressed: () {
                   Navigator.pop(context);
+
                 },
               ),
             ],
@@ -234,7 +244,8 @@ class _SubCategoryState extends State<SubCategory> {
                           children: <Widget>[
                             Row(
                               children: <Widget>[
-                                Text(allTranslations.text("sort_by")),
+                                Text(allTranslations.text('sort_by')),
+                                
                                 Padding(
                                   padding: EdgeInsets.only(right: 10.0),
                                   child: Container(

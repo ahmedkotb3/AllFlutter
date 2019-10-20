@@ -102,6 +102,7 @@ class Data  {
   String offer;
   List<Images> images;
   Brand brand;
+  Company company;
 
   Data({
     this.id,
@@ -112,7 +113,7 @@ class Data  {
     this.offer,
     this.images,
     this.brand,
-
+    this.company
   });
 
   Data.fromJson(Map<String, dynamic> json) {
@@ -129,6 +130,8 @@ class Data  {
       });
     }
     brand = json['brand'] != null ? new Brand.fromJson(json['brand']) : null;
+        company = json['comapny'] != null ? new Company.fromJson(json['comapny']) : null;
+
   }
 
   Map<String, dynamic> toJson() {
@@ -142,6 +145,9 @@ class Data  {
     }
     if (this.brand != null) {
       data['brand'] = this.brand.toJson();
+    }
+      if (this.company != null) {
+      data['comapny'] = this.brand.toJson();
     }
     return data;
   }
@@ -186,6 +192,25 @@ class Brand {
 }
 
 
+class Company {
+  int id;
+  String name;
+
+  Company({this.id, this.name});
+
+  Company.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    return data;
+  }
+}
+  
 
 
 
